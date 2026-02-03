@@ -21,3 +21,5 @@ then a
 PUT /listings/:id (now it is updated)
 # Delete : Delete route 
 /listings/:id
+# what is ejs mate?
+# Creating navbar
