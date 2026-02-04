@@ -80,6 +80,15 @@ app.delete("/listings/:id", async (req,res) =>{
   res.redirect("/listings");
 });
 
+// Privacy and Terms routes
+app.get("/privacy", (req, res) => {
+    res.render("listings/privacy.ejs");
+});
+
+app.get("/terms", (req, res) => {
+    res.render("listings/terms.ejs");
+});
+
 //Testing the Server
 
 // app.get("/testlisting",async (req,res)=>{
