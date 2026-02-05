@@ -5,7 +5,7 @@
     <br><br>
     <h3>Edit your Listing</h3>
 
-    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation">
 
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -14,12 +14,17 @@
           type="text"
           name="listing[title]"
           value="<%= listing.title %>"
+          required
         />
+        <div class="invalid-feedback">Please enter a title</div>
+        <div class="valid-feedback">Title Looks Good</div>
       </div>
 
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" name="listing[description]"><%= listing.description %></textarea>
+        <textarea class="form-control" name="listing[description]" required><%= listing.description %></textarea>
+        <div class="invalid-feedback">Please enter a short description</div>
+        <div class="valid-feedback">Description Looks Good</div>
       </div>
 
       <div class="mb-3">
@@ -29,7 +34,10 @@
           type="text"
           name="listing[image]"
           value="<%= listing.image %>"
+          required
         />
+        <div class="invalid-feedback">Please enter a link</div>
+        <div class="valid-feedback">Link Added</div>
       </div>
 
       <div class="row">
@@ -38,9 +46,11 @@
           <input
             class="form-control"
             name="listing[price]"
-            type="number"
             value="<%= listing.price %>"
+            required
           />
+          <div class="invalid-feedback">Please enter a valid Price</div>
+        <div class="valid-feedback">Price Looks Good</div>
         </div>
 
         <div class="mb-3 col-md-8">
@@ -50,7 +60,10 @@
             name="listing[country]"
             type="text"
             value="<%= listing.country %>"
+            required
           />
+          <div class="invalid-feedback">Please enter a country</div>
+        <div class="valid-feedback">Country Looks Good</div>
         </div>
       </div>
 
@@ -61,7 +74,10 @@
           name="listing[location]"
           type="text"
           value="<%= listing.location %>"
+          required
         />
+        <div class="invalid-feedback">Please enter a location</div>
+        <div class="valid-feedback">Location Looks Good</div>
       </div>
 
       <br /><br />
@@ -70,3 +86,4 @@
     </form>
   </div>
 </div>
+<script src="/js/script.js"></script>
