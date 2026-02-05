@@ -59,6 +59,11 @@ body {
     border: none !important;
     background-color: transparent;
     margin-bottom: 2rem;
+    transition: transform 0.3s ease; /* Optional: add card lift effect */
+}
+
+.card:hover {
+    transform: translateY(-4px); /* Optional: lift entire card on hover */
 }
 
 .card-img-top {
@@ -66,11 +71,12 @@ body {
     width: 100%;
     height: 280px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.listing-link:hover .card-img-top {
+.card:hover .card-img-top {
     transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Add shadow on hover */
 }
 
 .card-body {
@@ -88,6 +94,11 @@ body {
     font-weight: 600;
     color: #111111;
     margin-bottom: 0.75rem;
+    transition: color 0.3s ease;
+}
+
+.card:hover .card-title {
+    color: #fe424d; /* Title changes color on card hover */
 }
 
 .listing-link {
@@ -101,11 +112,13 @@ body {
     opacity: 0;
     background-color: rgba(255, 255, 255, 0.3);
     transition: opacity 0.3s ease;
+    pointer-events: none; /* Prevents blocking hover on image */
 }
 
-.card-img-overlay:hover {
-    opacity: 1;
-}
+/* .card:hover .card-img-overlay {  */
+     /*  Fixed: hover on card, not overlay */
+    /* opacity: 1; */
+/* } */
 
 /* ============================================
    Show Page (Listing Details)
