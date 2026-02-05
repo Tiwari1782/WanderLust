@@ -23,3 +23,19 @@ PUT /listings/:id (now it is updated)
 /listings/:id
 # what is ejs mate?
 # Creating navbar
+# Form Validations
+When we enter data in the form, the browser and/ or the web server will check to see that the data is in the correct format and within the constraints set by the application.
+# Success and Failure text
+# Defining own custom error handler
+```js
+//Middleware
+app.use((err, req, res, next) => {
+  res.send("Something went wrong!!");
+});
+```
+# Custom Wrapsync 
+here we make a folder utils in which error should be handled
+file location - utils/wraPasync.js
+# Custom expresserror
+file location - utils/ExpressError.js
+# created error.ejs
