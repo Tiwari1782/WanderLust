@@ -9,7 +9,8 @@ const listingSchema = new Schema({
   description: String,
   image: {
     type: String,
-    default : "https://images.pexels.com/photos/88212/pexels-photo-88212.jpeg?cs=srgb&dl=beach-blue-sky-boat-88212.jpg&fm=jpg",
+    default:
+      "https://images.pexels.com/photos/88212/pexels-photo-88212.jpeg?cs=srgb&dl=beach-blue-sky-boat-88212.jpg&fm=jpg",
     set: (v) =>
       v === ""
         ? "https://images.pexels.com/photos/88212/pexels-photo-88212.jpeg?cs=srgb&dl=beach-blue-sky-boat-88212.jpg&fm=jpg"
@@ -18,6 +19,12 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref:"Review",
+    },
+  ],
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
