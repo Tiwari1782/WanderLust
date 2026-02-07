@@ -1,40 +1,46 @@
-# WanderLust (Airbnb-style Listings App)
+# WanderLust — Phase 1 (Listings CRUD)
 
-A simple Airbnb-style listings web app built with **Node.js**, **Express**, **MongoDB/Mongoose**, and **EJS**.  
-It supports full **CRUD** for listings (Create, Read, Update, Delete) with clean views, a shared layout (boilerplate), and custom error handling.
+WanderLust is an Airbnb-style listings web application built with **Node.js**, **Express**, **MongoDB/Mongoose**, and **EJS**.  
+**Phase 1** focuses on building the core **Listings module**: full CRUD, templated views with a shared layout, static assets, and a clean error-handling setup.
 
 ---
 
-## Features
+## Phase 1 Scope (What’s Completed)
 
-- Listings Model (Apartment/House/Villa/Hotel etc.)
-- CRUD routes for Listings
-- EJS templating with **layouts** (boilerplate)
-- Navbar (shared across pages)
-- Form validations (client-side + server-side idea)
-- Success / Failure messages (flash-ready)
-- Custom error handling:
-  - `wrapAsync` utility
-  - `ExpressError` custom class
+### ✅ Core Features
+- **Listings Model** (apartment / flat / house / villa / hotel / motel etc.)
+- **CRUD for Listings**
+  - Create listing
+  - View all listings
+  - View listing details
+  - Edit listing
+  - Delete listing
+- **EJS Views + EJS-Mate Layout**
+  - Common `boilerplate` layout for consistent UI (navbar/footer)
+- **Static Assets**
+  - CSS served from `public/`
+- **Method Override**
+  - Enables `PUT` and `DELETE` via HTML forms
+- **Custom Error Handling**
+  - `wrapAsync` for async route error forwarding
+  - `ExpressError` custom error class
   - `error.ejs` error page
 
 ---
 
 ## Tech Stack
-
-- Node.js
-- Express.js
-- MongoDB + Mongoose
-- EJS + EJS-Mate (layouts)
-- Method-Override (PUT/DELETE support)
-- Bootstrap (UI)
+- **Node.js**
+- **Express.js**
+- **MongoDB + Mongoose**
+- **EJS + EJS-Mate** (layout engine)
+- **method-override** (PUT/DELETE)
+- **Bootstrap** (basic UI)
 
 ---
 
-## Listing Model
+## Data Model
 
-**Model: `Listing`**
-
+### Listing (`models/listing.js`)
 Fields:
 - `title` → String
 - `description` → String
@@ -43,116 +49,100 @@ Fields:
 - `location` → String
 - `country` → String
 
-Example places: apartment, flat, house, villa, hotel, motel, etc.
-
 ---
 
-## Routes (CRUD)
+## Routes (Phase 1)
 
-### Index Route (Read all)
+### Index (All Listings)
 - **GET** `/listings`  
-  Shows all listings.
+  Renders the index page with all listings.
 
-### Show Route (Read one)
+### Show (Listing Details)
 - **GET** `/listings/:id`  
-  Shows full details of a single listing.
+  Renders details page for a single listing.
 
-### New + Create (Create)
+### New + Create
 - **GET** `/listings/new`  
-  Shows form to create a listing.
+  Renders the “new listing” form.
 - **POST** `/listings`  
-  Creates listing in DB.
+  Creates a new listing and saves it to the database.
 
-### Edit + Update (Update)
+### Edit + Update
 - **GET** `/listings/:id/edit`  
-  Shows edit form.
+  Renders the edit form for an existing listing.
 - **PUT** `/listings/:id`  
-  Updates listing in DB.
+  Updates listing data in the database.
 
-### Delete (Delete)
+### Delete
 - **DELETE** `/listings/:id`  
-  Deletes listing from DB.
+  Deletes a listing from the database.
 
 ---
 
-## What is EJS-Mate?
+## How `app.js` Works (Phase 1)
 
-**EJS-Mate** is an EJS layout engine that lets you reuse a common layout across pages.
+In Phase 1, `app.js` is responsible for wiring up the whole application:
 
-Example usage in a view:
+### 1) Express App Setup
+- Creates the Express server
+- Enables parsing form data:
+  - `express.urlencoded({ extended: true })`
+
+### 2) Database Connection
+- Connects to MongoDB using Mongoose
+- The connection must be running for CRUD operations to work
+
+### 3) View Engine + Layouts (EJS-Mate)
+- Sets EJS as template engine
+- Enables layouts so each view can use:
 ```ejs
 <% layout("/layouts/boilerplate") %>
 ```
 
-This helps keep your navbar/footer consistent on every page.
+### 4) Static Files
+- Serves CSS and other assets from:
+- `public/`
+Example: `public/css/style.css` becomes available as `/css/style.css`
+
+### 5) Method Override
+- HTML forms only support `GET` and `POST`
+- `method-override` allows routes like:
+  - `PUT /listings/:id`
+  - `DELETE /listings/:id`
+via query param `?_method=PUT` / `?_method=DELETE`
+
+### 6) Listings Routes
+- Phase 1 includes the Listings CRUD routes directly in the app (or via a router if you refactor later)
+- Each route:
+  - queries MongoDB (Mongoose)
+  - renders an EJS view or redirects after changes
+
+### 7) Error Handling (Important in Phase 1)
+- **wrapAsync**: avoids repeating `try/catch` in every async route
+- **ExpressError**: custom error object with `statusCode` + `message`
+- **Error Middleware**:
+  - catches errors and renders `error.ejs` (recommended) or returns a message
 
 ---
 
-## Form Validations
+## Error Handling Utilities
 
-When users submit forms, validation can happen at two levels:
+### `utils/wrapAsync.js`
+Wraps async route handlers so errors automatically go to the error middleware.
 
-- **Browser (client-side)**: checks required fields, format constraints, etc.
-- **Server (backend)**: final validation before saving to DB (recommended for security)
+### `utils/ExpressError.js`
+Custom error class used like:
+- `throw new ExpressError(404, "Listing not found")`
 
-You can add:
-- HTML validations like `required`, `min`, `max`, etc.
-- Mongoose validations like `required: true`, `minLength`, etc.
-
----
-
-## Success & Failure Text
-
-You can show user-friendly messages such as:
-- “Listing created successfully”
-- “Listing updated successfully”
-- “Something went wrong”
-
-Typically done using:
-- `connect-flash` + sessions  
-(or simple rendering variables)
-
----
-
-## Custom Error Handling
-
-### 1) Default error-handling middleware
-
-```js
-// Middleware
-app.use((err, req, res, next) => {
-  res.send("Something went wrong!!");
-});
-```
-
-### 2) wrapAsync Utility
-
-Helps you avoid writing `try/catch` in every async route.
-
-**File:** `utils/wrapAsync.js`
-
-Purpose:
-- Wrap async route handlers
-- Automatically forwards errors to Express error middleware using `next(err)`
-
-### 3) ExpressError (Custom Error Class)
-
-**File:** `utils/ExpressError.js`
-
-Purpose:
-- Create custom errors with `statusCode` and `message`
-- Makes error handling cleaner and consistent
-
-### 4) error.ejs (Error Page)
-
-A dedicated error page to display:
+### `views/error.ejs`
+A dedicated error page to show:
 - status code
-- message
-- stack (optional, in dev)
+- error message  
+(optional: stack in development)
 
 ---
 
-## Project Structure (Typical)
+## Project Structure (Phase 1)
 
 ```txt
 .
@@ -166,9 +156,7 @@ A dedicated error page to display:
 │   │   ├── index.ejs
 │   │   ├── show.ejs
 │   │   ├── new.ejs
-│   │   ├── edit.ejs
-│   │   ├── privacy.ejs        (optional)
-│   │   └── terms.ejs          (optional)
+│   │   └── edit.ejs
 │   └── error.ejs
 ├── public/
 │   └── css/
@@ -182,38 +170,33 @@ A dedicated error page to display:
 
 ## Setup & Run Locally
 
-1. Install dependencies:
+### 1) Install Dependencies
 ```bash
 npm install
 ```
 
-2. Add MongoDB connection (in `app.js`):
-- Use local MongoDB or MongoDB Atlas URI.
+### 2) Start MongoDB
+- Local MongoDB: ensure the service is running  
+or
+- MongoDB Atlas: use your Atlas connection string in `app.js`
 
-3. Start server:
+### 3) Run the Server
 ```bash
 node app.js
 ```
-or (if using nodemon)
+
+(Optional, recommended during development)
 ```bash
 nodemon app.js
 ```
 
-4. Visit:
-- `http://localhost:8080/listings`
+### 4) Open in Browser
+```txt
+http://localhost:8080/listings
+```
 
----
-
-## Notes / Next Improvements
-
-- Add authentication (login/signup)
-- Add image upload (Cloudinary) instead of URL
-- Add reviews + ratings
-- Add flash messages + better validation errors
-- Add maps (location search)
 
 ---
 
 ## License
-
-This project is for learning/practice purposes.
+This project is built for learning and educational purposes (Phase 1).
