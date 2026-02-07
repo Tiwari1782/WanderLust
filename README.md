@@ -7,7 +7,7 @@ WanderLust is an Airbnb-style listings web application built with **Node.js**, *
 
 ## Phase 1 Scope (What’s Completed)
 
-### ✅ Core Features
+###  Core Features
 - **Listings Model** (apartment / flat / house / villa / hotel / motel etc.)
 - **CRUD for Listings**
   - Create listing
@@ -197,6 +197,10 @@ http://localhost:8080/listings
 
 
 ---
-
-## License
+# Phase 2 -
+Creating review model - comment, rating (1 to 5), createdAt
+1. Setting up the reviews form
+2. Submitting the form creatinga post request on path
+/listings/:id/reviews
+# License
 This project is built for learning and educational purposes (Phase 1).
