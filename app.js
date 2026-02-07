@@ -9,6 +9,8 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { wrap } = require("module");
 const { listingSchema } = require("./schema.js");
+const Review = require("./models/review.js");
+const session = require("express-session");
 let port = 8080;
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -28,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+
 
 //Server
 app.get("/", (req, res) => {
@@ -100,6 +103,7 @@ app.put(
   }),
 );
 
+
 //Delete Route
 app.delete(
   "/listings/:id",
@@ -110,6 +114,22 @@ app.delete(
     res.redirect("/listings");
   }),
 );
+//Add Reviews
+//Post route 
+app.post("/listings/:id/reviews", async (req,res)=>{
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+
+  listing.reviews.push(newReview);
+
+  await newReview.save();
+  await listing.save();
+
+  // console.log("New review saved");
+  // res.send("New review saved");
+
+  res.send(`/listings/${listing._id}`);
+});
 
 // Privacy and Terms routes
 app.get("/privacy", (req, res) => {
