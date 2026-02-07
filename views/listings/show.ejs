@@ -38,7 +38,7 @@
               href="/listings/<%= listing._id %>/edit"
               class="btn btn-primary-custom"
             >
-              <i class="fas fa-edit "></i> Edit 
+              <i class="fas fa-edit"></i> Edit
             </a>
             <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
               <button class="btn btn-delete" type="submit">
@@ -46,8 +46,75 @@
               </button>
             </form>
           </div>
+
+          <!-- Review Section -->
+          <div class="review-section">
+            <h4 class="review-heading">Leave a Review</h4>
+            <form action="/listings/<%= listing._id %>/reviews" method="POST" class="review-form">
+              <div class="form-group">
+                <label class="form-label" for="rating" class="form-label">
+                  <i class="fas fa-star"></i> Rating
+                </label>
+                <div class="rating-container">
+                  <input 
+                    type="range" 
+                    min="1" 
+                    max="5" 
+                    id="rating" 
+                    name="review[rating]"
+                    class="form-range"
+                    value="3"
+                  >
+                  <span class="rating-value" id="ratingValue">3</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="comment" class="form-label">
+                  <i class="fas fa-comment-dots"></i> Comment
+                </label>
+                <textarea 
+                  name="review[comment]" 
+                  id="comment" 
+                  rows="5"
+                  class="form-control"
+                  placeholder="Share your experience..."
+                  required
+                  class="form-control"
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-submit-review">
+                <i class="fas fa-paper-plane"></i> Submit Review
+              </button>
+            </form>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  // Rating slider value display and dynamic fill
+  const ratingSlider = document.getElementById('rating');
+  const ratingValue = document.getElementById('ratingValue');
+  
+  function updateRating() {
+    const value = ratingSlider.value;
+    ratingValue.textContent = value;
+    
+    // Calculate percentage (1-5 scale)
+    const percentage = ((value - 1) / 4) * 100;
+    
+    // Update background gradient dynamically
+    ratingSlider.style.background = `linear-gradient(to right, #fe424d 0%, #fe424d ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
+  }
+  
+  // Initialize on page load
+  updateRating();
+  
+  // Update on slider change
+  ratingSlider.addEventListener('input', updateRating);
+</script>
