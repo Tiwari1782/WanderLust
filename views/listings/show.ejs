@@ -19,11 +19,13 @@
         <div class="show-card-body">
           <h2 class="listing-title"><%= listing.title %></h2>
           <p class="listing-description"><%= listing.description %></p>
-          
+
           <div class="listing-details">
             <div class="detail-item">
               <i class="fas fa-rupee-sign"></i>
-              <span class="price">₹<%= listing.price.toLocaleString("en-IN") %></span>
+              <span class="price"
+                >₹<%= listing.price.toLocaleString("en-IN") %></span
+              >
               <span class="price-label">per night</span>
             </div>
             <div class="detail-item">
@@ -40,7 +42,11 @@
             >
               <i class="fas fa-edit"></i> Edit
             </a>
-            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
+            <form
+              method="POST"
+              action="/listings/<%= listing._id %>?_method=DELETE"
+              class="d-inline"
+            >
               <button class="btn btn-delete" type="submit">
                 <i class="fas fa-trash-alt"></i> Delete
               </button>
@@ -50,46 +56,109 @@
           <!-- Review Section -->
           <div class="review-section">
             <h4 class="review-heading">Leave a Review</h4>
-            <form action="/listings/<%= listing._id %>/reviews" method="POST" class="review-form">
+            <form
+              novalidate
+              class="needs-validation"
+              action="/listings/<%= listing._id %>/reviews"
+              method="POST"
+              class="review-form"
+            >
               <div class="form-group">
                 <label class="form-label" for="rating" class="form-label">
                   <i class="fas fa-star"></i> Rating
                 </label>
                 <div class="rating-container">
-                  <input 
-                    type="range" 
-                    min="1" 
-                    max="5" 
-                    id="rating" 
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    id="rating"
                     name="review[rating]"
                     class="form-range"
                     value="3"
-                  >
+                  />
                   <span class="rating-value" id="ratingValue">3</span>
                 </div>
               </div>
-
+              <br>
               <div class="form-group">
                 <label for="comment" class="form-label">
                   <i class="fas fa-comment-dots"></i> Comment
                 </label>
-                <textarea 
-                  name="review[comment]" 
-                  id="comment" 
+                <textarea
+                  name="review[comment]"
+                  id="comment"
                   rows="5"
                   class="form-control"
                   placeholder="Share your experience..."
                   required
                   class="form-control"
                 ></textarea>
+                <div class="invalid-feedback">Please add some comments for review</div>
+                <div class="valid-feedback">Comments Looks Good</div>
               </div>
-
+              <br>
               <button type="submit" class="btn btn-submit-review">
                 <i class="fas fa-paper-plane"></i> Submit Review
               </button>
             </form>
+            <hr>
+          <!-- Reviews Display Section -->
+          <% if(listing.reviews && listing.reviews.length > 0) { %>
+          <hr style="margin: 2.5rem 0 2rem 0; border-color: #e0e0e0;">
+          
+          <div class="reviews-container">
+            <h4 class="reviews-title">
+              <i class="fas fa-star" style="color: #fe424d;"></i> 
+              Reviews (<%= listing.reviews.length %>)
+            </h4>
+            
+            <div class="row">
+              <% for(let review of listing.reviews) { %>
+                <div class="col-12 col-md-6 mb-3">
+                  <div class="review-card">
+                    <div class="review-card-header">
+                      <div class="reviewer-avatar">
+                        <i class="fas fa-user"></i>
+                      </div>
+                      <div class="reviewer-info">
+                        <h6 class="reviewer-name">John Doe</h6>
+                        <div class="review-rating">
+                          <% for(let i = 1; i <= 5; i++) { %>
+                            <% if(i <= review.rating) { %>
+                              <i class="fas fa-star filled-star"></i>
+                            <% } else { %>
+                              <i class="far fa-star empty-star"></i>
+                            <% } %>
+                          <% } %>
+                          <span class="rating-number"><%= review.rating %>/5</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="review-comment"><%= review.comment %></p>
+                    <div class="review-footer">
+                      <small class="review-date">
+                        <i class="far fa-clock"></i> Just now
+                      </small>
+                      <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" style="display: inline;">
+                        <button type="submit" class="btn-delete-review">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              <% } %>
+            </div>
           </div>
-
+          <% } else { %>
+          <hr style="margin: 2.5rem 0 2rem 0; border-color: #e0e0e0;">
+          <div class="no-reviews">
+            <i class="far fa-comment-dots"></i>
+            <p>No reviews yet. Be the first to review!</p>
+          </div>
+          <% } %>
+          
         </div>
       </div>
     </div>
@@ -98,23 +167,23 @@
 
 <script>
   // Rating slider value display and dynamic fill
-  const ratingSlider = document.getElementById('rating');
-  const ratingValue = document.getElementById('ratingValue');
-  
+  const ratingSlider = document.getElementById("rating");
+  const ratingValue = document.getElementById("ratingValue");
+
   function updateRating() {
     const value = ratingSlider.value;
     ratingValue.textContent = value;
-    
+
     // Calculate percentage (1-5 scale)
     const percentage = ((value - 1) / 4) * 100;
-    
+
     // Update background gradient dynamically
     ratingSlider.style.background = `linear-gradient(to right, #fe424d 0%, #fe424d ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
   }
-  
+
   // Initialize on page load
   updateRating();
-  
+
   // Update on slider change
-  ratingSlider.addEventListener('input', updateRating);
+  ratingSlider.addEventListener("input", updateRating);
 </script>
