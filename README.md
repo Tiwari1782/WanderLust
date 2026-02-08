@@ -486,11 +486,11 @@ Built with ❤️ while learning MERN Stack
 ### All Listings Page
 ![Listings](screenshots/listings.png)
 
-### Single Listing with Reviews
-![Show Page](screenshots/show.png)
+### Single Listing 
+![Show Page](screenshots/single_listing.png)
 
 ### Add Review Form
-![Review Form](screenshots/review-form.png)
+![Review Form](screenshots/review_form.png)
 
 ---
 
