@@ -484,13 +484,13 @@ Built with ❤️ while learning MERN Stack
 ## Screenshots
 
 ### All Listings Page
-![Listings](screenshots/listings.png)
+![Listings](Screenshots/listings.png)
 
 ### Single Listing 
-![Show Page](screenshots/single_listing.png)
+![Show Page](Screenshots/single_listing.png)
 
 ### Add Review Form
-![Review Form](screenshots/review_form.png)
+![Review Form](Screenshots/review_form.png)
 
 ---
 
