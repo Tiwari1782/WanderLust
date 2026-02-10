@@ -11,6 +11,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "bootstrap": "^5.3.8",
+    "cookie-parser": "^1.4.7",
     "ejs": "^4.0.1",
     "ejs-mate": "^4.0.0",
     "express": "^4.18.2",

@@ -9,7 +9,13 @@ const { wrap } = require("module");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 
+const sessionOptions = {
+    secret: "seceretkey",
+    resave: false,
+    saveUninitialized: true,
+}
 let port = 8080;
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -29,6 +35,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+app.use(cookieParser());
+app.use(session(sessionOptions));
+
+//Cookie Test
+// app.get("/test", (req, res) => {
+//   res.send("Test Successful");
+// });
+// app.get("/reqcount", (req, res) => {
+//   if (req.session.count) {
+//     req.session.count++;
+//   } else {
+//     req.session.count = 1;
+//   }
+//   res.send(`you sent a request ${req.session.count} times`);
+// });
+
 
 //Server
 app.get("/", (req, res) => {
@@ -63,5 +85,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`Server is Listening to port : ${port}`);
 });
-
-
