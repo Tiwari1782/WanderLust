@@ -308,6 +308,11 @@ const validateReview = (req, res, next) => {
 All forms use Bootstrap's `needs-validation` class with `novalidate` attribute for custom validation styling.
 
 ---
+### Part (b)
+What is express router 1 line definiton here
+Using Express router
+Cookies
+How to send cookies?
 
 ## Error Handling
 
@@ -368,6 +373,7 @@ req.session.success = "Operation completed successfully!";
 ```
 
 ---
+
 
 ## Project Structure
 
