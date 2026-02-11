@@ -1,23 +1,54 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
-    <h1>All Listings</h1>
+<% if (success && success.length) { %>
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div class="toast align-items-center text-white border-0 show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: #fe424d;">
+      <div class="d-flex">
+        <div class="toast-body">
+          <%= success[0] %>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<% } %>
 
-    <!-- <form method="GET" action="/listings/new">
-        <button>Create New Listing</button>
-    </form> -->
+<% if (error && error.length) { %>
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div class="toast align-items-center text-white border-0 show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: #fe424d;">
+      <div class="d-flex">
+        <div class="toast-body">
+          <%= error[0] %>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<% } %>
 
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-        <% for (let listing of allListings) { %>
-            <a href="/listings/<%= listing._id %>" class="listing-link">
-                <div class="card col">
+
+<h1>All Listings</h1>
+
+<!-- Create New Listing Button -->
+<!--
+<form method="GET" action="/listings/new">
+    <button>Create New Listing</button>
+</form>
+-->
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <% for (let listing of allListings) { %>
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+            <div class="card col">
                 <img
                     src="<%= listing.image %>"
                     class="card-img-top"
                     alt="listing_image"
                     style="height: 20rem;"
                 >
+
                 <div class="card-img-overlay"></div>
+
                 <div class="card-body">
                     <p class="card-text">
                         <b><%= listing.title %></b>
@@ -26,7 +57,19 @@
                     </p>
                 </div>
             </div>
-            </a>
-        <% } %>
-    </div>
-</body>
+        </a>
+    <% } %>
+</div>
+
+<script>
+  // Auto-hide toasts after 5 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach(toast => {
+      setTimeout(() => {
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.hide();
+      }, 4000);
+    });
+  });
+</script>
