@@ -308,13 +308,129 @@ const validateReview = (req, res, next) => {
 All forms use Bootstrap's `needs-validation` class with `novalidate` attribute for custom validation styling.
 
 ---
-### Part (b)
-What is express router 1 line definiton here
-Using Express router
-Cookies
-How to send cookies?
-connect-flash
-flash with toast notification added
+### Part (b) & (c)
+
+### Express Router
+**Definition:** A mini Express application that handles routing for specific parts of your app, allowing you to organize routes into separate modules.
+
+**Example:**
+```javascript
+const express = require("express");
+const router = express.Router();
+
+router.get("/listings", (req, res) => { /* ... */ });
+router.post("/listings", (req, res) => { /* ... */ });
+
+module.exports = router;
+```
+
+---
+
+### Cookies
+Cookies are small pieces of data stored in the user's browser that are sent with every HTTP request.
+
+**How to send cookies:**
+```javascript
+// Set a cookie
+res.cookie('name', 'value', { 
+  maxAge: 900000,  // milliseconds
+  httpOnly: true,  // accessible only by web server
+  secure: false    // works on HTTP (set true for HTTPS)
+});
+
+// Read a cookie
+const cookieValue = req.cookies.name;
+
+// Clear a cookie
+res.clearCookie('name');
+```
+
+**In this project:** Cookies are used to store session IDs for user sessions.
+
+---
+
+### Express Session
+Used to store user data between HTTP requests.
+
+```javascript
+const session = require("express-session");
+
+app.use(session({
+  secret: "mysupersecretcode",    // Secret key for signing session ID
+  resave: false,                   // Don't save session if unmodified
+  saveUninitialized: true,         // Save new sessions
+  cookie: { 
+    maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days
+  }
+}));
+```
+
+---
+
+### Connect-Flash
+A middleware for storing temporary messages in the session to be displayed after a redirect.
+
+**Setup:**
+```javascript
+const flash = require("connect-flash");
+
+app.use(session(sessionOptions));  // Must come before flash
+app.use(flash());
+
+// Make flash messages available in all templates
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
+```
+
+**Usage in routes:**
+```javascript
+// Set flash message
+req.flash("success", "Review added successfully!");
+res.redirect("/listings");
+
+// Flash message automatically available in next rendered template
+```
+
+---
+
+### Flash with Toast Notifications
+
+Instead of traditional alert boxes, flash messages are displayed as modern toast notifications.
+
+**Implementation:**
+```js
+<!-- In EJS template -->
+<% if (success && success.length) { %>
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div class="toast align-items-center text-white border-0 show" 
+         style="background-color: #fe424d;">
+      <div class="d-flex">
+        <div class="toast-body">
+          <%= success[0] %>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" 
+                data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+<% } %>
+```
+<script>
+  // Auto-hide toasts after 5 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach(toast => {
+      setTimeout(() => {
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.hide();
+      }, 5000);
+    });
+  });
+</script>
+```
 
 
 ## Error Handling
