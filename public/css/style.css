@@ -804,7 +804,132 @@ input[type="range"]::-webkit-slider-thumb {
   border: 3px solid white;
   margin-top: -4px;
 }
+/* Toast Notification Styles */
+.toast-card {
+  width: 330px;
+  height: 80px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  background-color: #ffffff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 15px;
+  border: none;
+}
 
+.toast-card .wave {
+  position: absolute;
+  transform: rotate(90deg);
+  left: -31px;
+  top: 32px;
+  width: 80px;
+  fill: #fe424d3a; /* Using your red shade with transparency */
+}
+
+.toast-card .icon-container {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fe424d48; /* Using your red shade with transparency */
+  border-radius: 50%;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.toast-card .icon {
+  width: 17px;
+  height: 17px;
+  color: #fe424d; /* Your red shade */
+}
+
+.toast-card .message-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.toast-card .message-text,
+.toast-card .sub-text {
+  margin: 0;
+  cursor: default;
+}
+
+.toast-card .message-text {
+  color: #fe424d; /* Your red shade */
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.toast-card .sub-text {
+  font-size: 14px;
+  color: #555;
+}
+
+.toast-card .cross-icon {
+  width: 18px;
+  height: 18px;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.toast-card .cross-icon:hover {
+  color: #fe424d;
+}
+
+/* Success variant - Green */
+.toast-card.success .wave {
+  fill: #28a74533;
+}
+
+.toast-card.success .icon-container {
+  background-color: #28a74548;
+}
+
+.toast-card.success .icon,
+.toast-card.success .message-text {
+  color: #28a745;
+}
+
+/* Error variant - Red (default) */
+.toast-card.error .wave {
+  fill: #fe424d3a;
+}
+
+.toast-card.error .icon-container {
+  background-color: #fe424d48;
+}
+
+.toast-card.error .icon,
+.toast-card.error .message-text {
+  color: #fe424d;
+}
+
+/* Animation */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-card {
+  animation: slideInRight 0.4s ease-out;
+}
 /* ============================================
    Responsive - Reviews
    ============================================ */
