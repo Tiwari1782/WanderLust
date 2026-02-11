@@ -22,7 +22,6 @@ router.post(
   "/",
   validateReview,
   wrapAsync(async (req, res) => {
-    // console.log(req.params.id);
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
 
@@ -30,7 +29,14 @@ router.post(
 
     await newReview.save();
     await listing.save();
-
+    
+    // Add flash message for success
+    req.flash("success", "Review added successfully!");
+    
+    // Debug: Check if flash is set
+    console.log("Flash set, redirecting to:", `/listings/${listing._id}`);
+    console.log("Session after flash:", req.session.flash);
+    
     res.redirect(`/listings/${listing._id}`);
   })
 );
@@ -43,7 +49,8 @@ router.delete(
 
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
-
+    // Add flash message for success
+    req.flash("success", "Review deleted successfully!");
     res.redirect(`/listings/${id}`);
   })
 );

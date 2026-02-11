@@ -1,4 +1,32 @@
 <% layout("/layouts/boilerplate") %>
+
+<!-- Toast Notifications -->
+<% if (success && success.length) { %>
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div class="toast align-items-center text-white border-0 show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: #fe424d;">
+      <div class="d-flex">
+        <div class="toast-body">
+          <%= success[0] %>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<% if (error && error.length) { %>
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div class="toast align-items-center text-white border-0 show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: #fe424d;">
+      <div class="d-flex">
+        <div class="toast-body">
+          <%= error[0] %>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<% } %>
+
 <div class="container">
   <div class="row mt-4">
     <!-- Back Navigation -->
@@ -186,4 +214,15 @@
 
   // Update on slider change
   ratingSlider.addEventListener("input", updateRating);
+
+  // Auto-hide toasts after 5 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach(toast => {
+      setTimeout(() => {
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.hide();
+      }, 4000);
+    });
+  });
 </script>
