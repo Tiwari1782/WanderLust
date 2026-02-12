@@ -97,8 +97,11 @@
         />
         <div class="show-card-body">
           <h2 class="listing-title"><%= listing.title %></h2>
-          <p class="listing-description"><%= listing.description %></p>
-
+          <p class="listing-description">
+            <b>Owned By : </b><i><%= listing.owner.username %></i>
+            <br>
+            <%= listing.description %>
+          </p>
           <div class="listing-details">
             <div class="detail-item">
               <i class="fas fa-rupee-sign"></i>
