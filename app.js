@@ -7,13 +7,16 @@ const ejsMate = require("ejs-mate");
 
 const ExpressError = require("./utils/ExpressError.js");
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js")
 
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
-
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
 const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
@@ -51,20 +54,39 @@ app.use(cookieParser());
 app.use(session(sessionOptions));
 app.use(flash());
 
-// Flash middleware (VERY IMPORTANT: before routes)
+
+//Passport middleware Implementation
+app.use(passport.initialize());
+app.use(passport.session()); //1 login in a single session
+passport.use(new LocalStrategy(User.authenticate())); //Used for static method of authentication
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+// Flash middleware
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
-
 // Routes
 app.get("/", (req, res) => {
   res.send("Hii, I am root!!");
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+//Demo User
+// app.get("/demouser", async (req, res) => {
+//   let fakeUser = new User({
+//     email: "student@gmail.com",
+//     username: "delta-student",
+//   });
+
+//   let registeredUser = await User.register(fakeUser, "hello");
+//   res.send(registeredUser);
+// });
+
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
 // Privacy and Terms routes
 app.get("/privacy", (req, res) => {
