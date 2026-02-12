@@ -631,6 +631,7 @@ body {
 .btn-back-home i {
   font-size: 0.9rem;
 }
+
 /* ============================================
    Reviews Section
    ============================================ */
@@ -776,6 +777,7 @@ body {
   font-size: 1.1rem;
   margin: 0;
 }
+
 input[type="range"] {
   width: 100%;
   height: 16px;
@@ -804,49 +806,46 @@ input[type="range"]::-webkit-slider-thumb {
   border: 3px solid white;
   margin-top: -4px;
 }
-/* Toast Notification Styles */
+
+/* ============================================
+   Toast Notification Styles - SOLID RED
+   ============================================ */
 .toast-card {
   width: 330px;
-  height: 80px;
-  border-radius: 8px;
+  min-height: 80px;
+  border-radius: 12px;
   box-sizing: border-box;
-  padding: 10px 15px;
-  background-color: #ffffff;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 16px 20px;
+  background-color: #fe424d !important; /* Solid red background */
+  box-shadow: 0 8px 24px rgba(254, 66, 77, 0.4);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   gap: 15px;
   border: none;
 }
 
 .toast-card .wave {
-  position: absolute;
-  transform: rotate(90deg);
-  left: -31px;
-  top: 32px;
-  width: 80px;
-  fill: #fe424d3a; /* Using your red shade with transparency */
+  display: none; /* Remove wave */
 }
 
 .toast-card .icon-container {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fe424d48; /* Using your red shade with transparency */
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  margin-left: 8px;
   flex-shrink: 0;
 }
 
 .toast-card .icon {
-  width: 17px;
-  height: 17px;
-  color: #fe424d; /* Your red shade */
+  width: 20px;
+  height: 20px;
+  color: #ffffff !important; /* White icon */
 }
 
 .toast-card .message-text-container {
@@ -861,58 +860,61 @@ input[type="range"]::-webkit-slider-thumb {
 .toast-card .sub-text {
   margin: 0;
   cursor: default;
+  color: #ffffff !important; /* White text */
 }
 
 .toast-card .message-text {
-  color: #fe424d; /* Your red shade */
   font-size: 17px;
   font-weight: 700;
+  color: #ffffff !important;
 }
 
 .toast-card .sub-text {
   font-size: 14px;
-  color: #555;
+  color: #ffffff !important;
+  opacity: 0.95;
 }
 
 .toast-card .cross-icon {
-  width: 18px;
-  height: 18px;
-  color: #555;
+  width: 20px;
+  height: 20px;
+  color: #ffffff !important; /* White close button */
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   flex-shrink: 0;
+  opacity: 0.9;
 }
 
 .toast-card .cross-icon:hover {
-  color: #fe424d;
+  opacity: 1;
+  transform: scale(1.1);
 }
 
-/* Success variant - Green */
-.toast-card.success .wave {
-  fill: #28a74533;
+/* Both success and error use same red style */
+.toast-card.success,
+.toast-card.error {
+  background-color: #fe424d !important;
 }
 
-.toast-card.success .icon-container {
-  background-color: #28a74548;
+.toast-card.success .wave,
+.toast-card.error .wave {
+  display: none;
+}
+
+.toast-card.success .icon-container,
+.toast-card.error .icon-container {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .toast-card.success .icon,
-.toast-card.success .message-text {
-  color: #28a745;
-}
-
-/* Error variant - Red (default) */
-.toast-card.error .wave {
-  fill: #fe424d3a;
-}
-
-.toast-card.error .icon-container {
-  background-color: #fe424d48;
-}
-
+.toast-card.success .message-text,
+.toast-card.success .sub-text,
+.toast-card.success .cross-icon,
 .toast-card.error .icon,
-.toast-card.error .message-text {
-  color: #fe424d;
+.toast-card.error .message-text,
+.toast-card.error .sub-text,
+.toast-card.error .cross-icon {
+  color: #ffffff !important;
 }
 
 /* Animation */
@@ -930,6 +932,193 @@ input[type="range"]::-webkit-slider-thumb {
 .toast-card {
   animation: slideInRight 0.4s ease-out;
 }
+
+/* Responsive Toast */
+@media (max-width: 767px) {
+  .toast-card {
+    width: 300px;
+    min-height: 75px;
+    padding: 14px 18px;
+  }
+
+  .toast-card .icon-container {
+    width: 35px;
+    height: 35px;
+  }
+
+  .toast-card .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .toast-card .message-text {
+    font-size: 15px;
+  }
+
+  .toast-card .sub-text {
+    font-size: 13px;
+  }
+
+  .toast-card .cross-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .toast-card {
+    width: 280px;
+    min-height: 70px;
+    padding: 12px 16px;
+  }
+
+  .toast-card .icon-container {
+    width: 32px;
+    height: 32px;
+  }
+
+  .toast-card .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .toast-card .message-text {
+    font-size: 14px;
+  }
+
+  .toast-card .sub-text {
+    font-size: 12px;
+  }
+
+  .toast-card .cross-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+/* ============================================
+   Authentication Pages (Signup/Login)
+   ============================================ */
+.auth-card {
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 3rem;
+}
+
+.auth-header {
+  background: linear-gradient(135deg, #fe424d 0%, #ff6b6b 100%);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+  color: #ffffff;
+}
+
+.auth-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.auth-subtitle {
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.95;
+  color: #ffffff;
+}
+
+.auth-form {
+  padding: 2.5rem 2rem;
+}
+
+.auth-form .form-group {
+  margin-bottom: 1.75rem;
+}
+
+.btn-auth {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.auth-footer {
+  padding: 1.5rem 2rem 2rem;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.auth-switch-text {
+  margin: 0;
+  color: #555555;
+  font-size: 0.95rem;
+}
+
+.auth-switch-link {
+  color: #fe424d;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.auth-switch-link:hover {
+  color: #e63946;
+  text-decoration: underline;
+}
+
+.auth-switch-link i {
+  font-size: 0.85rem;
+  transition: transform 0.3s ease;
+}
+
+.auth-switch-link:hover i {
+  transform: translateX(3px);
+}
+
+/* Feedback Messages */
+.valid-feedback,
+.invalid-feedback {
+  display: none;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.valid-feedback {
+  color: #28a745;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+}
+
+.was-validated .form-control:valid ~ .valid-feedback {
+  display: block;
+}
+
+.was-validated .form-control:invalid ~ .invalid-feedback {
+  display: block;
+}
+
+.form-control:valid {
+  border-color: #28a745;
+}
+
+.form-control:invalid {
+  border-color: #dc3545;
+}
+
 /* ============================================
    Responsive - Reviews
    ============================================ */
@@ -952,6 +1141,7 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 0.95rem;
   }
 }
+
 /* ============================================
    Responsive
    ============================================ */
@@ -1058,6 +1248,45 @@ input[type="range"]::-webkit-slider-thumb {
   .legal-list li {
     font-size: 0.95rem;
   }
+
+  /* Auth Pages Responsive */
+  .auth-header {
+    padding: 2.5rem 1.5rem 2rem;
+  }
+
+  .auth-icon {
+    font-size: 2.5rem;
+  }
+
+  .auth-title {
+    font-size: 1.75rem;
+  }
+
+  .auth-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .auth-form {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-footer {
+    padding: 1.5rem;
+  }
+
+  /* Toast Responsive */
+  .toast-card {
+    width: 300px;
+    height: 75px;
+  }
+
+  .toast-card .message-text {
+    font-size: 15px;
+  }
+
+  .toast-card .sub-text {
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1129,5 +1358,52 @@ input[type="range"]::-webkit-slider-thumb {
   }
   .review-heading {
     font-size: 1.25rem;
+  }
+
+  /* Auth Pages Mobile */
+  .auth-header {
+    padding: 2rem 1.25rem 1.75rem;
+  }
+
+  .auth-icon {
+    font-size: 2rem;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  .auth-form {
+    padding: 1.75rem 1.25rem;
+  }
+
+  /* Toast Mobile */
+  .toast-card {
+    width: 280px;
+    height: 70px;
+    padding: 8px 12px;
+  }
+
+  .toast-card .icon-container {
+    width: 30px;
+    height: 30px;
+  }
+
+  .toast-card .icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .toast-card .message-text {
+    font-size: 14px;
+  }
+
+  .toast-card .sub-text {
+    font-size: 12px;
+  }
+
+  .toast-card .cross-icon {
+    width: 16px;
+    height: 16px;
   }
 }
