@@ -5,19 +5,39 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <!-- Left side navigation -->
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link"  href="/">Home</a>
+          <a class="nav-link" href="/"><i class="fa-solid fa-house-chimney"></i> Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/listings">All Listings</a>
+          <a class="nav-link" href="/listings"><i class="fa-solid fa-clipboard"></i> All Listings</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/listings/new">Add new Listing</a>
+          <a class="nav-link" href="/listings/new"><i class="fa-solid fa-circle-plus"></i> Add new Listing</a>
         </li>
-        <li class="nav-item">
-          <!-- <a class="nav-link disabled" aria-disabled="true">Disabled</a> -->
-        </li>
+      </ul>
+
+      <!-- Right side navigation (Auth links) -->
+      <ul class="navbar-nav ms-auto">
+        <% if(!currUser) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">
+              <i class="fas fa-user-plus"></i> Signup
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+        <% } %>
       </ul>
     </div>
   </div>
