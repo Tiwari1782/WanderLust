@@ -96,9 +96,9 @@
           alt="<%= listing.title %>"
         />
         <div class="show-card-body">
-          <h2 class="listing-title"><%= listing.title %></h2>
+          <h2 class="listing-title"><i class="fa-solid fa-map-pin"></i> <%= listing.title %></h2>
           <p class="listing-description">
-            <b>Owned By : </b><i><%= listing.owner.username %></i>
+            <i class="fa-solid fa-crown"></i><b> Owned By : </b><i><%= listing.owner.username %></i>
             <br>
             <%= listing.description %>
           </p>
@@ -117,6 +117,7 @@
           </div>
 
           <!-- Action Buttons -->
+          <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
           <div class="action-buttons">
             <a
               href="/listings/<%= listing._id %>/edit"
@@ -134,10 +135,10 @@
               </button>
             </form>
           </div>
-
+          <% } %>
           <!-- Review Section -->
           <div class="review-section">
-            <h4 class="review-heading">Leave a Review</h4>
+            <h4 class="review-heading"><i class="fa-solid fa-pen-to-square"></i> Leave a Review</h4>
             <form
               novalidate
               class="needs-validation"
