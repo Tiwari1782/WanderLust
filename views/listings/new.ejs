@@ -12,8 +12,12 @@
       </div>
 
       <!-- Form -->
-      <form action="/listings" method="POST" novalidate class="needs-validation">
-
+      <form
+        action="/listings"
+        method="POST"
+        novalidate
+        class="needs-validation"
+      >
         <!-- Title -->
         <div class="form-input-group">
           <label for="title" class="form-input-label">
@@ -37,11 +41,12 @@
             <i class="fa-solid fa-align-left"></i>
             Description
           </label>
-          <textarea 
-            class="form-control form-textarea" 
-            name="listing[description]" 
+          <textarea
+            class="form-control form-textarea"
+            name="listing[description]"
             placeholder="Describe your listing in detail..."
-            required></textarea>
+            required
+          ></textarea>
           <div class="invalid-feedback">Please enter a description</div>
           <div class="valid-feedback">Description looks good!</div>
         </div>
@@ -128,9 +133,14 @@
             <i class="fa-solid fa-circle-plus"></i>
             Create Listing
           </button>
-          
+          <button
+            type="button"
+            class="btn btn-delete"
+            onclick="window.location.href = '/listings'"
+          >
+            <i class="fa-solid fa-xmark"></i> Cancel
+          </button>
         </div>
-
       </form>
     </div>
   </div>
