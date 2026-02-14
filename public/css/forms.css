@@ -1,0 +1,256 @@
+/* ============================================
+   Form Pages (New & Edit Listing)
+   ============================================ */
+.form-page-container {
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 3rem 2.5rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.form-page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.form-page-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #000000 0%, #000000 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.form-page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111111;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.form-input-group {
+  margin-bottom: 1.75rem;
+}
+
+.form-input-label {
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-input-label i {
+  color: #111111;
+  font-size: 1rem;
+  width: 18px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  border: 2px solid #e0e0e0;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.125rem;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  background-color: #fafafa;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #fe424d;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(254, 66, 77, 0.1);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #b0b0b0;
+  font-weight: 400;
+}
+
+.form-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* Validation Styles */
+.form-input.is-valid,
+.form-textarea.is-valid,
+.was-validated .form-input:valid,
+.was-validated .form-textarea:valid {
+  border-color: #28a745;
+  background-color: #f8fff9;
+}
+
+.form-input.is-invalid,
+.form-textarea.is-invalid,
+.was-validated .form-input:invalid,
+.was-validated .form-textarea:invalid {
+  border-color: #dc3545;
+  background-color: #fff8f8;
+}
+
+.valid-feedback,
+.invalid-feedback {
+  display: none;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  padding-left: 0.25rem;
+}
+
+.valid-feedback {
+  color: #28a745;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+}
+
+.was-validated .form-input:valid ~ .valid-feedback,
+.was-validated .form-textarea:valid ~ .valid-feedback,
+.form-input.is-valid ~ .valid-feedback,
+.form-textarea.is-valid ~ .valid-feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.was-validated .form-input:invalid ~ .invalid-feedback,
+.was-validated .form-textarea:invalid ~ .invalid-feedback,
+.form-input.is-invalid ~ .invalid-feedback,
+.form-textarea.is-invalid ~ .invalid-feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.valid-feedback::before {
+  content: "\f058";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 0.95rem;
+}
+
+.invalid-feedback::before {
+  content: "\f06a";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 0.95rem;
+}
+
+/* Form Row */
+.form-row-custom {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+}
+
+/* Submit Button Area */
+.form-submit-area {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px solid #f0f0f0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-submit-form {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border: none;
+  cursor: pointer;
+  background-color: #fe424d !important;
+  color: #ffffff !important;
+  border: 2px solid #fe424d !important;
+}
+
+.btn-submit-form:hover {
+  background-color: #e63946 !important;
+  border-color: #e63946 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(254, 66, 77, 0.35);
+}
+
+.btn-submit-form i {
+  font-size: 1rem;
+  color: #ffffff !important;
+}
+
+/* Input Icons */
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b0b0b0;
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+/* Price Input Special Styling */
+.price-input-wrapper {
+  position: relative;
+}
+
+.price-input-wrapper::before {
+  content: "₹";
+  position: absolute;
+  left: 1.125rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 600;
+  color: #555555;
+  font-size: 1.05rem;
+  pointer-events: none;
+}
+
+.price-input-wrapper .form-input {
+  padding-left: 2.25rem;
+}
+
+/* Form Helper Text */
+.form-helper-text {
+  font-size: 0.85rem;
+  color: #888888;
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.form-helper-text i {
+  font-size: 0.8rem;
+  color: #888888;
+}

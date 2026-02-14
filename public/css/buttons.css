@@ -1,0 +1,84 @@
+/* ============================================
+   Buttons
+   ============================================ */
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.btn i {
+  font-size: 0.9rem;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 2rem;
+}
+
+.action-buttons form {
+  margin: 0;
+  display: inline-flex;
+}
+
+.btn-primary-custom,
+.add-btn,
+.edit-btn,
+.btn-submit-review {
+  background-color: #fe424d !important;
+  border: 1px solid #fe424d !important;
+  color: #ffffff !important;
+}
+
+.btn-primary-custom:hover,
+.add-btn:hover,
+.edit-btn:hover,
+.btn-submit-review:hover {
+  background-color: #e63946 !important;
+  border-color: #e63946 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(254, 66, 77, 0.3);
+}
+
+.btn-primary-custom i {
+  color: #ffffff !important;
+}
+
+.btn-delete {
+  background-color: #111111 !important;
+  border: 1px solid #111111 !important;
+  color: #ffffff !important;
+}
+
+.btn-delete:hover {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-delete i {
+  color: #ffffff !important;
+}
+
+.btn-submit-review {
+  padding: 0.875rem 2rem;
+  align-self: flex-start;
+}
