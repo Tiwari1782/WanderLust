@@ -431,8 +431,313 @@ Instead of traditional alert boxes, flash messages are displayed as modern toast
   });
 </script>
 ```
+```
+# Middleware (Authentication & Authorization) — README
 
+This file explains the purpose of `middleware.js` used in an Express + Passport + MongoDB (Mongoose) app for **auth**, **authorization**, and **request validation**, along with security concepts like **password hashing** and **salting**.
 
+---
+
+### Part (d) & (e)
+
+## 1) Authentication vs Authorization
+
+### Authentication (AuthN)
+- Answers: **“Who are you?”**
+- Example: User logs in with email/username + password.
+- In this project: handled using **Passport** (e.g., `req.isAuthenticated()` and `req.user`).
+
+### Authorization (AuthZ)
+- Answers: **“Are you allowed to do this?”**
+- Example: Only the owner of a listing can edit/delete it.
+- In this project: handled using middleware like:
+  - `isOwner` (listing owner check)
+  - `isReviewAuthor` (review author check)
+
+---
+
+## 2) Storing passwords (What to do and what NOT to do)
+
+### Never store passwords as plain text
+Bad:
+- Saving the real password directly in DB.
+
+Also bad:
+- Saving encrypted passwords with a reversible key (if key leaks, all passwords leak).
+
+### Correct approach: store a hash
+- Store only a **hashed** version of the password.
+- During login:
+  1. Hash the entered password using the same method
+  2. Compare with stored hash (or use bcrypt’s compare)
+
+---
+
+## 3) Hashing examples — SHA, MD5, CRC, bcrypt
+
+### MD5
+- Fast and outdated.
+- Vulnerable to brute-force / rainbow table attacks.
+- **Not recommended for passwords.**
+
+### SHA-256 (often written as “SHA256”, sometimes mistaken as “SHA26”)
+- Cryptographic hash, but still **too fast** for password storage.
+- Attackers can brute-force quickly using GPUs.
+- Better than MD5, but still **not recommended for password hashing**.
+
+### CRC
+- Not cryptographic.
+- Intended for error-checking, not security.
+- **Never use for passwords.**
+
+### bcrypt (Recommended)
+- Designed specifically for password hashing.
+- Slow by design (configurable cost factor), making brute-force expensive.
+- Includes salt handling.
+- Common choice in Node.js apps.
+
+---
+
+## 4) Salting (Why it matters)
+
+A **salt** is random data added to the password before hashing.
+
+### Why salt?
+Without salting:
+- Two users with the same password will have the same hash.
+- Attackers can use rainbow tables (precomputed hash lists).
+
+With salting:
+- Same password produces different hashes for different users.
+- Greatly reduces effectiveness of precomputed attacks.
+
+bcrypt automatically manages salts internally.
+
+---
+
+## 5) Creating a User Model (Concept)
+
+A typical `User` model includes:
+- username/email
+- passwordHash (NOT raw password)
+
+Many apps use **passport-local-mongoose** or manual bcrypt hashing.
+
+Example fields:
+- `username`
+- `email`
+- `hash` (or `password`)
+- `salt` (if not using a library that manages it automatically)
+
+---
+
+## 6) Signup user routes — `GET /signup` and `POST /signup`
+
+### `GET /signup`
+- Shows signup form.
+
+### `POST /signup`
+- Creates a new user.
+- Password handling:
+  - Hash password (bcrypt or plugin)
+  - Save user record
+- Often auto-logins the user after successful signup.
+
+---
+
+## 7) Login user routes — `GET /login` and `POST /login`
+
+### `GET /login`
+- Shows login form.
+
+### `POST /login`
+- Authenticates user credentials.
+- With Passport:
+  - `passport.authenticate("local", ...)`
+- If success:
+  - Passport creates session
+  - `req.user` becomes available
+- If failure:
+  - redirect back with flash error
+
+---
+
+## 8) Connecting login route — How to check if user is logged in?
+
+Passport provides:
+- `req.isAuthenticated()` → `true` if logged in
+- `req.user` → current logged-in user object
+
+In this project, login checking is done using middleware:
+
+### `isLoggedIn`
+- If not authenticated:
+  - stores redirect URL (GET requests only)
+  - flashes an error
+  - redirects to `/login`
+
+---
+
+## 9) Authorization for listings and reviews (Ownership checks)
+
+### Listing authorization
+- Only the **owner** of the listing can edit/delete.
+- Middleware: `isOwner`
+
+### Review authorization
+- Only the **author** of the review can delete/update.
+- Middleware: `isReviewAuthor`
+
+---
+
+# middleware.js — What each middleware does
+
+## 1) `isLoggedIn`
+Purpose: protect routes that require login.
+
+Behavior:
+- If user is not logged in:
+  - (GET only) save the requested URL in `req.session.redirectUrl`
+  - show flash: “You must be logged in!”
+  - redirect to `/login`
+- Otherwise, call `next()`
+
+Used in routes like:
+- Create listing
+- Edit listing
+- Post review
+- Delete review
+
+---
+
+## 2) `savedRedirectUrl`
+Purpose: after login, redirect user back to the page they originally wanted.
+
+Behavior:
+- If session has `redirectUrl`, it copies to `res.locals.redirectUrl`
+- Next middleware/route can use `res.locals.redirectUrl`
+
+Common flow:
+1. user tries to access `/listings/:id/edit`
+2. `isLoggedIn` saves redirect URL and sends user to `/login`
+3. after successful login, app redirects to saved URL
+
+---
+
+## 3) `isOwner`
+Purpose: allow only listing owner to modify listing.
+
+Behavior:
+- Loads listing by `id`
+- Checks:
+  - `listing.owner.equals(res.locals.currUser._id)`
+- If not owner:
+  - flash error
+  - redirect to listing page
+
+---
+
+## 4) `validateListing`
+Purpose: validate incoming listing data (server-side validation).
+
+Uses:
+- `listingSchema` from `schema.js` (commonly Joi schema)
+
+Behavior:
+- If validation error:
+  - create message from details
+  - throw `ExpressError(400, errMsg)`
+- else `next()`
+
+---
+
+## 5) `validateReview`
+Purpose: validate incoming review data.
+
+Uses:
+- `reviewSchema` from `schema.js`
+
+Behavior:
+- If invalid:
+  - throws `ExpressError(400, errMsg)`
+- else `next()`
+
+---
+
+## 6) `isReviewAuthor`
+Purpose: only review author can change/delete their review.
+
+Behavior:
+- Loads review by `reviewId`
+- Checks:
+  - `review.author.equals(req.user._id)`
+- If not author:
+  - flash error
+  - redirect back to listing
+
+---
+
+# Typical usage examples (how to plug into routes)
+
+Example patterns:
+
+- Protect route with login:
+  - `router.get("/listings/new", isLoggedIn, ...)`
+
+- Protect route with owner authorization:
+  - `router.get("/listings/:id/edit", isLoggedIn, isOwner, ...)`
+
+- Validate listing on create/update:
+  - `router.post("/listings", isLoggedIn, validateListing, ...)`
+
+- Validate review + require login:
+  - `router.post("/listings/:id/reviews", isLoggedIn, validateReview, ...)`
+
+- Authorize review deletion:
+  - `router.delete("/listings/:id/reviews/:reviewId", isLoggedIn, isReviewAuthor, ...)`
+
+---
+
+# Notes / Best Practices
+
+- Always do **server-side validation** even if you have client-side validation.
+- Always check **authorization** on sensitive actions (edit/delete).
+- bcrypt cost factor should be chosen based on performance/security needs.
+- Saving redirect URL only on GET prevents weird redirect behavior after POST requests.
+
+```js
+module.exports.isLoggedIn = (req,res,next) => {
+    if(!req.isAuthenticated()){
+    req.flash("error", "You must be logged in to create listing!")
+    return res.redirect("/login");
+  }
+  next();
+}
+```
+automatic logging in after signup - Passport has a login method automatically establishes a login session. We can invoke login to automatically login a user.
+```js
+router.post(
+  "/signup",
+  wrapAsync(async (req, res) => {
+    try {
+      let { username, email, password } = req.body;
+      const newUser = new User({ email, username });
+      const registeredUser = await User.register(newUser, password);
+      console.log(registeredUser);
+      req.login(registeredUser, (err) => {
+        if (err) {
+          return next(err);
+        }
+        req.flash("success", "Welcome to WanderLust");
+        res.redirect("/listings");
+      });
+    } catch (e) {
+      req.flash("error", "User already exists");
+      res.redirect("/signup");
+    }
+  }),
+);
+```
 ## Error Handling
 
 ### Custom Error Class (`utils/ExpressError.js`)
