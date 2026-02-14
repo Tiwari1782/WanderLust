@@ -1,0 +1,53 @@
+/* ============================================
+   Footer
+   ============================================ */
+.f-info {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  text-align: center;
+  min-height: 8rem;
+  background-color: #e6e6e6;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid #e0e0e0;
+  margin-top: auto;
+}
+
+.f-info-links,
+.f-info-socials,
+.f-info-brand {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.f-info-links a {
+  text-decoration: none;
+  color: #555555;
+  margin: 0 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.f-info-links a:hover {
+  color: #fe424d;
+}
+
+.f-info-socials i {
+  font-size: 1.3rem;
+  margin: 0 0.75rem;
+  color: #555555;
+  transition: color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.f-info-socials i:hover {
+  color: #fe424d;
+  transform: translateY(-2px);
+}

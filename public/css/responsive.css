@@ -1,0 +1,331 @@
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (min-width: 768px) {
+  .f-info-links,
+  .f-info-socials,
+  .f-info-brand {
+    width: auto;
+    margin-bottom: 0;
+  }
+
+  .f-info {
+    justify-content: space-between;
+    padding: 2rem 3rem;
+  }
+
+  .listing-details {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    height: auto;
+    padding: 1rem;
+  }
+
+  .card-img-top {
+    height: 220px;
+  }
+
+  .show-img {
+    height: 300px;
+  }
+
+  .show-card-body {
+    padding: 1.5rem;
+  }
+
+  .listing-title,
+  .price {
+    font-size: 1.5rem;
+  }
+
+  .f-info-links a {
+    margin: 0 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .f-info-socials i {
+    font-size: 1.1rem;
+    margin: 0 0.5rem;
+  }
+
+  /* Action Buttons Responsive */
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-buttons .btn,
+  .action-buttons form {
+    width: 100%;
+  }
+
+  .btn-primary-custom,
+  .btn-delete {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Review Section Responsive */
+  .rating-value {
+    font-size: 1.5rem;
+    top: -40px;
+    right: 0;
+  }
+
+  .rating-container {
+    margin-top: 3.5rem;
+  }
+
+  .legal-container {
+    padding: 2rem 0;
+  }
+
+  .legal-title {
+    font-size: 2rem;
+  }
+
+  .legal-heading {
+    font-size: 1.35rem;
+  }
+
+  .legal-subheading {
+    font-size: 1.1rem;
+  }
+
+  .legal-intro {
+    font-size: 1.05rem;
+    padding: 1.25rem;
+  }
+
+  .legal-text,
+  .legal-list li {
+    font-size: 0.95rem;
+  }
+
+  /* Auth Pages Responsive */
+  .auth-header {
+    padding: 2.5rem 1.5rem 2rem;
+  }
+
+  .auth-icon {
+    font-size: 2.5rem;
+  }
+
+  .auth-title {
+    font-size: 1.75rem;
+  }
+
+  .auth-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .auth-form {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-footer {
+    padding: 1.5rem;
+  }
+
+  /* Toast Responsive */
+  .toast-card {
+    width: 300px;
+    height: 75px;
+  }
+
+  .toast-card .message-text {
+    font-size: 15px;
+  }
+
+  .toast-card .sub-text {
+    font-size: 13px;
+  }
+
+  /* Reviews Responsive */
+  .review-card {
+    margin-bottom: 1rem;
+  }
+
+  .reviews-title {
+    font-size: 1.25rem;
+  }
+
+  .reviewer-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .reviewer-name {
+    font-size: 0.95rem;
+  }
+
+  /* Form Pages Responsive */
+  .form-page-container {
+    padding: 2rem 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+  }
+
+  .form-page-header {
+    margin-bottom: 2rem;
+  }
+
+  .form-page-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+
+  .form-page-title {
+    font-size: 1.5rem;
+  }
+
+  .form-row-custom {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-submit-area {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-submit-form,
+  .btn-cancel-form {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-input-group {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-img-top {
+    height: 200px;
+  }
+
+  .show-img {
+    height: 250px;
+  }
+
+  .show-card-body {
+    padding: 1.25rem;
+  }
+
+  .listing-title {
+    font-size: 1.35rem;
+  }
+
+  .navbar {
+    height: auto;
+    padding: 0.75rem;
+  }
+
+  .fa-compass {
+    font-size: 1.5rem;
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .legal-wrapper {
+    padding: 0 1rem;
+  }
+
+  .legal-title {
+    font-size: 1.75rem;
+  }
+
+  .legal-heading {
+    font-size: 1.25rem;
+  }
+
+  .legal-intro {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  /* Buttons full width on mobile */
+  .btn-submit-review,
+  .btn-primary-custom,
+  .btn-delete,
+  .add-btn,
+  .edit-btn {
+    width: 100%;
+  }
+
+  /* Rating adjustments */
+  .rating-value {
+    font-size: 1.25rem;
+    padding: 0.15rem 0.5rem;
+    min-width: 40px;
+    top: -40px;
+  }
+
+  .rating-container {
+    margin-top: 3rem;
+  }
+
+  .review-heading {
+    font-size: 1.25rem;
+  }
+
+  /* Auth Pages Mobile */
+  .auth-header {
+    padding: 2rem 1.25rem 1.75rem;
+  }
+
+  .auth-icon {
+    font-size: 2rem;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  .auth-form {
+    padding: 1.75rem 1.25rem;
+  }
+
+  /* Toast Mobile */
+  .toast-card {
+    width: 280px;
+    height: 70px;
+    padding: 8px 12px;
+  }
+
+  .toast-card .icon-container {
+    width: 30px;
+    height: 30px;
+  }
+
+  .toast-card .icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .toast-card .message-text {
+    font-size: 14px;
+  }
+
+  .toast-card .sub-text {
+    font-size: 12px;
+  }
+
+  .toast-card .cross-icon {
+    width: 16px;
+    height: 16px;
+  }
+}

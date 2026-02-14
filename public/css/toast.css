@@ -1,0 +1,97 @@
+/* ============================================
+   Toast Notification Styles - SOLID RED
+   ============================================ */
+.toast-card {
+  width: 330px;
+  min-height: 80px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  padding: 16px 20px;
+  background-color: #fe424d !important;
+  box-shadow: 0 8px 24px rgba(254, 66, 77, 0.4);
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border: none;
+  animation: slideInRight 0.4s ease-out;
+}
+
+.toast-card .wave {
+  display: none;
+}
+
+.toast-card .icon-container {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.toast-card .icon {
+  width: 20px;
+  height: 20px;
+  color: #ffffff !important;
+}
+
+.toast-card .message-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.toast-card .message-text,
+.toast-card .sub-text {
+  margin: 0;
+  cursor: default;
+  color: #ffffff !important;
+}
+
+.toast-card .message-text {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.toast-card .sub-text {
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+.toast-card .cross-icon {
+  width: 20px;
+  height: 20px;
+  color: #ffffff !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.toast-card .cross-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.toast-card.success,
+.toast-card.error {
+  background-color: #fe424d !important;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
