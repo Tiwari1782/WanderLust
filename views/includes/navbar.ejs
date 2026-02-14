@@ -18,6 +18,23 @@
         </li>
       </ul>
 
+      <!-- Search Bar -->
+      <form class="search-form mx-3" action="/listings/search" method="GET">
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input 
+            type="text" 
+            class="search-input" 
+            name="q" 
+            placeholder="Search destinations..." 
+            autocomplete="off"
+          />
+          <button type="submit" class="search-btn">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </form>
+
       <!-- Right side navigation (Auth links) -->
       <ul class="navbar-nav ms-auto">
         <% if(!currUser) { %>
@@ -33,7 +50,7 @@
           </li>
         <% } else { %>
           <li class="nav-item">
-            <a class="nav-link" href="/logout">
+            <a class="nav-link" href="#" onclick="openLogoutModal(); return false;">
               <i class="fas fa-sign-out-alt"></i> Logout
             </a>
           </li>
@@ -42,3 +59,385 @@
     </div>
   </div>
 </nav>
+
+<!-- Logout Confirmation Modal -->
+<div class="delete-modal" id="logoutModal">
+  <div class="delete-modal-overlay" onclick="closeLogoutModal()"></div>
+  <div class="delete-modal-content">
+    <div class="delete-modal-header">
+      <div class="delete-modal-icon" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);">
+        <i class="fas fa-sign-out-alt"></i>
+      </div>
+      <h3 class="delete-modal-title">Logout?</h3>
+      <p class="delete-modal-subtitle">Are you sure you want to logout from your account?</p>
+    </div>
+    <div class="delete-modal-body">
+      <p class="delete-modal-warning" style="background-color: #fff8f0; border-left-color: #ff9800;">
+        <i class="fas fa-info-circle" style="color: #ff9800;"></i>
+        You will need to login again to access your account.
+      </p>
+    </div>
+    <div class="delete-modal-footer">
+      <button type="button" class="btn-modal-cancel" onclick="closeLogoutModal()">
+        <i class="fas fa-times"></i>
+        Cancel
+      </button>
+      <a href="/logout" class="btn-modal-delete" style="text-decoration: none; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); border-color: #ff9800;">
+        <i class="fas fa-sign-out-alt"></i>
+        Yes, Logout
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Search Bar Styles */
+.search-form {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #fafafa;
+  border: 2px solid #e0e0e0;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  min-width: 280px;
+}
+
+.search-container:focus-within {
+  border-color: #fe424d;
+  box-shadow: 0 0 0 4px rgba(254, 66, 77, 0.1);
+  background-color: #ffffff;
+}
+
+.search-icon {
+  color: #888888;
+  font-size: 1rem;
+  margin-right: 0.75rem;
+  transition: color 0.3s ease;
+}
+
+.search-container:focus-within .search-icon {
+  color: #fe424d;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+  color: #111111;
+  padding: 0.25rem 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.search-input::placeholder {
+  color: #b0b0b0;
+  font-weight: 400;
+}
+
+.search-btn {
+  background-color: #fe424d;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.search-btn:hover {
+  background-color: #e63946;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(254, 66, 77, 0.3);
+}
+
+.search-btn i {
+  transition: transform 0.3s ease;
+}
+
+.search-btn:hover i {
+  transform: translateX(2px);
+}
+
+/* Responsive Search */
+@media (max-width: 991px) {
+  .search-form {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0 1rem;
+  }
+
+  .search-container {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-container {
+    min-width: unset;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .search-input {
+    font-size: 0.9rem;
+  }
+
+  .search-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Delete Modal Styles */
+.delete-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-modal.active {
+  display: flex;
+}
+
+.delete-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+.delete-modal-content {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 1.25rem;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+.delete-modal-header {
+  padding: 2rem 2rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.delete-modal-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1.25rem;
+  background: linear-gradient(135deg, #ff6b6b 0%, #fe424d 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s infinite;
+}
+
+.delete-modal-icon i {
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+.delete-modal-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 0.5rem;
+}
+
+.delete-modal-subtitle {
+  font-size: 1rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.delete-modal-body {
+  padding: 1.5rem 2rem;
+}
+
+.delete-modal-warning {
+  background-color: #fff8f0;
+  border-left: 4px solid #ff9800;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  color: #666666;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.delete-modal-warning i {
+  color: #ff9800;
+  margin-right: 0.5rem;
+}
+
+.delete-modal-footer {
+  padding: 1.5rem 2rem 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-modal-cancel,
+.btn-modal-delete {
+  padding: 0.75rem 1.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-modal-cancel {
+  background-color: #f5f5f5;
+  color: #111111;
+  border: 2px solid #e0e0e0;
+}
+
+.btn-modal-cancel:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.btn-modal-delete {
+  background-color: #fe424d;
+  color: #ffffff;
+  border: 2px solid #fe424d;
+}
+
+.btn-modal-delete:hover {
+  background-color: #e63946;
+  border-color: #e63946;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(254, 66, 77, 0.4);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .delete-modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+
+  .delete-modal-header {
+    padding: 1.5rem 1.5rem 1.25rem;
+  }
+
+  .delete-modal-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .delete-modal-icon i {
+    font-size: 1.75rem;
+  }
+
+  .delete-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .delete-modal-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .delete-modal-body {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .delete-modal-footer {
+    flex-direction: column;
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  .btn-modal-cancel,
+  .btn-modal-delete {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+
+<script>
+  // Logout Modal Functions
+  function openLogoutModal() {
+    document.getElementById('logoutModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLogoutModal() {
+    document.getElementById('logoutModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeLogoutModal();
+    }
+  });
+</script>
