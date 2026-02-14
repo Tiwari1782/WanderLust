@@ -11,20 +11,17 @@ module.exports.renderNewForm = (req, res) => {
   // console.log(req.user);
   res.render("listings/new.ejs");
 };
-//Search route controller
-module.exports.searchListing = async (req, res) => {
-  const { q } = req.query;
 
-  const listings = await Listing.find({
-    $or: [
-      { title: { $regex: q, $options: "i" } },
-      { location: { $regex: q, $options: "i" } },
-      { country: { $regex: q, $options: "i" } },
-      { description: { $regex: q, $options: "i" } },
-    ],
-  });
-
-  res.render("listings/index.ejs", { allListings: listings });
+//Create Listing
+module.exports.createListing = async (req, res, next) => {
+  let url = req.file.path;
+  let filename = req.file.filename;
+  const newListing = new Listing(req.body.listing);
+  newListing.owner = req.user._id;
+  newListing.image = {url, filename};
+  await newListing.save();
+  req.flash("success", "New Listing Created!");
+  res.redirect("/listings");
 };
 
 //Show Listing controller
@@ -47,6 +44,21 @@ module.exports.showListing = async (req, res) => {
   res.render("listings/show.ejs", { listing });
 };
 
+//Search route controller
+module.exports.searchListing = async (req, res) => {
+  const { q } = req.query;
+
+  const listings = await Listing.find({
+    $or: [
+      { title: { $regex: q, $options: "i" } },
+      { location: { $regex: q, $options: "i" } },
+      { country: { $regex: q, $options: "i" } },
+      { description: { $regex: q, $options: "i" } },
+    ],
+  });
+
+  res.render("listings/index.ejs", { allListings: listings });
+};
 //Edit Listing Controller
 module.exports.renderEditForm = async (req, res) => {
   let { id } = req.params;
