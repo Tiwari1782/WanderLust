@@ -11,6 +11,21 @@ module.exports.renderNewForm = (req, res) => {
   // console.log(req.user);
   res.render("listings/new.ejs");
 };
+//Search route controller
+module.exports.searchListing = async (req, res) => {
+  const { q } = req.query;
+
+  const listings = await Listing.find({
+    $or: [
+      { title: { $regex: q, $options: "i" } },
+      { location: { $regex: q, $options: "i" } },
+      { country: { $regex: q, $options: "i" } },
+      { description: { $regex: q, $options: "i" } },
+    ],
+  });
+
+  res.render("listings/index.ejs", { allListings: listings });
+};
 
 //Show Listing controller
 module.exports.showListing = async (req, res) => {

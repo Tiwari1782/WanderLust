@@ -11,6 +11,8 @@ router.get("/", wrapAsync(listingController.index));
 //New route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
+//Search route 
+router.get("/search", wrapAsync(listingController.searchListing));
 //Create Route
 router.post(
   "/",
@@ -28,6 +30,8 @@ router.post(
 //Show route
 router.get("/:id", wrapAsync(listingController.showListing));
 
+//Search Route
+// In your routes file
 //Edit route
 router.get(
   "/:id/edit",
