@@ -123,7 +123,7 @@
     <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
       <div class="show-card">
         <img
-          src="<%= listing.image %>"
+          src="<%= listing.image.url %>"
           class="show-img"
           alt="<%= listing.title %>"
         />
@@ -164,54 +164,55 @@
           <% } %>
           <% if(currUser) { %>
           <!-- Review Section -->
-          <div class="review-section">
-            <h4 class="review-heading"><i class="fa-solid fa-pen-to-square"></i> Leave a Review</h4>
-            <form
-              novalidate
-              class="needs-validation"
-              action="/listings/<%= listing._id %>/reviews"
-              method="POST"
-              class="review-form"
-            >
-              <div class="form-group">
-                <label class="form-label" for="rating">
-                  <i class="fas fa-star"></i> Rating
-                </label>
-                <div class="rating-container">
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    id="rating"
-                    name="review[rating]"
-                    class="form-range"
-                    value="3"
-                  />
-                  <span class="rating-value" id="ratingValue">3</span>
-                </div>
-              </div>
-              <br>
-              <div class="form-group">
-                <label for="comment" class="form-label">
-                  <i class="fas fa-comment-dots"></i> Comment
-                </label>
-                <textarea
-                  name="review[comment]"
-                  id="comment"
-                  rows="5"
-                  class="form-control"
-                  placeholder="Share your experience..."
-                  required
-                ></textarea>
-                <div class="invalid-feedback">Please add some comments for review</div>
-                <div class="valid-feedback">Comments Looks Good</div>
-              </div>
-              <br>
-              <button type="submit" class="btn btn-submit-review">
-                <i class="fas fa-paper-plane"></i> Submit Review
-              </button>
-            </form>
-            <% } %>
+<div class="review-section">
+  <h4 class="review-heading"><i class="fa-solid fa-pen-to-square"></i> Leave a Review</h4>
+  <form
+    novalidate
+    class="needs-validation"
+    action="/listings/<%= listing._id %>/reviews"
+    method="POST"
+    class="review-form"
+  >
+    <div class="form-group">
+      <label class="form-label" for="rating">
+        <i class="fas fa-star"></i> Rating
+      </label>
+      <fieldset class="starability-slot">
+        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+    </div>
+    <br>
+    <div class="form-group">
+      <label for="comment" class="form-label">
+        <i class="fas fa-comment-dots"></i> Comment
+      </label>
+      <textarea
+        name="review[comment]"
+        id="comment"
+        rows="5"
+        class="form-control"
+        placeholder="Share your experience..."
+        required
+      ></textarea>
+      <div class="invalid-feedback">Please add some comments for review</div>
+      <div class="valid-feedback">Comments Looks Good</div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-submit-review">
+      <i class="fas fa-paper-plane"></i> Submit Review
+    </button>
+  </form>
+  <% } %>
             <hr>
           <!-- Reviews Display Section -->
           <% if(listing.reviews && listing.reviews.length > 0) { %>
@@ -301,291 +302,5 @@
   </div>
 </div>
 
-<style>
-/* Delete Modal Styles */
-.delete-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10000;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete-modal.active {
-  display: flex;
-}
-
-.delete-modal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  animation: fadeIn 0.3s ease;
-}
-
-.delete-modal-content {
-  position: relative;
-  background-color: #ffffff;
-  border-radius: 1.25rem;
-  max-width: 480px;
-  width: 90%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.3s ease;
-  overflow: hidden;
-}
-
-.delete-modal-header {
-  padding: 2rem 2rem 1.5rem;
-  text-align: center;
-  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.delete-modal-icon {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 1.25rem;
-  background: linear-gradient(135deg, #ff6b6b 0%, #fe424d 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: pulse 2s infinite;
-}
-
-.delete-modal-icon i {
-  font-size: 2rem;
-  color: #ffffff;
-}
-
-.delete-modal-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #111111;
-  margin-bottom: 0.5rem;
-}
-
-.delete-modal-subtitle {
-  font-size: 1rem;
-  color: #666666;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.delete-modal-body {
-  padding: 1.5rem 2rem;
-}
-
-.delete-modal-warning {
-  background-color: #fff8f0;
-  border-left: 4px solid #ff9800;
-  padding: 1rem 1.25rem;
-  border-radius: 0.5rem;
-  color: #666666;
-  font-size: 0.95rem;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.delete-modal-warning i {
-  color: #ff9800;
-  margin-right: 0.5rem;
-}
-
-.delete-modal-footer {
-  padding: 1.5rem 2rem 2rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.btn-modal-cancel,
-.btn-modal-delete {
-  padding: 0.75rem 1.75rem;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-modal-cancel {
-  background-color: #f5f5f5;
-  color: #111111;
-  border: 2px solid #e0e0e0;
-}
-
-.btn-modal-cancel:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-2px);
-}
-
-.btn-modal-delete {
-  background-color: #fe424d;
-  color: #ffffff;
-  border: 2px solid #fe424d;
-}
-
-.btn-modal-delete:hover {
-  background-color: #e63946;
-  border-color: #e63946;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(254, 66, 77, 0.4);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-/* Responsive */
-@media (max-width: 576px) {
-  .delete-modal-content {
-    width: 95%;
-    margin: 1rem;
-  }
-
-  .delete-modal-header {
-    padding: 1.5rem 1.5rem 1.25rem;
-  }
-
-  .delete-modal-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 1rem;
-  }
-
-  .delete-modal-icon i {
-    font-size: 1.75rem;
-  }
-
-  .delete-modal-title {
-    font-size: 1.5rem;
-  }
-
-  .delete-modal-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .delete-modal-body {
-    padding: 1.25rem 1.5rem;
-  }
-
-  .delete-modal-footer {
-    flex-direction: column;
-    padding: 1.25rem 1.5rem 1.5rem;
-  }
-
-  .btn-modal-cancel,
-  .btn-modal-delete {
-    width: 100%;
-    justify-content: center;
-  }
-}
-</style>
-
-<script>
-  // Delete Listing Modal Functions
-  function openDeleteModal() {
-    document.getElementById('deleteModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.remove('active');
-    document.body.style.overflow = 'auto';
-  }
-
-  // Delete Review Modal Functions
-  function openDeleteReviewModal(listingId, reviewId) {
-    const form = document.getElementById('deleteReviewForm');
-    form.action = `/listings/${listingId}/reviews/${reviewId}?_method=DELETE`;
-    document.getElementById('deleteReviewModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDeleteReviewModal() {
-    document.getElementById('deleteReviewModal').classList.remove('active');
-    document.body.style.overflow = 'auto';
-  }
-
-  // Close modals on Escape key
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      closeDeleteModal();
-      closeDeleteReviewModal();
-    }
-  });
-
-  // Rating slider value display and dynamic fill
-  const ratingSlider = document.getElementById("rating");
-  const ratingValue = document.getElementById("ratingValue");
-
-  function updateRating() {
-    const value = ratingSlider.value;
-    ratingValue.textContent = value;
-
-    // Calculate percentage (1-5 scale)
-    const percentage = ((value - 1) / 4) * 100;
-
-    // Update background gradient dynamically
-    ratingSlider.style.background = `linear-gradient(to right, #fe424d 0%, #fe424d ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
-  }
-
-  // Initialize on page load
-  updateRating();
-
-  // Update on slider change
-  ratingSlider.addEventListener("input", updateRating);
-
-  // Auto-hide toasts after 5 seconds
-  document.addEventListener('DOMContentLoaded', function() {
-    const toasts = document.querySelectorAll('.toast-card');
-    toasts.forEach(toast => {
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        toast.style.transition = 'all 0.4s ease-out';
-        setTimeout(() => {
-          toast.style.display = 'none';
-        }, 400);
-      }, 5000);
-    });
-  });
+<script src="../../public/js/script.js">
 </script>
