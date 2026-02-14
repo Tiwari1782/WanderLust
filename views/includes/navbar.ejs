@@ -1,9 +1,29 @@
 <nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
+    
+    <!-- Search Bar - Always Visible on Mobile -->
+    <form class="search-form-mobile d-lg-none" action="/listings/search" method="GET">
+      <div class="search-container-mobile">
+        <i class="fas fa-search search-icon"></i>
+        <input 
+          type="text" 
+          class="search-input" 
+          name="q" 
+          placeholder="Search..." 
+          autocomplete="off"
+          required
+        />
+        <button type="submit" class="search-btn">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </form>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <!-- Left side navigation -->
       <ul class="navbar-nav me-auto">
@@ -18,8 +38,8 @@
         </li>
       </ul>
 
-      <!-- Search Bar -->
-      <form class="search-form mx-3" action="/listings/search" method="GET">
+      <!-- Search Bar - Visible on Desktop Only -->
+      <form class="search-form-desktop d-none d-lg-flex" action="/listings/search" method="GET">
         <div class="search-container">
           <i class="fas fa-search search-icon"></i>
           <input 
@@ -28,6 +48,7 @@
             name="q" 
             placeholder="Search destinations..." 
             autocomplete="off"
+            required
           />
           <button type="submit" class="search-btn">
             <i class="fas fa-arrow-right"></i>
@@ -91,11 +112,16 @@
 </div>
 
 <style>
-/* Search Bar Styles */
-.search-form {
+/* ============================================
+   Search Bar Styles
+   ============================================ */
+
+/* Desktop Search Bar */
+.search-form-desktop {
   display: flex;
   align-items: center;
   margin: 0;
+  padding: 0 1.5rem;
 }
 
 .search-container {
@@ -107,7 +133,8 @@
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
-  min-width: 280px;
+  width: 100%;
+  max-width: 350px;
 }
 
 .search-container:focus-within {
@@ -116,14 +143,44 @@
   background-color: #ffffff;
 }
 
-.search-icon {
-  color: #888888;
-  font-size: 1rem;
-  margin-right: 0.75rem;
-  transition: color 0.3s ease;
+/* Mobile Search Bar */
+.search-form-mobile {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin: 0 0.75rem;
+  max-width: 400px;
 }
 
-.search-container:focus-within .search-icon {
+.search-container-mobile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #fafafa;
+  border: 2px solid #e0e0e0;
+  border-radius: 2rem;
+  padding: 0.4rem 0.75rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.search-container-mobile:focus-within {
+  border-color: #fe424d;
+  box-shadow: 0 0 0 3px rgba(254, 66, 77, 0.1);
+  background-color: #ffffff;
+}
+
+/* Common Search Styles */
+.search-icon {
+  color: #888888;
+  font-size: 0.95rem;
+  margin-right: 0.6rem;
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.search-container:focus-within .search-icon,
+.search-container-mobile:focus-within .search-icon {
   color: #fe424d;
 }
 
@@ -132,10 +189,11 @@
   border: none;
   background: transparent;
   outline: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #111111;
-  padding: 0.25rem 0;
+  padding: 0.2rem 0;
   font-family: "Plus Jakarta Sans", sans-serif;
+  min-width: 0;
 }
 
 .search-input::placeholder {
@@ -147,8 +205,8 @@
   background-color: #fe424d;
   border: none;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -156,7 +214,8 @@
   transition: all 0.3s ease;
   margin-left: 0.5rem;
   color: #ffffff;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  flex-shrink: 0;
 }
 
 .search-btn:hover {
@@ -173,38 +232,85 @@
   transform: translateX(2px);
 }
 
-/* Responsive Search */
+/* ============================================
+   Mobile Navbar Layout
+   ============================================ */
 @media (max-width: 991px) {
-  .search-form {
-    width: 100%;
-    margin: 1rem 0;
-    padding: 0 1rem;
+  .navbar-brand {
+    flex-shrink: 0;
   }
 
-  .search-container {
-    width: 100%;
-    min-width: unset;
+  .search-form-mobile {
+    order: 2;
+    margin: 0 0.5rem;
+  }
+
+  .navbar-toggler {
+    order: 3;
+    flex-shrink: 0;
+  }
+
+  .navbar-collapse {
+    order: 4;
+  }
+
+  .container-fluid {
+    flex-wrap: nowrap;
   }
 }
 
+/* Extra Small Screens */
 @media (max-width: 576px) {
-  .search-container {
-    min-width: unset;
-    padding: 0.4rem 0.75rem;
+  .search-form-mobile {
+    margin: 0 0.4rem;
+  }
+
+  .search-container-mobile {
+    padding: 0.35rem 0.6rem;
   }
 
   .search-input {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .search-input::placeholder {
+    font-size: 0.82rem;
   }
 
   .search-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 0.8rem;
+    width: 26px;
+    height: 26px;
+    font-size: 0.7rem;
+  }
+
+  .search-icon {
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+  }
+
+  .navbar-brand i {
+    font-size: 1.5rem;
   }
 }
 
-/* Delete Modal Styles */
+/* Very Small Screens */
+@media (max-width: 375px) {
+  .search-form-mobile {
+    margin: 0 0.3rem;
+  }
+
+  .search-container-mobile {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .search-icon {
+    margin-right: 0.4rem;
+  }
+}
+
+/* ============================================
+   Delete Modal Styles
+   ============================================ */
 .delete-modal {
   display: none;
   position: fixed;
@@ -376,7 +482,7 @@
   }
 }
 
-/* Responsive */
+/* Responsive Modal */
 @media (max-width: 576px) {
   .delete-modal-content {
     width: 95%;
