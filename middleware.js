@@ -23,10 +23,16 @@ module.exports.isLoggedIn = (req, res, next) => {
 //Redirecting the URL
 module.exports.savedRedirectUrl = (req, res, next) => {
   if (req.session.redirectUrl) {
-    res.locals.redirectUrl = req.session.redirectUrl;
+    // If redirectUrl contains _method=DELETE or PUT, redirect to listings instead
+    if (req.session.redirectUrl.includes("_method=")) {
+      res.locals.redirectUrl = "/listings";
+    } else {
+      res.locals.redirectUrl = req.session.redirectUrl;
+    }
   }
   next();
 };
+
 
 //If the listing is owned by owner
 module.exports.isOwner = async (req, res, next) => {
@@ -65,10 +71,16 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   let { id, reviewId } = req.params;
   let review = await Review.findById(reviewId);
 
-  if (!review.author.equals(req.user._id)) {
+  if (!review) {
+    req.flash("error", "Review not found!");
+    return res.redirect(`/listings/${id}`);
+  }
+
+  if (!review.author.equals(res.locals.currUser._id)) {
     req.flash("error", "You are not the author of this Review!!");
     return res.redirect(`/listings/${id}`);
   }
 
   next();
 };
+
