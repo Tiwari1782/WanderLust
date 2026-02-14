@@ -8,13 +8,15 @@ const listingSchema = new Schema({
   },
   description: String,
   image: {
-    type: String,
-    default:
-      "https://images.pexels.com/photos/88212/pexels-photo-88212.jpeg?cs=srgb&dl=beach-blue-sky-boat-88212.jpg&fm=jpg",
-    set: (v) =>
-      v === ""
-        ? "https://images.pexels.com/photos/88212/pexels-photo-88212.jpeg?cs=srgb&dl=beach-blue-sky-boat-88212.jpg&fm=jpg"
-        : v,
+    // type: String,
+    // default:
+    //   "https://images.pexels.com/photos/88212/pexels-photo-88212.jpeg?cs=srgb&dl=beach-blue-sky-boat-88212.jpg&fm=jpg",
+    // set: (v) =>
+    //   v === ""
+    //     ? "https://images.pexels.com/photos/88212/pexels-photo-88212.jpeg?cs=srgb&dl=beach-blue-sky-boat-88212.jpg&fm=jpg"
+    //     : v,
+    url: String,
+    filename: String,
   },
   price: Number,
   location: String,
