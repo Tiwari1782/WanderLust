@@ -116,8 +116,8 @@
             </div>
           </div>
 
+          <% if(currUser && listing.owner._id.equals(currUser._id)) {%>
           <!-- Action Buttons -->
-          <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
           <div class="action-buttons">
             <a
               href="/listings/<%= listing._id %>/edit"
@@ -136,6 +136,7 @@
             </form>
           </div>
           <% } %>
+          <% if(currUser) { %>
           <!-- Review Section -->
           <div class="review-section">
             <h4 class="review-heading"><i class="fa-solid fa-pen-to-square"></i> Leave a Review</h4>
@@ -184,6 +185,7 @@
                 <i class="fas fa-paper-plane"></i> Submit Review
               </button>
             </form>
+            <% } %>
             <hr>
           <!-- Reviews Display Section -->
           <% if(listing.reviews && listing.reviews.length > 0) { %>
@@ -204,7 +206,7 @@
                         <i class="fas fa-user"></i>
                       </div>
                       <div class="reviewer-info">
-                        <h6 class="reviewer-name">John Doe</h6>
+                        <h6 class="reviewer-name">@<%= review.author.username %></h6>
                         <div class="review-rating">
                           <% for(let i = 1; i <= 5; i++) { %>
                             <% if(i <= review.rating) { %>
@@ -220,7 +222,7 @@
                     <p class="review-comment"><%= review.comment %></p>
                     <div class="review-footer">
                       <small class="review-date">
-                        <i class="far fa-clock"></i> Just now
+                        <i class="far fa-clock"></i><%= new Date(review.createdAt).toLocaleDateString("en-GB") %>
                       </small>
                       <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" style="display: inline;">
                         <button type="submit" class="btn-delete-review">
