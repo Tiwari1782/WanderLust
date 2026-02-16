@@ -12,8 +12,13 @@
       </div>
 
       <!-- Form -->
-      <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation">
-
+      <form
+        method="POST"
+        action="/listings/<%= listing._id %>?_method=PUT"
+        novalidate
+        class="needs-validation"
+        enctype="multipart/form-data"
+      >
         <!-- Title -->
         <div class="form-input-group">
           <label for="title" class="form-input-label">
@@ -38,35 +43,85 @@
             <i class="fa-solid fa-align-left"></i>
             Description
           </label>
-          <textarea 
-            class="form-control form-textarea" 
-            name="listing[description]" 
+          <textarea
+            class="form-control form-textarea"
+            name="listing[description]"
             placeholder="Describe your listing in detail..."
-            required><%= listing.description %></textarea>
+            required
+          ><%= listing.description %></textarea>
           <div class="invalid-feedback">Please enter a description</div>
           <div class="valid-feedback">Description looks good!</div>
         </div>
 
-        <!-- Image Link -->
+        <!-- Current Image Preview -->
+        <div class="form-input-group">
+          <label class="form-input-label">
+            <i class="fa-solid fa-image"></i>
+            Current Image
+          </label>
+          <div class="current-image-preview">
+            <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="current-listing-image">
+            <p class="current-image-label">
+              <i class="fa-solid fa-circle-check"></i>
+              Current listing image
+            </p>
+          </div>
+        </div>
+
+        <!-- Image Upload -->
         <div class="form-input-group">
           <label for="image" class="form-input-label">
-            <i class="fa-solid fa-image"></i>
-            Image URL
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            Upload New Image (Optional)
           </label>
-          <input
-            class="form-control form-input"
-            type="text"
-            name="listing[image]"
-            value="<%= listing.image %>"
-            placeholder="https://example.com/image.jpg"
-            required
-          />
+          
+          <!-- Cloud Upload Area -->
+          <div class="cloud-upload-container" id="cloudUploadEdit">
+            <input
+              class="cloud-upload-input"
+              type="file"
+              name="listing[image]"
+              id="fileInputEdit"
+              accept="image/png, image/jpeg, image/jpg"
+            />
+            
+            <div class="cloud-upload-content">
+              <div class="cloud-icon-wrapper">
+                <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
+              </div>
+              
+              <h3 class="cloud-upload-title">Drop your new image here, or <span class="browse-text">browse</span></h3>
+              <p class="cloud-upload-subtitle">Supports: PNG, JPG, JPEG (Max 5MB)</p>
+              
+              <div class="upload-button-wrapper">
+                <button type="button" class="btn-upload-trigger" onclick="document.getElementById('fileInputEdit').click()">
+                  <i class="fa-solid fa-folder-open"></i>
+                  Choose File
+                </button>
+              </div>
+            </div>
+            
+            <!-- File Preview -->
+            <div class="file-preview" id="filePreviewEdit" style="display: none;">
+              <div class="preview-image-wrapper">
+                <img src="" alt="Preview" id="previewImageEdit" class="preview-image">
+                <button type="button" class="btn-remove-file" onclick="removeFileEdit()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <div class="file-info">
+                <p class="file-name" id="fileNameEdit"></p>
+                <p class="file-size" id="fileSizeEdit"></p>
+              </div>
+            </div>
+          </div>
+          
           <div class="form-helper-text">
             <i class="fa-solid fa-circle-info"></i>
-            Paste a direct link to an image
+            Leave empty to keep the current image
           </div>
-          <div class="invalid-feedback">Please enter a valid image URL</div>
-          <div class="valid-feedback">Image URL looks good!</div>
+          <div class="invalid-feedback">Please upload a valid PNG, JPG, or JPEG file</div>
+          <div class="valid-feedback">Image looks good!</div>
         </div>
 
         <!-- Price & Country Row -->
@@ -137,13 +192,98 @@
           <button
             type="button"
             class="btn btn-delete"
-            onclick="window.location.href = '/listings'"
+            onclick="window.location.href = '/listings/<%= listing._id %>'"
           >
             <i class="fa-solid fa-xmark"></i> Cancel
           </button>
         </div>
-
       </form>
     </div>
   </div>
 </div>
+
+<script>
+  // File Upload Functionality for Edit Page
+  const cloudUploadEdit = document.getElementById('cloudUploadEdit');
+  const fileInputEdit = document.getElementById('fileInputEdit');
+  const filePreviewEdit = document.getElementById('filePreviewEdit');
+  const previewImageEdit = document.getElementById('previewImageEdit');
+  const fileNameEdit = document.getElementById('fileNameEdit');
+  const fileSizeEdit = document.getElementById('fileSizeEdit');
+
+  // Drag and Drop Events
+  cloudUploadEdit.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    cloudUploadEdit.classList.add('drag-over');
+  });
+
+  cloudUploadEdit.addEventListener('dragleave', () => {
+    cloudUploadEdit.classList.remove('drag-over');
+  });
+
+  cloudUploadEdit.addEventListener('drop', (e) => {
+    e.preventDefault();
+    cloudUploadEdit.classList.remove('drag-over');
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      fileInputEdit.files = files;
+      handleFileSelectEdit(files[0]);
+    }
+  });
+
+  // File Input Change
+  fileInputEdit.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      handleFileSelectEdit(file);
+    }
+  });
+
+  // Handle File Selection
+  function handleFileSelectEdit(file) {
+    // Validate file type
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    if (!validTypes.includes(file.type)) {
+      alert('Please upload a valid PNG, JPG, or JPEG file');
+      return;
+    }
+
+    // Validate file size (5MB max)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+      alert('File size must be less than 5MB');
+      return;
+    }
+
+    // Display file info
+    fileNameEdit.textContent = file.name;
+    fileSizeEdit.textContent = formatFileSize(file.size);
+
+    // Preview image
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      previewImageEdit.src = e.target.result;
+      filePreviewEdit.style.display = 'flex';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Remove File
+  function removeFileEdit() {
+    fileInputEdit.value = '';
+    filePreviewEdit.style.display = 'none';
+    previewImageEdit.src = '';
+    fileNameEdit.textContent = '';
+    fileSizeEdit.textContent = '';
+  }
+
+  // Format File Size
+  function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  }
+</script>
