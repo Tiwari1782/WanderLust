@@ -738,6 +738,266 @@ router.post(
   }),
 );
 ```
+## Phase 3 :
+
+# MVC Application with Image Upload and Maps Integration
+
+
+
+### Part (a) & Part (b)- Core Features
+1. **MVC Architecture** - Clean separation of concerns
+2. **Routing** - Organized with `router.route()` for RESTful endpoints
+3. **Star Rating System** - Using [Starability](https://github.com/LunarLogic/starability) library instead of custom sliding bars
+4. **Search Functionality** - Search bar for filtering/finding content
+5. **Image Upload** - Third-party service integration (Cloudinary)
+   - MongoDB has file size limitations and doesn't store binary files directly
+   - Cloudinary handles uploads and generates URL links
+   - URLs are stored in MongoDB database
+6. **Image Editing** - Edit uploaded images
+7. **Image Preview** - Preview images before upload/after selection
+8. **Interactive Maps** - Integration with Mapbox API
+9. **Geocoding** - Convert addresses to geographic coordinates (latitude/longitude)
+10. **GeoJSON Support** - Standardized format for geographic data structures
+---
+#### Overview
+This is a full-stack application built using the **Model-View-Controller (MVC)** architecture pattern. It includes features for image uploads, search functionality, and interactive maps with geocoding capabilities.
+
+#### Image Upload Flow
+
+##### Why Use Cloudinary?
+1. **MongoDB Limitations**:
+   - Maximum document size: 16MB (BSON limit)
+   - Not optimized for binary file storage
+   - Performance issues with large files
+
+2. **Cloudinary Benefits**:
+   - Handles file uploads and storage
+   - Automatic image optimization
+   - Generates unique URLs for each upload
+   - Built-in transformations (resize, crop, filters)
+
+#### Implementation
+
+##### Cloudinary Configuration:
+```javascript
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+```
+
+##### Upload Process:
+1. User selects an image file
+2. Frontend sends file to backend
+3. Backend uploads to Cloudinary
+4. Cloudinary returns image URL
+5. URL is stored in MongoDB document
+
+##### Example Schema:
+```javascript
+const mongoose = require('mongoose');
+
+const imageSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  imageUrl: String,  // Cloudinary URL stored here
+  cloudinaryId: String,  // For deletion/management
+  createdAt: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model('Image', imageSchema);
+```
+
+---
+
+##### Maps and Geocoding
+
+##### Mapbox API Integration
+
+##### Getting Started with Mapbox:
+1. Sign up at [Mapbox](https://www.mapbox.com/)
+2. Get your access token from the dashboard
+3. Add token to `.env` file
+
+#### Basic Map Setup:
+```html
+<!-- Add Mapbox CSS -->
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+
+<!-- Add Mapbox JS -->
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+
+<div id='map' style='width: 100%; height: 400px;'></div>
+
+<script>
+mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN';
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v12',
+  center: [-74.5, 40], // [longitude, latitude]
+  zoom: 9
+});
+</script>
+```
+
+##### Geocoding
+
+**Geocoding** converts human-readable addresses into geographic coordinates (latitude and longitude).
+
+##### Example:
+```
+Address: "1600 Amphitheatre Parkway, Mountain View, CA"
+↓ Geocoding
+Coordinates: { latitude: 37.4224764, longitude: -122.0842499 }
+```
+
+##### Using Mapbox Geocoding API:
+```javascript
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
+
+// Forward Geocoding (Address → Coordinates)
+async function geocodeAddress(address) {
+  const response = await geocodingClient
+    .forwardGeocode({
+      query: address,
+      limit: 1
+    })
+    .send();
+  
+  const coordinates = response.body.features[0].geometry.coordinates;
+  return {
+    longitude: coordinates[0],
+    latitude: coordinates[1]
+  };
+}
+
+// Usage
+geocodeAddress('Times Square, New York')
+  .then(coords => console.log(coords));
+// Output: { longitude: -73.9855, latitude: 40.7580 }
+```
+
+##### GeoJSON Format
+
+**GeoJSON** is a standardized format for encoding geographic data structures using JSON.
+
+###### Structure:
+```json
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.0842499, 37.4224764]
+      },
+      "properties": {
+        "title": "Google Headquarters",
+        "description": "Mountain View, CA"
+      }
+    }
+  ]
+}
+```
+
+###### Common Geometry Types:
+- **Point**: Single location `[longitude, latitude]`
+- **LineString**: Array of coordinates forming a line
+- **Polygon**: Array of linear rings (first and last coordinates must match)
+- **MultiPoint**, **MultiLineString**, **MultiPolygon**: Collections of geometries
+
+##### MongoDB Schema with GeoJSON:
+```javascript
+const locationSchema = new mongoose.Schema({
+  title: String,
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],  // [longitude, latitude]
+      required: true
+    }
+  }
+});
+
+// Create geospatial index for location queries
+locationSchema.index({ location: '2dsphere' });
+```
+
+##### Adding Markers to Mapbox:
+```javascript
+// Add GeoJSON data to map
+map.on('load', () => {
+  map.addSource('places', {
+    type: 'geojson',
+    data: {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [-122.084, 37.422]
+          },
+          properties: {
+            title: 'Location Name',
+            description: 'Location Description'
+          }
+        }
+      ]
+    }
+  });
+
+  map.addLayer({
+    id: 'places',
+    type: 'circle',
+    source: 'places',
+    paint: {
+      'circle-radius': 6,
+      'circle-color': '#B42222'
+    }
+  });
+});
+```
+---
+
+##### Starability Usage
+```html
+<!-- Include CSS -->
+<link rel="stylesheet" href="/css/starability.min.css">
+
+<!-- Star rating HTML -->
+<fieldset class="starability-basic">
+  <input type="radio" id="rate5" name="rating" value="5" />
+  <label for="rate5">5 stars</label>
+  
+  <input type="radio" id="rate4" name="rating" value="4" />
+  <label for="rate4">4 stars</label>
+  
+  <!-- ... more stars -->
+</fieldset>
+```
+---
+
+#### Resources
+
+- [Express.js Documentation](https://expressjs.com/)
+- [MongoDB Documentation](https://docs.mongodb.com/)
+- [Cloudinary Documentation](https://cloudinary.com/documentation)
+- [Mapbox Documentation](https://docs.mapbox.com/)
+- [GeoJSON Specification](https://geojson.org/)
+- [Starability GitHub](https://github.com/LunarLogic/starability)
+
+---
+
 ## Error Handling
 
 ### Custom Error Class (`utils/ExpressError.js`)
