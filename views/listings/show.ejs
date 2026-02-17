@@ -1,9 +1,18 @@
 <% layout("/layouts/boilerplate") %>
 
-<!-- Success Toast Notification (Red) -->
+<!-- Token -->
+<script>
+  const mapToken = "<%= mapToken %>";
+  const listing = <%- JSON.stringify(listing) %>;
+
+</script>
+
+<!-- TOAST NOTIFICATIONS -->
+<!-- Success Toast -->
 <% if (success && success.length) { %>
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-    <div class="toast-card error" role="alert">
+    <div class="toast-card success" role="alert">
+      <!-- Wave SVG -->
       <svg class="wave" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M0,256L11.4,240C22.9,224,46,192,69,192C91.4,192,114,224,137,234.7C160,245,183,235,206,213.3C228.6,192,251,160,274,149.3C297.1,139,320,149,343,181.3C365.7,213,389,267,411,282.7C434.3,299,457,277,480,250.7C502.9,224,526,192,549,181.3C571.4,171,594,181,617,208C640,235,663,277,686,256C708.6,235,731,149,754,122.7C777.1,96,800,128,823,165.3C845.7,203,869,245,891,224C914.3,203,937,117,960,112C982.9,107,1006,181,1029,197.3C1051.4,213,1074,171,1097,144C1120,117,1143,107,1166,133.3C1188.6,160,1211,224,1234,218.7C1257.1,213,1280,139,1303,133.3C1325.7,128,1349,192,1371,192C1394.3,192,1417,128,1429,96L1440,64L1440,320L1428.6,320C1417.1,320,1394,320,1371,320C1348.6,320,1326,320,1303,320C1280,320,1257,320,1234,320C1211.4,320,1189,320,1166,320C1142.9,320,1120,320,1097,320C1074.3,320,1051,320,1029,320C1005.7,320,983,320,960,320C937.1,320,914,320,891,320C868.6,320,846,320,823,320C800,320,777,320,754,320C731.4,320,709,320,686,320C662.9,320,640,320,617,320C594.3,320,571,320,549,320C525.7,320,503,320,480,320C457.1,320,434,320,411,320C388.6,320,366,320,343,320C320,320,297,320,274,320C251.4,320,229,320,206,320C182.9,320,160,320,137,320C114.3,320,91,320,69,320C45.7,320,23,320,11,320L0,320Z"
@@ -11,17 +20,20 @@
         ></path>
       </svg>
 
+      <!-- Success Icon -->
       <div class="icon-container">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
           <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
         </svg>
       </div>
 
+      <!-- Message Text -->
       <div class="message-text-container">
         <p class="message-text">Success!</p>
         <p class="sub-text"><%= success[0] %></p>
       </div>
 
+      <!-- Close Button -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 15 15"
@@ -39,10 +51,11 @@
   </div>
 <% } %>
 
-<!-- Error Toast Notification (Red) -->
+<!-- Error Toast -->
 <% if (error && error.length) { %>
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
     <div class="toast-card error" role="alert">
+      <!-- Wave SVG -->
       <svg class="wave" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M0,256L11.4,240C22.9,224,46,192,69,192C91.4,192,114,224,137,234.7C160,245,183,235,206,213.3C228.6,192,251,160,274,149.3C297.1,139,320,149,343,181.3C365.7,213,389,267,411,282.7C434.3,299,457,277,480,250.7C502.9,224,526,192,549,181.3C571.4,171,594,181,617,208C640,235,663,277,686,256C708.6,235,731,149,754,122.7C777.1,96,800,128,823,165.3C845.7,203,869,245,891,224C914.3,203,937,117,960,112C982.9,107,1006,181,1029,197.3C1051.4,213,1074,171,1097,144C1120,117,1143,107,1166,133.3C1188.6,160,1211,224,1234,218.7C1257.1,213,1280,139,1303,133.3C1325.7,128,1349,192,1371,192C1394.3,192,1417,128,1429,96L1440,64L1440,320L1428.6,320C1417.1,320,1394,320,1371,320C1348.6,320,1326,320,1303,320C1280,320,1257,320,1234,320C1211.4,320,1189,320,1166,320C1142.9,320,1120,320,1097,320C1074.3,320,1051,320,1029,320C1005.7,320,983,320,960,320C937.1,320,914,320,891,320C868.6,320,846,320,823,320C800,320,777,320,754,320C731.4,320,709,320,686,320C662.9,320,640,320,617,320C594.3,320,571,320,549,320C525.7,320,503,320,480,320C457.1,320,434,320,411,320C388.6,320,366,320,343,320C320,320,297,320,274,320C251.4,320,229,320,206,320C182.9,320,160,320,137,320C114.3,320,91,320,69,320C45.7,320,23,320,11,320L0,320Z"
@@ -50,17 +63,20 @@
         ></path>
       </svg>
 
+      <!-- Error Icon -->
       <div class="icon-container">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
           <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
         </svg>
       </div>
 
+      <!-- Message Text -->
       <div class="message-text-container">
         <p class="message-text">Error!</p>
         <p class="sub-text"><%= error[0] %></p>
       </div>
 
+      <!-- Close Button -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 15 15"
@@ -78,29 +94,37 @@
   </div>
 <% } %>
 
-<!-- Delete Confirmation Modal -->
+<!-- DELETE LISTING CONFIRMATION MODAL -->
+
 <div class="delete-modal" id="deleteModal">
   <div class="delete-modal-overlay" onclick="closeDeleteModal()"></div>
   <div class="delete-modal-content">
+    <!-- Modal Header -->
     <div class="delete-modal-header">
       <div class="delete-modal-icon">
         <i class="fas fa-exclamation-triangle"></i>
       </div>
       <h3 class="delete-modal-title">Delete Listing?</h3>
-      <p class="delete-modal-subtitle">Are you sure you want to delete this listing? This action cannot be undone.</p>
+      <p class="delete-modal-subtitle">
+        Are you sure you want to delete this listing? This action cannot be undone.
+      </p>
     </div>
+
+    <!-- Modal Body -->
     <div class="delete-modal-body">
       <p class="delete-modal-warning">
         <i class="fas fa-info-circle"></i>
         All reviews and data associated with this listing will be permanently deleted.
       </p>
     </div>
+
+    <!-- Modal Footer -->
     <div class="delete-modal-footer">
       <button type="button" class="btn-modal-cancel" onclick="closeDeleteModal()">
         <i class="fas fa-times"></i>
         Cancel
       </button>
-      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" id="deleteForm" style="display: inline;">
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" style="display: inline;">
         <button type="submit" class="btn-modal-delete">
           <i class="fas fa-trash-alt"></i>
           Delete Listing
@@ -110,8 +134,11 @@
   </div>
 </div>
 
+<!-- MAIN CONTENT -->
+
 <div class="container">
   <div class="row mt-4">
+    
     <!-- Back Navigation -->
     <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 mb-3">
       <a href="/listings" class="back-link">
@@ -119,27 +146,40 @@
       </a>
     </div>
 
-    <!-- Listing Card -->
+
+         <!-- LISTING DETAILS CARD -->
+
     <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
       <div class="show-card">
+        
+        <!-- Listing Image -->
         <img
           src="<%= listing.image.url %>"
           class="show-img"
           alt="<%= listing.title %>"
         />
+
         <div class="show-card-body">
-          <h2 class="listing-title"><i class="fa-solid fa-map-pin"></i> <%= listing.title %></h2>
+          
+          <!-- Listing Title -->
+          <h2 class="listing-title">
+            <i class="fa-solid fa-map-pin"></i> <%= listing.title %>
+          </h2>
+
+          <!-- Listing Description -->
           <p class="listing-description">
-            <i class="fa-solid fa-crown"></i><b> Owned By : </b><i><%= listing.owner.username %></i>
+            <i class="fa-solid fa-crown"></i>
+            <b>Owned By: </b>
+            <i><%= listing.owner.username %></i>
             <br>
             <%= listing.description %>
           </p>
+
+          <!-- Listing Details (Price & Location) -->
           <div class="listing-details">
             <div class="detail-item">
               <i class="fas fa-rupee-sign"></i>
-              <span class="price"
-                >₹<%= listing.price.toLocaleString("en-IN") %></span
-              >
+              <span class="price">₹<%= listing.price.toLocaleString("en-IN") %></span>
               <span class="price-label">per night</span>
             </div>
             <div class="detail-item">
@@ -148,138 +188,179 @@
             </div>
           </div>
 
-          <% if(currUser && listing.owner._id.equals(currUser._id)) {%>
-          <!-- Action Buttons -->
-          <div class="action-buttons">
-            <a
-              href="/listings/<%= listing._id %>/edit"
-              class="btn btn-primary-custom"
-            >
-              <i class="fas fa-edit"></i> Edit
-            </a>
-            <button class="btn btn-delete" type="button" onclick="openDeleteModal()">
-              <i class="fas fa-trash-alt"></i> Delete
-            </button>
-          </div>
+          <!-- ============================================
+               ACTION BUTTONS (Edit & Delete)
+               ============================================ -->
+          <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+            <div class="action-buttons">
+              <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary-custom">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <button class="btn btn-delete" type="button" onclick="openDeleteModal()">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </div>
           <% } %>
+
+
+               <!-- REVIEW SUBMISSION FORM -->
+
           <% if(currUser) { %>
-          <!-- Review Section -->
-<div class="review-section">
-  <h4 class="review-heading"><i class="fa-solid fa-pen-to-square"></i> Leave a Review</h4>
-  <form
-    novalidate
-    class="needs-validation"
-    action="/listings/<%= listing._id %>/reviews"
-    method="POST"
-    class="review-form"
-  >
-    <div class="form-group">
-      <label class="form-label" for="rating">
-        <i class="fas fa-star"></i> Rating
-      </label>
-      <fieldset class="starability-slot">
-        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
-        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-        <label for="first-rate1" title="Terrible">1 star</label>
-        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-        <label for="first-rate2" title="Not good">2 stars</label>
-        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-        <label for="first-rate3" title="Average">3 stars</label>
-        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-        <label for="first-rate4" title="Very good">4 stars</label>
-        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-        <label for="first-rate5" title="Amazing">5 stars</label>
-      </fieldset>
-    </div>
-    <br>
-    <div class="form-group">
-      <label for="comment" class="form-label">
-        <i class="fas fa-comment-dots"></i> Comment
-      </label>
-      <textarea
-        name="review[comment]"
-        id="comment"
-        rows="5"
-        class="form-control"
-        placeholder="Share your experience..."
-        required
-      ></textarea>
-      <div class="invalid-feedback">Please add some comments for review</div>
-      <div class="valid-feedback">Comments Looks Good</div>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-submit-review">
-      <i class="fas fa-paper-plane"></i> Submit Review
-    </button>
-  </form>
-  <% } %>
-            <hr>
-          <!-- Reviews Display Section -->
+            <div class="review-section">
+              <h4 class="review-heading">
+                <i class="fa-solid fa-pen-to-square"></i> Leave a Review
+              </h4>
+
+              <form
+                novalidate
+                class="needs-validation review-form"
+                action="/listings/<%= listing._id %>/reviews"
+                method="POST"
+              >
+                
+                <!-- Star Rating -->
+                <div class="form-group">
+                  <label class="form-label" for="rating">
+                    <i class="fas fa-star"></i> Rating
+                  </label>
+                  <fieldset class="starability-slot">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
+                </div>
+
+                <!-- Review Comment -->
+                <div class="form-group">
+                  <label for="comment" class="form-label">
+                    <i class="fas fa-comment-dots"></i> Comment
+                  </label>
+                  <textarea
+                    name="review[comment]"
+                    id="comment"
+                    rows="5"
+                    class="form-control"
+                    placeholder="Share your experience..."
+                    required
+                  ></textarea>
+                  <div class="invalid-feedback">Please add some comments for review</div>
+                  <div class="valid-feedback">Comments look good!</div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-submit-review">
+                  <i class="fas fa-paper-plane"></i> Submit Review
+                </button>
+              </form>
+            </div>
+          <% } %>
+
+          <hr>
+
+          <!-- ============================================
+               REVIEWS DISPLAY SECTION
+               ============================================ -->
           <% if(listing.reviews && listing.reviews.length > 0) { %>
-          <hr style="margin: 2.5rem 0 2rem 0; border-color: #e0e0e0;">
-          
-          <div class="reviews-container">
-            <h4 class="reviews-title">
-              <i class="fas fa-star" style="color: #fe424d;"></i> 
-              Reviews (<%= listing.reviews.length %>)
-            </h4>
-            
-            <div class="row">
-              <% for(let review of listing.reviews) { %>
-                <div class="col-12 col-md-6 mb-3">
-                  <div class="review-card">
-                    <div class="review-card-header">
-                      <div class="reviewer-avatar">
-                        <i class="fas fa-user"></i>
-                      </div>
-                      <div class="reviewer-info">
-                        <h6 class="reviewer-name">@<%= review.author.username %></h6>
-                        <div class="review-rating">
-                          <% for(let i = 1; i <= 5; i++) { %>
-                            <% if(i <= review.rating) { %>
-                              <i class="fas fa-star filled-star"></i>
-                            <% } else { %>
-                              <i class="far fa-star empty-star"></i>
+            <hr style="margin: 2.5rem 0 2rem 0; border-color: #e0e0e0;">
+
+            <div class="reviews-container">
+              <h4 class="reviews-title">
+                <i class="fas fa-star" style="color: #fe424d;"></i>
+                Reviews (<%= listing.reviews.length %>)
+              </h4>
+
+              <div class="row">
+                <% for(let review of listing.reviews) { %>
+                  <div class="col-12 col-md-6 mb-3">
+                    <div class="review-card">
+                      
+                      <!-- Review Header -->
+                      <div class="review-card-header">
+                        <div class="reviewer-avatar">
+                          <i class="fas fa-user"></i>
+                        </div>
+                        <div class="reviewer-info">
+                          <h6 class="reviewer-name">@<%= review.author.username %></h6>
+                          <div class="review-rating">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                              <% if(i <= review.rating) { %>
+                                <i class="fas fa-star filled-star"></i>
+                              <% } else { %>
+                                <i class="far fa-star empty-star"></i>
+                              <% } %>
                             <% } %>
-                          <% } %>
-                          <span class="rating-number"><%= review.rating %>/5</span>
+                            <span class="rating-number"><%= review.rating %>/5</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <p class="review-comment"><%= review.comment %></p>
-                    <div class="review-footer">
-                      <small class="review-date">
-                        <i class="far fa-clock"></i><%= new Date(review.createdAt).toLocaleDateString("en-GB") %>
-                      </small>
-                      <% if(currUser && review.author._id.equals(currUser._id)) { %>
-                      <button type="button" class="btn-delete-review" onclick="openDeleteReviewModal('<%= listing._id %>', '<%= review._id %>')">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                      <% } %>
+
+                      <!-- Review Comment -->
+                      <p class="review-comment"><%= review.comment %></p>
+
+                      <!-- Review Footer -->
+                      <div class="review-footer">
+                        <small class="review-date">
+                          <i class="far fa-clock"></i>
+                          <%= new Date(review.createdAt).toLocaleDateString("en-GB") %>
+                        </small>
+                        <% if(currUser && review.author._id.equals(currUser._id)) { %>
+                          <button
+                            type="button"
+                            class="btn-delete-review"
+                            onclick="openDeleteReviewModal('<%= listing._id %>', '<%= review._id %>')"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        <% } %>
+                      </div>
                     </div>
                   </div>
-                </div>
-              <% } %>
+                <% } %>
+              </div>
             </div>
-          </div>
+
           <% } else { %>
-          <hr style="margin: 2.5rem 0 2rem 0; border-color: #e0e0e0;">
-          <div class="no-reviews">
-            <i class="far fa-comment-dots"></i>
-            <p>No reviews yet. Be the first to review!</p>
-          </div>
+            <hr style="margin: 2.5rem 0 2rem 0; border-color: #e0e0e0;">
+            <div class="no-reviews">
+              <i class="far fa-comment-dots"></i>
+              <p>No reviews yet. Be the first to review!</p>
+            </div>
           <% } %>
-          
+
         </div>
       </div>
     </div>
+
+    <!-- MAP SECTION -->
+    <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 mt-4">
+      <div class="map-container">
+        <h3 class="map-title">
+          <i class="fa-solid fa-map-location"></i>
+          Where you'll be
+        </h3>
+        <div id="map"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- Delete Review Modal -->
+<!-- ============================================
+     DELETE REVIEW CONFIRMATION MODAL
+     ============================================ -->
 <div class="delete-modal" id="deleteReviewModal">
   <div class="delete-modal-overlay" onclick="closeDeleteReviewModal()"></div>
   <div class="delete-modal-content">
+    
+    <!-- Modal Header -->
     <div class="delete-modal-header">
       <div class="delete-modal-icon">
         <i class="fas fa-exclamation-triangle"></i>
@@ -287,6 +368,8 @@
       <h3 class="delete-modal-title">Delete Review?</h3>
       <p class="delete-modal-subtitle">Are you sure you want to delete this review?</p>
     </div>
+
+    <!-- Modal Footer -->
     <div class="delete-modal-footer">
       <button type="button" class="btn-modal-cancel" onclick="closeDeleteReviewModal()">
         <i class="fas fa-times"></i>
@@ -302,5 +385,22 @@
   </div>
 </div>
 
-<script src="../../public/js/script.js">
+<!-- ============================================
+     EXTERNAL LIBRARIES
+     ============================================ -->
+
+<!-- Mapbox GL CSS -->
+<link
+  href="https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.css"
+  rel="stylesheet"
+/>
+
+<!-- Mapbox GL JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.js"></script>
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+<script src="/js/map.js">
+  
 </script>

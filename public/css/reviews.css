@@ -9,7 +9,7 @@
 .review-heading {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #111111;
+  color: var(--text);
   margin-bottom: 1.5rem;
 }
 
@@ -27,7 +27,7 @@
 
 .form-label {
   font-weight: 600;
-  color: #111111;
+  color: var(--text);
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
   display: flex;
@@ -36,29 +36,31 @@
 }
 
 .form-label i {
-  color: #fe424d;
+  color: var(--brand);
   font-size: 1rem;
 }
 
 .form-control {
   width: 100%;
-  border: 1px solid #d0d0d0;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   font-size: 1rem;
   font-family: inherit;
   transition: all 0.2s ease;
   resize: vertical;
+  background-color: var(--surface-2);
+  color: var(--text);
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #111111;
+  border-color: var(--text);
   box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
 }
 
 .form-control::placeholder {
-  color: #b0b0b0;
+  color: var(--text-soft);
 }
 
 /* Rating Slider */
@@ -93,12 +95,12 @@
 .form-range::-moz-range-thumb {
   width: 24px;
   height: 24px;
-  background: #fe424d;
+  background: var(--brand);
   cursor: pointer;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(254, 66, 77, 0.4);
   transition: all 0.2s ease;
-  border: 3px solid #ffffff;
+  border: 3px solid var(--surface);
 }
 
 .form-range::-webkit-slider-thumb {
@@ -115,13 +117,13 @@
 .rating-value {
   font-size: 2rem;
   font-weight: 700;
-  color: #fe424d;
+  color: var(--brand);
   min-width: 50px;
   text-align: center;
   position: absolute;
   right: 0;
   top: -50px;
-  background: #ffffff;
+  background: var(--surface);
   padding: 0.25rem 0.75rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -135,7 +137,7 @@
 .reviews-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #111111;
+  color: var(--text);
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -143,8 +145,8 @@
 }
 
 .review-card {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 1rem;
   padding: 1.25rem;
   transition: all 0.3s ease;
@@ -154,9 +156,9 @@
 }
 
 .review-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   transform: translateY(-2px);
-  border-color: #fe424d;
+  border-color: var(--brand);
 }
 
 .review-card-header {
@@ -169,7 +171,7 @@
 .reviewer-avatar {
   width: 45px;
   height: 45px;
-  background: linear-gradient(135deg, #fe424d 0%, #ff6b6b 100%);
+  background: linear-gradient(135deg, var(--brand) 0%, #ff6b6b 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -186,7 +188,7 @@
 .reviewer-name {
   font-size: 1rem;
   font-weight: 600;
-  color: #111111;
+  color: var(--text);
   margin: 0 0 0.25rem 0;
 }
 
@@ -208,14 +210,14 @@
 
 .rating-number {
   font-size: 0.85rem;
-  color: #888888;
+  color: var(--text-soft);
   margin-left: 0.5rem;
   font-weight: 600;
 }
 
 .review-comment {
   font-size: 0.95rem;
-  color: #555555;
+  color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: 1rem;
   flex: 1;
@@ -226,11 +228,11 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 0.75rem;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border);
 }
 
 .review-date {
-  color: #888888;
+  color: var(--text-soft);
   font-size: 0.85rem;
   display: flex;
   align-items: center;
@@ -257,7 +259,7 @@
 .no-reviews {
   text-align: center;
   padding: 3rem 1rem;
-  color: #888888;
+  color: var(--text-soft);
 }
 
 .no-reviews i {

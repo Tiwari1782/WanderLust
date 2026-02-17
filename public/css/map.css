@@ -1,0 +1,116 @@
+/* ============================================
+   Map Section Styles
+   ============================================ */
+.map-container {
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+
+.map-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.map-title i {
+  color: #fe424d;
+  font-size: 1.5rem;
+}
+
+#map {
+  width: 100%;
+  height: 400px;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Mapbox Popup Customization */
+.mapboxgl-popup-content {
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.mapboxgl-popup-content h6 {
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.mapboxgl-popup-content p {
+  color: #666666;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 1.25rem;
+  color: #888888;
+  padding: 0.5rem;
+}
+
+.mapboxgl-popup-close-button:hover {
+  color: #fe424d;
+  background-color: transparent;
+}
+
+/* Mapbox Marker */
+.mapboxgl-marker {
+  cursor: pointer;
+}
+
+/* Mapbox Controls */
+.mapboxgl-ctrl-group {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mapboxgl-ctrl-group button {
+  width: 35px;
+  height: 35px;
+}
+
+.mapboxgl-ctrl-group button:hover {
+  background-color: #f5f5f5;
+}
+
+/* Responsive Map */
+@media (max-width: 768px) {
+  #map {
+    height: 300px;
+  }
+
+  .map-container {
+    padding: 1.5rem;
+  }
+
+  .map-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  #map {
+    height: 250px;
+  }
+
+  .map-container {
+    padding: 1.25rem;
+    border-radius: 1rem;
+  }
+
+  .map-title {
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+  }
+}
