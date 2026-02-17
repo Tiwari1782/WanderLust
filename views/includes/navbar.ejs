@@ -1,16 +1,16 @@
-<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-lg border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
-    
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+
     <!-- Search Bar - Always Visible on Mobile -->
     <form class="search-form-mobile d-lg-none" action="/listings/search" method="GET">
       <div class="search-container-mobile">
         <i class="fas fa-search search-icon"></i>
-        <input 
-          type="text" 
-          class="search-input" 
-          name="q" 
-          placeholder="Search..." 
+        <input
+          type="text"
+          class="search-input"
+          name="q"
+          placeholder="Search..."
           autocomplete="off"
           required
         />
@@ -20,7 +20,15 @@
       </div>
     </form>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -28,25 +36,20 @@
       <!-- Left side navigation -->
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/"><i class="fa-solid fa-house-chimney"></i> Home</a>
+          <a class="nav-link" href="/listings"><i class="fa-solid fa-signs-post"></i> Explore</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/listings"><i class="fa-solid fa-clipboard"></i> All Listings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/listings/new"><i class="fa-solid fa-circle-plus"></i> Add new Listing</a>
-        </li>
+        
       </ul>
 
       <!-- Search Bar - Visible on Desktop Only -->
       <form class="search-form-desktop d-none d-lg-flex" action="/listings/search" method="GET">
         <div class="search-container">
           <i class="fas fa-search search-icon"></i>
-          <input 
-            type="text" 
-            class="search-input" 
-            name="q" 
-            placeholder="Search destinations..." 
+          <input
+            type="text"
+            class="search-input"
+            name="q"
+            placeholder="Search destinations..."
             autocomplete="off"
             required
           />
@@ -56,26 +59,37 @@
         </div>
       </form>
 
-      <!-- Right side navigation (Auth links) -->
-      <ul class="navbar-nav ms-auto">
+      <!-- Right side navigation (Auth links + Theme toggle) -->
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/listings/new"><i class="fa-solid fa-circle-plus"></i> Airbnb your home</a>
+        </li>
         <% if(!currUser) { %>
           <li class="nav-item">
             <a class="nav-link" href="/signup">
-              <i class="fas fa-user-plus"></i> Signup
+              <i class="fas fa-user-plus"></i> <b>Signup</b>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/login">
-              <i class="fas fa-sign-in-alt"></i> Login
+              <i class="fas fa-sign-in-alt"></i> <b>Login</b>
             </a>
           </li>
         <% } else { %>
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="openLogoutModal(); return false;">
-              <i class="fas fa-sign-out-alt"></i> Logout
+              <i class="fas fa-sign-out-alt"></i> <b>Logout</b>
             </a>
           </li>
         <% } %>
+
+        <!-- Dark mode toggle button -->
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+          <button class="btn btn-delete" type="button" onclick="toggleTheme()" id="themeToggleBtn">
+            <i class="fa-solid fa-moon"></i>
+            <span class="d-inline d-lg-none">Toggle theme</span>
+          </button>
+        </li>
       </ul>
     </div>
   </div>
@@ -86,7 +100,10 @@
   <div class="delete-modal-overlay" onclick="closeLogoutModal()"></div>
   <div class="delete-modal-content">
     <div class="delete-modal-header">
-      <div class="delete-modal-icon" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);">
+      <div
+        class="delete-modal-icon"
+        style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);"
+      >
         <i class="fas fa-sign-out-alt"></i>
       </div>
       <h3 class="delete-modal-title">Logout?</h3>
@@ -103,7 +120,11 @@
         <i class="fas fa-times"></i>
         Cancel
       </button>
-      <a href="/logout" class="btn-modal-delete" style="text-decoration: none; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); border-color: #ff9800;">
+      <a
+        href="/logout"
+        class="btn-modal-delete"
+        style="text-decoration: none; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); border-color: #ff9800;"
+      >
         <i class="fas fa-sign-out-alt"></i>
         Yes, Logout
       </a>
@@ -454,12 +475,8 @@
 
 /* Animations */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -474,12 +491,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 /* Responsive Modal */
@@ -525,6 +538,48 @@
     width: 100%;
     justify-content: center;
   }
+}
+
+/* ============================================
+   Dark mode fixes for inline navbar styles
+   ============================================ */
+html[data-theme="dark"] .search-container,
+html[data-theme="dark"] .search-container-mobile {
+  background-color: var(--surface-2);
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .search-container:focus-within,
+html[data-theme="dark"] .search-container-mobile:focus-within {
+  background-color: var(--surface);
+}
+
+html[data-theme="dark"] .search-input {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .search-input::placeholder {
+  color: var(--text-soft);
+}
+
+html[data-theme="dark"] .delete-modal-content {
+  background-color: var(--surface);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+html[data-theme="dark"] .delete-modal-title {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .delete-modal-subtitle,
+html[data-theme="dark"] .delete-modal-warning {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .btn-modal-cancel {
+  background-color: var(--surface-2);
+  color: var(--text);
+  border-color: var(--border);
 }
 </style>
 
