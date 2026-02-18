@@ -92,9 +92,9 @@ app.use((req, res, next) => {
   next();
 });
 // Routes
-// app.get("/", (req, res) => {
-//   res.send("Hii, I am root!!");
-// });
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 //Demo User
 // app.get("/demouser", async (req, res) => {
