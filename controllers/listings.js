@@ -5,10 +5,61 @@ const { query } = require("express");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-//Index controller
+
+//Index controller with SORTING
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index", { allListings });
+  const { sort } = req.query;
+  
+  let sortOption = {};
+  
+  // Determine sort option
+  switch(sort) {
+    case 'price-low':
+      sortOption = { price: 1 }; // Ascending
+      break;
+    case 'price-high':
+      sortOption = { price: -1 }; // Descending
+      break;
+    case 'newest':
+      sortOption = { createdAt: -1 }; // Newest first
+      break;
+    default:
+      sortOption = { createdAt: -1 }; // Default: newest
+  }
+  
+  const allListings = await Listing.find({}).sort(sortOption);
+  res.render("listings/index", { allListings, sort: sort || 'default' });
+};
+
+//Filter by Category Controller with SORTING
+module.exports.filterByCategory = async (req, res) => {
+  const { category } = req.params;
+  const { sort } = req.query;
+  
+  let sortOption = {};
+  
+  switch(sort) {
+    case 'price-low':
+      sortOption = { price: 1 };
+      break;
+    case 'price-high':
+      sortOption = { price: -1 };
+      break;
+    case 'newest':
+      sortOption = { createdAt: -1 };
+      break;
+    default:
+      sortOption = { createdAt: -1 };
+  }
+  
+  const allListings = await Listing.find({ category: category }).sort(sortOption);
+  
+  if (allListings.length === 0) {
+    req.flash("error", `No listings found in "${category}" category`);
+    return res.redirect("/listings");
+  }
+  
+  res.render("listings/index", { allListings, selectedCategory: category, sort: sort || 'default' });
 };
 
 //New Form render Controller
@@ -71,9 +122,25 @@ module.exports.showListing = async (req, res) => {
   });
 };
 
-//Search route controller
+//Search route controller - FIXED: Added sort parameter
 module.exports.searchListing = async (req, res) => {
-  const { q } = req.query;
+  const { q, sort } = req.query;
+
+  let sortOption = {};
+  
+  switch(sort) {
+    case 'price-low':
+      sortOption = { price: 1 };
+      break;
+    case 'price-high':
+      sortOption = { price: -1 };
+      break;
+    case 'newest':
+      sortOption = { createdAt: -1 };
+      break;
+    default:
+      sortOption = { createdAt: -1 };
+  }
 
   const listings = await Listing.find({
     $or: [
@@ -82,10 +149,11 @@ module.exports.searchListing = async (req, res) => {
       { country: { $regex: q, $options: "i" } },
       { description: { $regex: q, $options: "i" } },
     ],
-  });
+  }).sort(sortOption);
 
-  res.render("listings/index.ejs", { allListings: listings });
+  res.render("listings/index.ejs", { allListings: listings, sort: sort || 'default' });
 };
+
 //Edit Listing Controller
 module.exports.renderEditForm = async (req, res) => {
   let { id } = req.params;

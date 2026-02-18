@@ -1,24 +1,23 @@
 <nav class="navbar navbar-expand-lg border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+    </a>
 
-    <!-- Search Bar - Always Visible on Mobile -->
-    <form class="search-form-mobile d-lg-none" action="/listings/search" method="GET">
-      <div class="search-container-mobile">
-        <i class="fas fa-search search-icon"></i>
-        <input
-          type="text"
-          class="search-input"
-          name="q"
-          placeholder="Search..."
-          autocomplete="off"
-          required
-        />
-        <button type="submit" class="search-btn">
-          <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
-    </form>
+    <!-- Airbnb Segmented Search Bar - Mobile -->
+    <div class="airbnb-search-mobile d-lg-none">
+      <button class="airbnb-search-btn-mobile" onclick="openSearchModal()">
+        <div class="search-btn-content">
+          <i class="fas fa-search"></i>
+          <div class="search-btn-text">
+            <span class="search-label">Anywhere</span>
+          </div>
+        </div>
+        <div class="filter-icon-mobile">
+          <i class="fas fa-sliders"></i>
+        </div>
+      </button>
+    </div>
 
     <button
       class="navbar-toggler"
@@ -38,31 +37,43 @@
         <li class="nav-item">
           <a class="nav-link" href="/listings"><i class="fa-solid fa-signs-post"></i> Explore</a>
         </li>
-        
       </ul>
 
-      <!-- Search Bar - Visible on Desktop Only -->
-      <form class="search-form-desktop d-none d-lg-flex" action="/listings/search" method="GET">
-        <div class="search-container">
-          <i class="fas fa-search search-icon"></i>
-          <input
-            type="text"
-            class="search-input"
-            name="q"
-            placeholder="Search destinations..."
-            autocomplete="off"
-            required
-          />
-          <button type="submit" class="search-btn">
-            <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </form>
+      <!-- Airbnb Segmented Search Bar - Desktop -->
+      <div class="airbnb-search-desktop d-none d-lg-block">
+        <form action="/listings/search" method="GET" class="airbnb-search-form">
+          <div class="airbnb-search-segmented">
+            <div class="search-segment search-where">
+              <label>Anywhere</label>
+              <input
+                type="text"
+                name="q"
+                placeholder="Search destination"
+                autocomplete="off"
+                required
+              />
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-segment search-when">
+              <label>Any week</label>
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-segment search-guests">
+              <span class="guests-text">Add guests</span>
+              <button type="submit" class="search-button">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
 
-      <!-- Right side navigation (Auth links + Theme toggle) -->
+      <!-- Right side navigation -->
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item">
-          <a class="nav-link" href="/listings/new"><i class="fa-solid fa-circle-plus"></i> Airbnb your home</a>
+          <a class="nav-link" href="/listings/new">
+            <i class="fa-solid fa-circle-plus"></i> Airbnb your home
+          </a>
         </li>
         <% if(!currUser) { %>
           <li class="nav-item">
@@ -83,7 +94,7 @@
           </li>
         <% } %>
 
-        <!-- Dark mode toggle button -->
+        <!-- Dark mode toggle -->
         <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
           <button class="btn btn-delete" type="button" onclick="toggleTheme()" id="themeToggleBtn">
             <i class="fa-solid fa-moon"></i>
@@ -94,6 +105,40 @@
     </div>
   </div>
 </nav>
+
+<!-- Mobile Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" onclick="closeSearchModal()"></div>
+  <div class="search-modal-content">
+    <div class="search-modal-header">
+      <button class="search-modal-close" onclick="closeSearchModal()">
+        <i class="fas fa-times"></i>
+      </button>
+      <h3>Search destinations</h3>
+    </div>
+    <form action="/listings/search" method="GET" class="search-modal-form">
+      <div class="search-modal-body">
+        <div class="search-input-group">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            name="q"
+            placeholder="Where are you going?"
+            autocomplete="off"
+            required
+            id="mobileSearchInput"
+          />
+        </div>
+      </div>
+      <div class="search-modal-footer">
+        <button type="button" class="btn-clear" onclick="clearSearch()">Clear</button>
+        <button type="submit" class="btn-search">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!-- Logout Confirmation Modal -->
 <div class="delete-modal" id="logoutModal">
@@ -133,433 +178,95 @@
 </div>
 
 <style>
-/* ============================================
-   Search Bar Styles
-   ============================================ */
 
-/* Desktop Search Bar */
-.search-form-desktop {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0 1.5rem;
-}
-
-.search-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: #fafafa;
-  border: 2px solid #e0e0e0;
-  border-radius: 2rem;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-  width: 100%;
-  max-width: 350px;
-}
-
-.search-container:focus-within {
-  border-color: #fe424d;
-  box-shadow: 0 0 0 4px rgba(254, 66, 77, 0.1);
-  background-color: #ffffff;
-}
-
-/* Mobile Search Bar */
-.search-form-mobile {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  margin: 0 0.75rem;
-  max-width: 400px;
-}
-
-.search-container-mobile {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: #fafafa;
-  border: 2px solid #e0e0e0;
-  border-radius: 2rem;
-  padding: 0.4rem 0.75rem;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.search-container-mobile:focus-within {
-  border-color: #fe424d;
-  box-shadow: 0 0 0 3px rgba(254, 66, 77, 0.1);
-  background-color: #ffffff;
-}
-
-/* Common Search Styles */
-.search-icon {
-  color: #888888;
-  font-size: 0.95rem;
-  margin-right: 0.6rem;
-  transition: color 0.3s ease;
-  flex-shrink: 0;
-}
-
-.search-container:focus-within .search-icon,
-.search-container-mobile:focus-within .search-icon {
-  color: #fe424d;
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.9rem;
-  color: #111111;
-  padding: 0.2rem 0;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  min-width: 0;
-}
-
-.search-input::placeholder {
-  color: #b0b0b0;
-  font-weight: 400;
-}
-
-.search-btn {
-  background-color: #fe424d;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 0.5rem;
-  color: #ffffff;
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-
-.search-btn:hover {
-  background-color: #e63946;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(254, 66, 77, 0.3);
-}
-
-.search-btn i {
-  transition: transform 0.3s ease;
-}
-
-.search-btn:hover i {
-  transform: translateX(2px);
-}
 
 /* ============================================
-   Mobile Navbar Layout
+   Dark Mode Support
    ============================================ */
-@media (max-width: 991px) {
-  .navbar-brand {
-    flex-shrink: 0;
-  }
-
-  .search-form-mobile {
-    order: 2;
-    margin: 0 0.5rem;
-  }
-
-  .navbar-toggler {
-    order: 3;
-    flex-shrink: 0;
-  }
-
-  .navbar-collapse {
-    order: 4;
-  }
-
-  .container-fluid {
-    flex-wrap: nowrap;
-  }
-}
-
-/* Extra Small Screens */
-@media (max-width: 576px) {
-  .search-form-mobile {
-    margin: 0 0.4rem;
-  }
-
-  .search-container-mobile {
-    padding: 0.35rem 0.6rem;
-  }
-
-  .search-input {
-    font-size: 0.85rem;
-  }
-
-  .search-input::placeholder {
-    font-size: 0.82rem;
-  }
-
-  .search-btn {
-    width: 26px;
-    height: 26px;
-    font-size: 0.7rem;
-  }
-
-  .search-icon {
-    font-size: 0.85rem;
-    margin-right: 0.5rem;
-  }
-
-  .navbar-brand i {
-    font-size: 1.5rem;
-  }
-}
-
-/* Very Small Screens */
-@media (max-width: 375px) {
-  .search-form-mobile {
-    margin: 0 0.3rem;
-  }
-
-  .search-container-mobile {
-    padding: 0.3rem 0.5rem;
-  }
-
-  .search-icon {
-    margin-right: 0.4rem;
-  }
-}
-
-/* ============================================
-   Delete Modal Styles
-   ============================================ */
-.delete-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10000;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete-modal.active {
-  display: flex;
-}
-
-.delete-modal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  animation: fadeIn 0.3s ease;
-}
-
-.delete-modal-content {
-  position: relative;
-  background-color: #ffffff;
-  border-radius: 1.25rem;
-  max-width: 480px;
-  width: 90%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.3s ease;
-  overflow: hidden;
-}
-
-.delete-modal-header {
-  padding: 2rem 2rem 1.5rem;
-  text-align: center;
-  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.delete-modal-icon {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 1.25rem;
-  background: linear-gradient(135deg, #ff6b6b 0%, #fe424d 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: pulse 2s infinite;
-}
-
-.delete-modal-icon i {
-  font-size: 2rem;
-  color: #ffffff;
-}
-
-.delete-modal-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #111111;
-  margin-bottom: 0.5rem;
-}
-
-.delete-modal-subtitle {
-  font-size: 1rem;
-  color: #666666;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.delete-modal-body {
-  padding: 1.5rem 2rem;
-}
-
-.delete-modal-warning {
-  background-color: #fff8f0;
-  border-left: 4px solid #ff9800;
-  padding: 1rem 1.25rem;
-  border-radius: 0.5rem;
-  color: #666666;
-  font-size: 0.95rem;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.delete-modal-warning i {
-  color: #ff9800;
-  margin-right: 0.5rem;
-}
-
-.delete-modal-footer {
-  padding: 1.5rem 2rem 2rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.btn-modal-cancel,
-.btn-modal-delete {
-  padding: 0.75rem 1.75rem;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-modal-cancel {
-  background-color: #f5f5f5;
-  color: #111111;
-  border: 2px solid #e0e0e0;
-}
-
-.btn-modal-cancel:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-2px);
-}
-
-.btn-modal-delete {
-  background-color: #fe424d;
-  color: #ffffff;
-  border: 2px solid #fe424d;
-}
-
-.btn-modal-delete:hover {
-  background-color: #e63946;
-  border-color: #e63946;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(254, 66, 77, 0.4);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-/* Responsive Modal */
-@media (max-width: 576px) {
-  .delete-modal-content {
-    width: 95%;
-    margin: 1rem;
-  }
-
-  .delete-modal-header {
-    padding: 1.5rem 1.5rem 1.25rem;
-  }
-
-  .delete-modal-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 1rem;
-  }
-
-  .delete-modal-icon i {
-    font-size: 1.75rem;
-  }
-
-  .delete-modal-title {
-    font-size: 1.5rem;
-  }
-
-  .delete-modal-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .delete-modal-body {
-    padding: 1.25rem 1.5rem;
-  }
-
-  .delete-modal-footer {
-    flex-direction: column;
-    padding: 1.25rem 1.5rem 1.5rem;
-  }
-
-  .btn-modal-cancel,
-  .btn-modal-delete {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* ============================================
-   Dark mode fixes for inline navbar styles
-   ============================================ */
-html[data-theme="dark"] .search-container,
-html[data-theme="dark"] .search-container-mobile {
+html[data-theme="dark"] .airbnb-search-segmented,
+html[data-theme="dark"] .airbnb-search-btn-mobile {
   background-color: var(--surface-2);
   border-color: var(--border);
 }
 
-html[data-theme="dark"] .search-container:focus-within,
-html[data-theme="dark"] .search-container-mobile:focus-within {
+html[data-theme="dark"] .airbnb-search-segmented:hover,
+html[data-theme="dark"] .airbnb-search-btn-mobile:hover {
   background-color: var(--surface);
 }
 
-html[data-theme="dark"] .search-input {
+html[data-theme="dark"] .search-segment:hover {
+  background-color: var(--surface);
+}
+
+html[data-theme="dark"] .search-segment label {
   color: var(--text);
 }
 
-html[data-theme="dark"] .search-input::placeholder {
+html[data-theme="dark"] .search-segment input,
+html[data-theme="dark"] .guests-text {
   color: var(--text-soft);
+}
+
+html[data-theme="dark"] .search-segment input::placeholder {
+  color: var(--text-soft);
+}
+
+html[data-theme="dark"] .search-divider {
+  background-color: var(--border);
+}
+
+html[data-theme="dark"] .search-btn-content i,
+html[data-theme="dark"] .search-label {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .filter-icon-mobile {
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .filter-icon-mobile i {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .search-modal-content {
+  background-color: var(--surface);
+}
+
+html[data-theme="dark"] .search-modal-header {
+  border-bottom-color: var(--border);
+}
+
+html[data-theme="dark"] .search-modal-header h3,
+html[data-theme="dark"] .search-modal-close i {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .search-input-group {
+  background-color: var(--surface-2);
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .search-input-group:focus-within {
+  background-color: var(--surface);
+  border-color: var(--text-soft);
+}
+
+html[data-theme="dark"] .search-input-group input {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .search-input-group input::placeholder,
+html[data-theme="dark"] .search-input-group i {
+  color: var(--text-soft);
+}
+
+html[data-theme="dark"] .search-modal-footer {
+  background-color: var(--surface);
+  border-top-color: var(--border);
+}
+
+html[data-theme="dark"] .btn-clear {
+  color: var(--text);
 }
 
 html[data-theme="dark"] .delete-modal-content {
@@ -584,6 +291,25 @@ html[data-theme="dark"] .btn-modal-cancel {
 </style>
 
 <script>
+  // Search Modal Functions
+  function openSearchModal() {
+    document.getElementById('searchModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      document.getElementById('mobileSearchInput').focus();
+    }, 100);
+  }
+
+  function closeSearchModal() {
+    document.getElementById('searchModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  function clearSearch() {
+    document.getElementById('mobileSearchInput').value = '';
+    document.getElementById('mobileSearchInput').focus();
+  }
+
   // Logout Modal Functions
   function openLogoutModal() {
     document.getElementById('logoutModal').classList.add('active');
@@ -595,10 +321,11 @@ html[data-theme="dark"] .btn-modal-cancel {
     document.body.style.overflow = 'auto';
   }
 
-  // Close modal on Escape key
+  // Close modals on Escape key
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
       closeLogoutModal();
+      closeSearchModal();
     }
   });
 </script>

@@ -25,6 +25,9 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 //Search route
 router.get("/search", wrapAsync(listingController.searchListing));
 
+//Filter by Category route - ADD THIS BEFORE /:id routes
+router.get("/filter/:category", wrapAsync(listingController.filterByCategory));
+
 //Edit route
 router.get(
   "/:id/edit",

@@ -52,61 +52,92 @@
           <div class="valid-feedback">Description looks good!</div>
         </div>
 
+        <!-- Category Selection -->
+        <div class="form-input-group">
+          <label for="category" class="form-input-label">
+            <i class="fa-solid fa-layer-group"></i>
+            Category
+          </label>
+          <select
+            class="form-control form-input category-select"
+            name="listing[category]"
+            required
+          >
+            <option value="" disabled selected>Choose a category</option>
+            <option value="Trending">Trending</option>
+            <option value="Rooms">Rooms</option>
+            <option value="Iconic Cities">Iconic Cities</option>
+            <option value="Mountains">Mountains</option>
+            <option value="Beach">Beach</option>
+            <option value="Amazing Pools">Amazing Pools</option>
+            <option value="Cabins">Cabins</option>
+            <option value="Dining">Dining</option>
+            <option value="Lakefront">Lakefront</option>
+            <option value="Countryside">Countryside</option>
+            <option value="Castles">Castles</option>
+            <option value="Camping">Camping</option>
+            <option value="Arctic">Arctic</option>
+          </select>
+          <div class="invalid-feedback">Please select a category</div>
+          <div class="valid-feedback">Category looks good!</div>
+        </div>
+
         <!-- Image Upload -->
-<div class="form-input-group">
-  <label for="image" class="form-input-label">
-    <i class="fa-solid fa-image"></i>
-    Upload Image
-  </label>
-  
-  <!-- Cloud Upload Area -->
-  <div class="cloud-upload-container" id="cloudUpload">
-    <input
-      class="cloud-upload-input"
-      type="file"
-      name="listing[image]"
-      id="fileInput"
-      accept="image/png, image/jpeg, image/jpg"
-    />
-    
-    <div class="cloud-upload-content">
-      <div class="cloud-icon-wrapper">
-        <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
-      </div>
-      
-      <h3 class="cloud-upload-title">Drop your image here, or <span class="browse-text">browse</span></h3>
-      <p class="cloud-upload-subtitle">Supports: PNG, JPG, JPEG (Max 5MB)</p>
-      
-      <div class="upload-button-wrapper">
-        <button type="button" class="btn-upload-trigger" onclick="document.getElementById('fileInput').click()">
-          <i class="fa-solid fa-folder-open"></i>
-          Choose File
-        </button>
-      </div>
-    </div>
-    
-    <!-- File Preview -->
-    <div class="file-preview" id="filePreview" style="display: none;">
-      <div class="preview-image-wrapper">
-        <img src="" alt="Preview" id="previewImage" class="preview-image">
-        <button type="button" class="btn-remove-file" onclick="removeFile()">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="file-info">
-        <p class="file-name" id="fileName"></p>
-        <p class="file-size" id="fileSize"></p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="form-helper-text">
-    <i class="fa-solid fa-circle-info"></i>
-    Upload a high-quality image for better visibility
-  </div>
-  <div class="invalid-feedback">Please upload a valid PNG, JPG, or JPEG file</div>
-  <div class="valid-feedback">Image looks good!</div>
-</div>
+        <div class="form-input-group">
+          <label for="image" class="form-input-label">
+            <i class="fa-solid fa-image"></i>
+            Upload Image
+          </label>
+          
+          <!-- Cloud Upload Area -->
+          <div class="cloud-upload-container" id="cloudUpload">
+            <input
+              class="cloud-upload-input"
+              type="file"
+              name="listing[image]"
+              id="fileInput"
+              accept="image/png, image/jpeg, image/jpg"
+              required
+            />
+            
+            <div class="cloud-upload-content">
+              <div class="cloud-icon-wrapper">
+                <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
+              </div>
+              
+              <h3 class="cloud-upload-title">Drop your image here, or <span class="browse-text">browse</span></h3>
+              <p class="cloud-upload-subtitle">Supports: PNG, JPG, JPEG (Max 5MB)</p>
+              
+              <div class="upload-button-wrapper">
+                <button type="button" class="btn-upload-trigger" onclick="document.getElementById('fileInput').click()">
+                  <i class="fa-solid fa-folder-open"></i>
+                  Choose File
+                </button>
+              </div>
+            </div>
+            
+            <!-- File Preview -->
+            <div class="file-preview" id="filePreview" style="display: none;">
+              <div class="preview-image-wrapper">
+                <img src="" alt="Preview" id="previewImage" class="preview-image">
+                <button type="button" class="btn-remove-file" onclick="removeFile()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <div class="file-info">
+                <p class="file-name" id="fileName"></p>
+                <p class="file-size" id="fileSize"></p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-helper-text">
+            <i class="fa-solid fa-circle-info"></i>
+            Upload a high-quality image for better visibility
+          </div>
+          <div class="invalid-feedback">Please upload a valid PNG, JPG, or JPEG file</div>
+          <div class="valid-feedback">Image looks good!</div>
+        </div>
 
         <!-- Price & Country Row -->
         <div class="form-row-custom">
@@ -182,6 +213,19 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* Category Select Styling */
+  .category-select {
+    font-weight: 500;
+  }
+
+  .category-select option {
+    padding: 0.75rem;
+    font-weight: 500;
+  }
+</style>
+
 <script>
   // File Upload Functionality
   const cloudUpload = document.getElementById('cloudUpload');

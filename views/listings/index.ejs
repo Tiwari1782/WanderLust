@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 
-<!-- Success Toast Notification (Red) -->
+
 <% if (success && success.length) { %>
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
     <div class="toast-card error" role="alert">
@@ -39,7 +39,7 @@
   </div>
 <% } %>
 
-<!-- Error Toast Notification (Red) -->
+<!-- Error Toast Notification -->
 <% if (error && error.length) { %>
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
     <div class="toast-card error" role="alert">
@@ -78,36 +78,191 @@
   </div>
 <% } %>
 
-<h1>All Listings</h1>
 
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-    <% for (let listing of allListings) { %>
-        <a href="/listings/<%= listing._id %>" class="listing-link">
-            <div class="card col">
-                <img
-                    src="<%= listing.image.url %>"
-                    class="card-img-top"
-                    alt="listing_image"
-                    style="height: 20rem;"
-                >
+<style>
+  
 
-                <div class="card-img-overlay"></div>
+</style>
 
-                <div class="card-body">
-                    <p class="card-text">
-                        <b><%= listing.title %></b>
-                        <br>
-                        &#8377; <%= listing.price.toLocaleString("en-IN") %> /night
-                    </p>
-                </div>
-            </div>
+<!-- Filters and Toggle Wrapper -->
+<div class="filters-and-toggle-wrapper">
+  <!-- Filters Section -->
+  <div id="filters">
+    <a href="/listings" class="filter-link">
+      <div class="filter <%= typeof selectedCategory === 'undefined' ? 'active' : '' %>">
+        <i class="fa-solid fa-border-all"></i>
+        <p>All</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Trending" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Trending' ? 'active' : '' %>">
+        <i class="fa-solid fa-fire"></i>
+        <p>Trending</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Rooms" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Rooms' ? 'active' : '' %>">
+        <i class="fa-solid fa-bed"></i>
+        <p>Rooms</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Iconic Cities" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Iconic Cities' ? 'active' : '' %>">
+        <i class="fa-solid fa-mountain-city"></i>
+        <p>Iconic Cities</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Mountains" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Mountains' ? 'active' : '' %>">
+        <i class="fa-solid fa-mountain"></i>
+        <p>Mountains</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Beach" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Beach' ? 'active' : '' %>">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <p>Beach</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Amazing Pools" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Amazing Pools' ? 'active' : '' %>">
+        <i class="fa-solid fa-person-swimming"></i>
+        <p>Amazing Pools</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Cabins" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Cabins' ? 'active' : '' %>">
+        <i class="fa-solid fa-cable-car"></i>
+        <p>Cabins</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Dining" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Dining' ? 'active' : '' %>">
+        <i class="fa-solid fa-mug-saucer"></i>
+        <p>Dining</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Lakefront" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Lakefront' ? 'active' : '' %>">
+        <i class="fa-solid fa-water"></i>
+        <p>Lakefront</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Countryside" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Countryside' ? 'active' : '' %>">
+        <i class="fa-solid fa-tree"></i>
+        <p>Countryside</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Castles" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Castles' ? 'active' : '' %>">
+        <i class="fa-solid fa-chess-rook"></i>
+        <p>Castles</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Camping" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Camping' ? 'active' : '' %>">
+        <i class="fa-solid fa-campground"></i>
+        <p>Camping</p>
+      </div>
+    </a>
+    <a href="/listings/filter/Arctic" class="filter-link">
+      <div class="filter <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Arctic' ? 'active' : '' %>">
+        <i class="fa-solid fa-snowflake"></i>
+        <p>Arctic</p>
+      </div>
+    </a>
+  </div>
+
+  <!-- Right Controls (Sort + Tax Toggle) -->
+  <div class="right-controls">
+    <!-- Sort Dropdown -->
+    <div class="sort-dropdown-wrapper">
+      <div class="sort-btn" id="sortBtn">
+        <i class="fa-solid fa-arrow-down-short-wide sort-icon"></i>
+        <span class="sort-text" id="sortText">Sort</span>
+        <i class="fa-solid fa-chevron-down sort-arrow"></i>
+      </div>
+      
+      <div class="sort-dropdown-menu" id="sortDropdown">
+        <a href="?sort=default<%= typeof selectedCategory !== 'undefined' ? '&category=' + selectedCategory : '' %>" class="sort-option <%= !sort || sort === 'default' ? 'active' : '' %>">
+          <i class="fa-solid fa-star sort-option-icon"></i>
+          <span class="sort-option-text">Featured</span>
+          <i class="fa-solid fa-check sort-option-check"></i>
         </a>
-    <% } %>
+        <a href="?sort=price-low<%= typeof selectedCategory !== 'undefined' ? '&category=' + selectedCategory : '' %>" class="sort-option <%= sort === 'price-low' ? 'active' : '' %>">
+          <i class="fa-solid fa-arrow-down-1-9 sort-option-icon"></i>
+          <span class="sort-option-text">Price: Low to High</span>
+          <i class="fa-solid fa-check sort-option-check"></i>
+        </a>
+        <a href="?sort=price-high<%= typeof selectedCategory !== 'undefined' ? '&category=' + selectedCategory : '' %>" class="sort-option <%= sort === 'price-high' ? 'active' : '' %>">
+          <i class="fa-solid fa-arrow-up-9-1 sort-option-icon"></i>
+          <span class="sort-option-text">Price: High to Low</span>
+          <i class="fa-solid fa-check sort-option-check"></i>
+        </a>
+        <a href="?sort=newest<%= typeof selectedCategory !== 'undefined' ? '&category=' + selectedCategory : '' %>" class="sort-option <%= sort === 'newest' ? 'active' : '' %>">
+          <i class="fa-solid fa-clock sort-option-icon"></i>
+          <span class="sort-option-text">Newest First</span>
+          <i class="fa-solid fa-check sort-option-check"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tax Toggle Button -->
+    <div class="tax-toggle-btn" id="taxToggleBtn">
+      <i class="fa-solid fa-sliders tax-toggle-icon"></i>
+      <span class="tax-toggle-text">Display total before taxes</span>
+      <div class="tax-toggle-switch">
+        <div class="tax-toggle-switch-circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Listings Grid -->
+<div class="listings-container">
+  <% if (allListings.length === 0) { %>
+    <div class="no-results">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <h3>No listings found</h3>
+      <p>Try selecting a different category or view all listings</p>
+      <a href="/listings" class="btn btn-primary-custom">
+        <i class="fa-solid fa-arrow-left"></i>
+        View All Listings
+      </a>
+    </div>
+  <% } else { %>
+    <div class="listings-grid">
+      <% for (let listing of allListings) { %>
+        <a href="/listings/<%= listing._id %>" class="listing-card-wrapper">
+          <div class="listing-card">
+            <div class="listing-image-container">
+              <img
+                src="<%= listing.image.url %>"
+                class="listing-card-img"
+                alt="<%= listing.title %>"
+              >
+            </div>
+            <div class="listing-card-body">
+              <h3 class="listing-location"><%= listing.location %>, <%= listing.country %></h3>
+              <p class="listing-title-text"><%= listing.title %></p>
+              <div class="listing-price-wrapper">
+                <span class="listing-price" data-original-price="<%= listing.price %>">
+                  ₹<%= listing.price.toLocaleString("en-IN") %>
+                </span>
+                <span class="listing-price-label">night</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      <% } %>
+    </div>
+  <% } %>
 </div>
 
 <script>
-  // Auto-hide toasts after 5 seconds
   document.addEventListener('DOMContentLoaded', function() {
+    // Auto-hide toasts after 5 seconds
     const toasts = document.querySelectorAll('.toast-card');
     toasts.forEach(toast => {
       setTimeout(() => {
@@ -119,5 +274,55 @@
         }, 400);
       }, 5000);
     });
+
+    // Sort Dropdown Toggle
+    const sortBtn = document.getElementById('sortBtn');
+    const sortDropdown = document.getElementById('sortDropdown');
+    
+    sortBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      sortBtn.classList.toggle('active');
+      sortDropdown.classList.toggle('show');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!sortBtn.contains(e.target) && !sortDropdown.contains(e.target)) {
+        sortBtn.classList.remove('active');
+        sortDropdown.classList.remove('show');
+      }
+    });
+
+    // Tax Toggle Functionality
+    const taxToggleBtn = document.getElementById('taxToggleBtn');
+    const priceElements = document.querySelectorAll('.listing-price');
+
+    // Load saved preference
+    const taxEnabled = localStorage.getItem('showTaxes') === 'true';
+    if (taxEnabled) {
+      taxToggleBtn.classList.add('active');
+      updatePrices(true);
+    }
+
+    // Toggle click event
+    taxToggleBtn.addEventListener('click', function() {
+      const isActive = this.classList.toggle('active');
+      localStorage.setItem('showTaxes', isActive);
+      updatePrices(isActive);
+    });
+
+    // Update price display
+    function updatePrices(showTax) {
+      priceElements.forEach(priceEl => {
+        const originalPrice = parseInt(priceEl.getAttribute('data-original-price'));
+        if (showTax) {
+          const taxAmount = Math.round(originalPrice * 0.18);
+          const totalPrice = originalPrice + taxAmount;
+          priceEl.textContent = '₹' + totalPrice.toLocaleString('en-IN');
+        } else {
+          priceEl.textContent = '₹' + originalPrice.toLocaleString('en-IN');
+        }
+      });
+    }
   });
 </script>
