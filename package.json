@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "24.11.1"
+  },
   "name": "wanderlust",
   "version": "1.0.0",
   "description": "Place can be apartment, flat, house, villa, hotel, motel etc..",
@@ -15,6 +18,7 @@
     "bootstrap": "^5.3.8",
     "cloudinary": "^1.41.3",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.3.1",
     "ejs": "^4.0.1",
