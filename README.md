@@ -1,5 +1,5 @@
 # WanderLust — Phase 1 & Phase 2 (Listings + Reviews)
-
+## Live Link - https://wanderlust-menk.onrender.com
 WanderLust is an Airbnb-style listings web application built with **Node.js**, **Express**, **MongoDB/Mongoose**, and **EJS**.
 
 This repository currently includes:
