@@ -1,14 +1,18 @@
 # WanderLust — Airbnb Clone 
 
-![WanderLust Live Link](https://wanderlust-menk.onrender.com/)
-
 <div align="center">
 
 ![WanderLust Demo](Screenshots/Home-Page.png)
 
 **A full-featured Airbnb-style listings web application with reviews, authentication, image uploads, and interactive maps**
 
-[View Demo](#screenshots) · [Features](#features) · [Tech Stack](#tech-stack) · [Setup](#setup--run-locally)
+<a href="https://wanderlust-menk.onrender.com/" target="_blank">
+  <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20WanderLust-FF5A5F?style=for-the-badge&labelColor=484848" alt="Live Demo" />
+</a>
+
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Tiwari1782/WanderLust)
+[![Node.js](https://img.shields.io/badge/Node.js-v18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
 </div>
 
@@ -29,16 +33,20 @@ WanderLust is a comprehensive property rental platform built with the MERN stack
 ### Live Application Screenshots
 
 #### Homepage & Listings
-![All Listings](Screenshots/listings.png)
+![All Listings](Screenshots/Home-Page.png)
 *Browse through all available properties with search functionality*
 
 #### Property Details
-![Single Listing](Screenshots/single_listing.png)
+![Single Listing](Screenshots/listing.png)
 *View detailed property information with interactive maps showing location*
 
 #### Reviews & Ratings
-![Review Form](Screenshots/review_form.png)
+![Review Form](Screenshots/Review.png)
+![Review Form](Screenshots/reviews.png)
 *Star-based rating system with user reviews and comments*
+
+#### Map Feature to show Listing
+![Map](Screenshots/map.png)
 
 ---
 
