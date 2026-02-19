@@ -1,200 +1,232 @@
-# WanderLust — Phase 1 & Phase 2 (Listings + Reviews)
-## Live Link - https://wanderlust-menk.onrender.com
-WanderLust is an Airbnb-style listings web application built with **Node.js**, **Express**, **MongoDB/Mongoose**, and **EJS**.
+# WanderLust — Airbnb Clone 
 
-This repository currently includes:
+![WanderLust Live Link](https://wanderlust-menk.onrender.com/)
 
- **Phase 1:** Listings CRUD (core module)  
- **Phase 2:** Reviews system (rating + comment + timestamps + validation + delete logic)
+<div align="center">
 
----
+![WanderLust Demo](Screenshots/Home-Page.png)
 
-## Project Status
+**A full-featured Airbnb-style listings web application with reviews, authentication, image uploads, and interactive maps**
 
-###  Phase 1 Completed: Listings CRUD
-- **Listings Model** (apartment / flat / house / villa / hotel / motel etc.)
-- Full CRUD operations
-- EJS views with shared layout (EJS-Mate)
-- Static assets (CSS + Bootstrap)
-- Method Override support
-- Custom error handling with `wrapAsync` and `ExpressError`
+[View Demo](#screenshots) · [Features](#features) · [Tech Stack](#tech-stack) · [Setup](#setup--run-locally)
 
-###  Phase 2 Completed: Reviews Module
-- **Review Model** with rating (1-5) + comment + timestamps
-- Add Review form inside listing show page with interactive slider
-- **Server-side validation** using Joi
-- **Client-side validation** using Bootstrap
-- Delete Review feature (individual reviews)
-- Delete Listing → automatically deletes all related reviews using Mongoose middleware
-- Professional review card UI with star ratings
+</div>
 
 ---
 
-## Tech Stack
+## 🎯 Project Overview
 
-- **Node.js**
-- **Express.js**
-- **MongoDB + Mongoose**
-- **EJS + EJS-Mate** (layout engine)
-- **Joi** (server-side validation)
-- **method-override** (PUT/DELETE support)
-- **Bootstrap 5** (UI framework)
-- **express-session** (flash messages)
+WanderLust is a comprehensive property rental platform built with the MERN stack, featuring:
+
+- **Phase 1:** Listings CRUD (core module)
+- **Phase 2:** Reviews system with ratings, comments, and validation
+- **Phase 3:** MVC architecture, authentication, image uploads (Cloudinary), and interactive maps (Mapbox)
 
 ---
 
-## Data Models
+## 📸 Demonstration
+
+### Live Application Screenshots
+
+#### Homepage & Listings
+![All Listings](Screenshots/listings.png)
+*Browse through all available properties with search functionality*
+
+#### Property Details
+![Single Listing](Screenshots/single_listing.png)
+*View detailed property information with interactive maps showing location*
+
+#### Reviews & Ratings
+![Review Form](Screenshots/review_form.png)
+*Star-based rating system with user reviews and comments*
+
+---
+
+## ✨ Features
+
+### Phase 1: Listings CRUD
+* Full CRUD operations for property listings  
+* EJS templating with shared layouts (EJS-Mate)  
+* Bootstrap 5 UI styling  
+* Method Override support for PUT/DELETE  
+* Custom error handling with `wrapAsync` and `ExpressError`  
+* Static file serving  
+
+### Phase 2: Reviews Module
+* Review model with rating (1-5) + comments + timestamps  
+* Add reviews to listings  
+* Server-side validation using Joi  
+* Client-side validation using Bootstrap  
+* Delete individual reviews  
+* Cascade delete: when listing deleted → all reviews deleted  
+* Professional review card UI with star ratings  
+* Interactive slider for rating selection  
+
+### Phase 3: Advanced Features
+ **MVC Architecture** - Clean separation of concerns (Models, Views, Controllers)  
+ **Express Router** - Organized routing with `router.route()`  
+ **Authentication & Authorization** - User signup, login, logout with Passport.js  
+ **Password Security** - Hashing with bcrypt, salting, secure storage  
+ **Session Management** - Express sessions with connect-flash for notifications  
+ **Image Upload** - Cloudinary integration for image hosting  
+ **Image Preview** - Preview before upload  
+ **Image Editing** - Edit uploaded images  
+ **Interactive Maps** - Mapbox integration with custom markers  
+ **Geocoding** - Convert addresses to coordinates  
+ **GeoJSON Support** - Standardized geographic data structures  
+ **Star Rating System** - Using Starability library  
+ **Search Functionality** - Search and filter listings  
+ **Authorization Middleware** - Owner-based permissions for edit/delete  
+ **Toast Notifications** - Modern Bootstrap toast alerts  
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web application framework
+- **MongoDB** - NoSQL database
+- **Mongoose** - MongoDB object modeling
+
+### Frontend
+- **EJS** - Templating engine
+- **EJS-Mate** - Layout support for EJS
+- **Bootstrap 5** - CSS framework
+- **Starability** - Star rating library
+
+### Authentication & Security
+- **Passport.js** - Authentication middleware
+- **passport-local** - Local authentication strategy
+- **passport-local-mongoose** - Mongoose plugin for Passport
+- **bcrypt** - Password hashing
+- **express-session** - Session middleware
+- **connect-flash** - Flash messages
+
+### File Upload & Maps
+- **Cloudinary** - Image upload and hosting service
+- **Multer** - File upload handling
+- **Mapbox GL JS** - Interactive maps
+- **@mapbox/mapbox-sdk** - Mapbox geocoding service
+
+### Validation
+- **Joi** - Server-side validation
+- **method-override** - HTTP method override
+
+---
+
+## 📁 Project Structure
+
+```
+WanderLust/
+├── app.js                      # Main application file
+├── cloudConfig.js              # Cloudinary configuration
+├── middleware.js               # Authentication & authorization middleware
+├── schema.js                   # Joi validation schemas
+│
+├── controllers/                # MVC Controllers
+│   ├── listings.js            # Listing controller logic
+│   ├── reviews.js             # Review controller logic
+│   └── users.js               # User authentication controller
+│
+├── models/                     # MongoDB Models
+│   ├── listing.js             # Listing schema & model
+│   ├── review.js              # Review schema & model
+│   └── user.js                # User schema & model
+│
+├── routes/                     # Express Routes
+│   ├── listing.js             # Listing routes
+│   ├── review.js              # Review routes
+│   └── user.js                # User authentication routes
+│
+├── views/                      # EJS Templates
+│   ├── layouts/
+│   │   └── boilerplate.ejs    # Shared layout
+│   ├── listings/
+│   │   ├── index.ejs          # All listings
+│   │   ├── show.ejs           # Single listing + reviews + map
+│   │   ├── new.ejs            # Create listing form
+│   │   └── edit.ejs           # Edit listing form
+│   ├── users/
+│   │   ├── signup.ejs         # User registration
+│   │   └── login.ejs          # User login
+│   ├── privacy.ejs            # Privacy policy
+│   ├── terms.ejs              # Terms & conditions
+│   └── error.ejs              # Error page
+│
+├── public/                     # Static Files
+│   ├── css/
+│   │   ├── style.css          # Custom styles
+│   │   └── starability.min.css # Star rating styles
+│   └── js/
+│       └── map.js             # Mapbox map initialization
+│
+├── utils/                      # Utility Functions
+│   ├── wrapAsync.js           # Async error handler
+│   └── ExpressError.js        # Custom error class
+│
+├── init/                       # Database Initialization
+│   └── index.js               # Seed database
+│
+├── uploads/                    # Temporary upload folder
+├── Screenshots/                # Application screenshots
+├── .env                        # Environment variables
+├── .gitignore                 # Git ignore file
+└── package.json               # Dependencies
+```
+
+---
+
+## ✨ Data Models
 
 ### Listing Model (`models/listing.js`)
 
 ```javascript
-{
-  title: String (required),
+const listingSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true
+  },
   description: String,
-  image: String (URL with default),
+  image: {
+    url: String,
+    filename: String
+  },
   price: Number,
   location: String,
   country: String,
-  reviews: [ObjectId] (ref: Review)
-}
+  geometry: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review"
+    }
+  ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
+});
+
+// Cascade delete reviews when listing is deleted
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing) {
+    await Review.deleteMany({ _id: { $in: listing.reviews } });
+  }
+});
 ```
 
 ### Review Model (`models/review.js`)
-
-```javascript
-{
-  rating: Number (1-5, required),
-  comment: String (required),
-  createdAt: Date (auto-generated),
-  updatedAt: Date (auto-generated)
-}
-```
-
----
-
-## Routes
-
-### Listings Routes
-
-| Method | Route | Description |
-|--------|-------|-------------|
-| GET | `/listings` | View all listings |
-| GET | `/listings/new` | Show create listing form |
-| POST | `/listings` | Create new listing |
-| GET | `/listings/:id` | Show single listing with reviews |
-| GET | `/listings/:id/edit` | Show edit listing form |
-| PUT | `/listings/:id` | Update listing |
-| DELETE | `/listings/:id` | Delete listing (+ all reviews) |
-
-### Reviews Routes
-
-| Method | Route | Description |
-|--------|-------|-------------|
-| POST | `/listings/:id/reviews` | Add review to listing |
-| DELETE | `/listings/:id/reviews/:reviewId` | Delete specific review |
-
-### Other Routes
-
-| Method | Route | Description |
-|--------|-------|-------------|
-| GET | `/privacy` | Privacy policy page |
-| GET | `/terms` | Terms & conditions page |
-
----
-
-## Phase 1 - Listings CRUD
-
-### Index Route (All Listings)
-
-```javascript
-app.get(
-  "/listings",
-  wrapAsync(async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index", { allListings });
-  })
-);
-```
-
-### Show Route (Listing Details)
-
-```javascript
-app.get(
-  "/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
-    res.render("listings/show.ejs", { listing });
-  })
-);
-```
-
-### Create Listing
-
-```javascript
-// GET form
-app.get("/listings/new", (req, res) => {
-  res.render("listings/new.ejs");
-});
-
-// POST new listing
-app.post(
-  "/listings",
-  validateListing,
-  wrapAsync(async (req, res) => {
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    req.session.success = "New listing created successfully!";
-    res.redirect("/listings");
-  })
-);
-```
-
-### Update Listing
-
-```javascript
-// GET edit form
-app.get(
-  "/listings/:id/edit",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
-  })
-);
-
-// PUT update
-app.put(
-  "/listings/:id",
-  validateListing,
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    req.session.success = "Listing updated successfully!";
-    res.redirect(`/listings/${id}`);
-  })
-);
-```
-
-### Delete Listing
-
-```javascript
-app.delete(
-  "/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndDelete(id);
-    req.session.success = "Listing deleted successfully!";
-    res.redirect("/listings");
-  })
-);
-```
-
----
-
-## Phase 2 - Reviews System
-### Part(a)
-#### Review Model Setup
 
 ```javascript
 const reviewSchema = new mongoose.Schema(
@@ -208,218 +240,148 @@ const reviewSchema = new mongoose.Schema(
     comment: {
       type: String,
       required: true
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
     }
   },
-  { timestamps: true } // Auto-adds createdAt & updatedAt
+  { timestamps: true } // Automatically adds createdAt & updatedAt
 );
 ```
 
-#### Add Review
+### User Model (`models/user.js`)
 
 ```javascript
-app.post(
-  "/listings/:id/reviews",
-  validateReview,
-  wrapAsync(async (req, res) => {
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-
-    listing.reviews.push(newReview);
-
-    await newReview.save();
-    await listing.save();
-
-    req.session.success = "Review added successfully!";
-    res.redirect(`/listings/${listing._id}`);
-  })
-);
-```
-
-#### Delete Review
-
-**Using MongoDB `$pull` operator to remove review reference from listing:**
-
-```javascript
-app.delete(
-  "/listings/:id/reviews/:reviewId",
-  wrapAsync(async (req, res) => {
-    let { id, reviewId } = req.params;
-
-    // Remove review reference from listing
-    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    
-    // Delete review document
-    await Review.findByIdAndDelete(reviewId);
-
-    req.session.success = "Review deleted successfully!";
-    res.redirect(`/listings/${id}`);
-  })
-);
-```
-
-#### Delete Listing Middleware (Cascade Delete Reviews)
-
-**When a listing is deleted, all associated reviews are automatically deleted:**
-
-```javascript
-listingSchema.post("findOneAndDelete", async (listing) => {
-  if (listing) {
-    await Review.deleteMany({ _id: { $in: listing.reviews } });
+const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true
   }
 });
+
+// passport-local-mongoose automatically adds username and password fields
+userSchema.plugin(passportLocalMongoose);
 ```
 
 ---
 
-#### Validation
+## 🔐 Phase 3 Deep Dive
 
-#### Server-Side Validation (Joi)
+### Part A & B: MVC Architecture & Express Router
 
-**Listing Validation:**
+#### MVC Pattern Benefits
+- **Models**: Data and business logic (MongoDB schemas)
+- **Views**: Presentation layer (EJS templates)
+- **Controllers**: Application logic and request handling
 
-```javascript
-const validateListing = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
-```
-
-**Review Validation:**
+#### Express Router Implementation
 
 ```javascript
-const validateReview = (req, res, next) => {
-  let { error } = reviewSchema.validate(req.body);
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
-```
-
-#### Client-Side Validation (Bootstrap)
-
-All forms use Bootstrap's `needs-validation` class with `novalidate` attribute for custom validation styling.
-
----
-### Part (b) & (c)
-
-### Express Router
-**Definition:** A mini Express application that handles routing for specific parts of your app, allowing you to organize routes into separate modules.
-
-**Example:**
-```javascript
+// routes/listing.js
 const express = require("express");
 const router = express.Router();
+const listingController = require("../controllers/listings");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 
-router.get("/listings", (req, res) => { /* ... */ });
-router.post("/listings", (req, res) => { /* ... */ });
+// Grouped routes using router.route()
+router
+  .route("/")
+  .get(listingController.index)                          // GET all listings
+  .post(isLoggedIn, validateListing, listingController.createListing); // POST new listing
+
+router
+  .route("/:id")
+  .get(listingController.showListing)                    // GET single listing
+  .put(isLoggedIn, isOwner, validateListing, listingController.updateListing) // UPDATE
+  .delete(isLoggedIn, isOwner, listingController.destroyListing); // DELETE
+
+router.get("/new", isLoggedIn, listingController.renderNewForm);
+router.get("/:id/edit", isLoggedIn, isOwner, listingController.renderEditForm);
 
 module.exports = router;
 ```
 
----
+#### Controller Example
 
-### Cookies
-Cookies are small pieces of data stored in the user's browser that are sent with every HTTP request.
-
-**How to send cookies:**
 ```javascript
-// Set a cookie
-res.cookie('name', 'value', { 
-  maxAge: 900000,  // milliseconds
-  httpOnly: true,  // accessible only by web server
-  secure: false    // works on HTTP (set true for HTTPS)
-});
+// controllers/listings.js
+module.exports.index = async (req, res) => {
+  const allListings = await Listing.find({});
+  res.render("listings/index", { allListings });
+};
 
-// Read a cookie
-const cookieValue = req.cookies.name;
-
-// Clear a cookie
-res.clearCookie('name');
+module.exports.showListing = async (req, res) => {
+  let { id } = req.params;
+  const listing = await Listing.findById(id)
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "author"
+      }
+    })
+    .populate("owner");
+  res.render("listings/show", { listing });
+};
 ```
 
-**In this project:** Cookies are used to store session IDs for user sessions.
+### Part C: Cookies & Sessions
 
----
-
-### Express Session
-Used to store user data between HTTP requests.
+#### Express Session Configuration
 
 ```javascript
 const session = require("express-session");
-
-app.use(session({
-  secret: "mysupersecretcode",    // Secret key for signing session ID
-  resave: false,                   // Don't save session if unmodified
-  saveUninitialized: true,         // Save new sessions
-  cookie: { 
-    maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days
-  }
-}));
-```
-
----
-
-### Connect-Flash
-A middleware for storing temporary messages in the session to be displayed after a redirect.
-
-**Setup:**
-```javascript
 const flash = require("connect-flash");
 
-app.use(session(sessionOptions));  // Must come before flash
-app.use(flash());
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET || "mysupersecretcode",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true  // Security: prevents XSS attacks
+  }
+};
 
-// Make flash messages available in all templates
+app.use(session(sessionOptions));
+app.use(flash());
+```
+
+#### Flash Messages with Toast Notifications
+
+```javascript
+// Middleware to make flash messages available in templates
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
-```
 
-**Usage in routes:**
-```javascript
-// Set flash message
-req.flash("success", "Review added successfully!");
+// Usage in routes
+req.flash("success", "Listing created successfully!");
 res.redirect("/listings");
-
-// Flash message automatically available in next rendered template
 ```
 
----
+**Toast Implementation in EJS:**
 
-### Flash with Toast Notifications
-
-Instead of traditional alert boxes, flash messages are displayed as modern toast notifications.
-
-**Implementation:**
-```js
-<!-- In EJS template -->
+```html
+<!-- views/layouts/boilerplate.ejs -->
 <% if (success && success.length) { %>
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
     <div class="toast align-items-center text-white border-0 show" 
-         style="background-color: #fe424d;">
+         style="background-color: #28a745;">
       <div class="d-flex">
-        <div class="toast-body">
-          <%= success[0] %>
-        </div>
+        <div class="toast-body"><%= success %></div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" 
                 data-bs-dismiss="toast"></button>
       </div>
     </div>
   </div>
 <% } %>
-```
+
 <script>
-  // Auto-hide toasts after 5 seconds
   document.addEventListener('DOMContentLoaded', function() {
     const toasts = document.querySelectorAll('.toast');
     toasts.forEach(toast => {
@@ -431,700 +393,498 @@ Instead of traditional alert boxes, flash messages are displayed as modern toast
   });
 </script>
 ```
+
+### Part D & E: Authentication & Authorization
+
+#### Authentication vs Authorization
+
+| **Authentication (AuthN)** | **Authorization (AuthZ)** |
+|---------------------------|--------------------------|
+| "Who are you?" | "What can you do?" |
+| Login with username/password | Check if user owns resource |
+| Handled by Passport.js | Handled by custom middleware |
+| `req.isAuthenticated()` | `isOwner`, `isReviewAuthor` |
+
+#### Password Security
+
+##### ❌ Never Do This:
+- Store passwords as plain text
+- Use reversible encryption
+- Use fast hashing algorithms (MD5, SHA-256)
+
+##### ✔ Best Practice:
+- Use **bcrypt** for password hashing
+- Includes automatic **salting**
+- Slow by design (prevents brute-force attacks)
+
+#### What is Salting?
+
+**Salt** = Random data added to password before hashing
+
 ```
-# Middleware (Authentication & Authorization) — README
-
-This file explains the purpose of `middleware.js` used in an Express + Passport + MongoDB (Mongoose) app for **auth**, **authorization**, and **request validation**, along with security concepts like **password hashing** and **salting**.
-
----
-
-### Part (d) & (e)
-
-## 1) Authentication vs Authorization
-
-### Authentication (AuthN)
-- Answers: **“Who are you?”**
-- Example: User logs in with email/username + password.
-- In this project: handled using **Passport** (e.g., `req.isAuthenticated()` and `req.user`).
-
-### Authorization (AuthZ)
-- Answers: **“Are you allowed to do this?”**
-- Example: Only the owner of a listing can edit/delete it.
-- In this project: handled using middleware like:
-  - `isOwner` (listing owner check)
-  - `isReviewAuthor` (review author check)
-
----
-
-## 2) Storing passwords (What to do and what NOT to do)
-
-### Never store passwords as plain text
-Bad:
-- Saving the real password directly in DB.
-
-Also bad:
-- Saving encrypted passwords with a reversible key (if key leaks, all passwords leak).
-
-### Correct approach: store a hash
-- Store only a **hashed** version of the password.
-- During login:
-  1. Hash the entered password using the same method
-  2. Compare with stored hash (or use bcrypt’s compare)
-
----
-
-## 3) Hashing examples — SHA, MD5, CRC, bcrypt
-
-### MD5
-- Fast and outdated.
-- Vulnerable to brute-force / rainbow table attacks.
-- **Not recommended for passwords.**
-
-### SHA-256 (often written as “SHA256”, sometimes mistaken as “SHA26”)
-- Cryptographic hash, but still **too fast** for password storage.
-- Attackers can brute-force quickly using GPUs.
-- Better than MD5, but still **not recommended for password hashing**.
-
-### CRC
-- Not cryptographic.
-- Intended for error-checking, not security.
-- **Never use for passwords.**
-
-### bcrypt (Recommended)
-- Designed specifically for password hashing.
-- Slow by design (configurable cost factor), making brute-force expensive.
-- Includes salt handling.
-- Common choice in Node.js apps.
-
----
-
-## 4) Salting (Why it matters)
-
-A **salt** is random data added to the password before hashing.
-
-### Why salt?
-Without salting:
-- Two users with the same password will have the same hash.
-- Attackers can use rainbow tables (precomputed hash lists).
-
-With salting:
-- Same password produces different hashes for different users.
-- Greatly reduces effectiveness of precomputed attacks.
-
-bcrypt automatically manages salts internally.
-
----
-
-## 5) Creating a User Model (Concept)
-
-A typical `User` model includes:
-- username/email
-- passwordHash (NOT raw password)
-
-Many apps use **passport-local-mongoose** or manual bcrypt hashing.
-
-Example fields:
-- `username`
-- `email`
-- `hash` (or `password`)
-- `salt` (if not using a library that manages it automatically)
-
----
-
-## 6) Signup user routes — `GET /signup` and `POST /signup`
-
-### `GET /signup`
-- Shows signup form.
-
-### `POST /signup`
-- Creates a new user.
-- Password handling:
-  - Hash password (bcrypt or plugin)
-  - Save user record
-- Often auto-logins the user after successful signup.
-
----
-
-## 7) Login user routes — `GET /login` and `POST /login`
-
-### `GET /login`
-- Shows login form.
-
-### `POST /login`
-- Authenticates user credentials.
-- With Passport:
-  - `passport.authenticate("local", ...)`
-- If success:
-  - Passport creates session
-  - `req.user` becomes available
-- If failure:
-  - redirect back with flash error
-
----
-
-## 8) Connecting login route — How to check if user is logged in?
-
-Passport provides:
-- `req.isAuthenticated()` → `true` if logged in
-- `req.user` → current logged-in user object
-
-In this project, login checking is done using middleware:
-
-### `isLoggedIn`
-- If not authenticated:
-  - stores redirect URL (GET requests only)
-  - flashes an error
-  - redirects to `/login`
-
----
-
-## 9) Authorization for listings and reviews (Ownership checks)
-
-### Listing authorization
-- Only the **owner** of the listing can edit/delete.
-- Middleware: `isOwner`
-
-### Review authorization
-- Only the **author** of the review can delete/update.
-- Middleware: `isReviewAuthor`
-
----
-
-# middleware.js — What each middleware does
-
-## 1) `isLoggedIn`
-Purpose: protect routes that require login.
-
-Behavior:
-- If user is not logged in:
-  - (GET only) save the requested URL in `req.session.redirectUrl`
-  - show flash: “You must be logged in!”
-  - redirect to `/login`
-- Otherwise, call `next()`
-
-Used in routes like:
-- Create listing
-- Edit listing
-- Post review
-- Delete review
-
----
-
-## 2) `savedRedirectUrl`
-Purpose: after login, redirect user back to the page they originally wanted.
-
-Behavior:
-- If session has `redirectUrl`, it copies to `res.locals.redirectUrl`
-- Next middleware/route can use `res.locals.redirectUrl`
-
-Common flow:
-1. user tries to access `/listings/:id/edit`
-2. `isLoggedIn` saves redirect URL and sends user to `/login`
-3. after successful login, app redirects to saved URL
-
----
-
-## 3) `isOwner`
-Purpose: allow only listing owner to modify listing.
-
-Behavior:
-- Loads listing by `id`
-- Checks:
-  - `listing.owner.equals(res.locals.currUser._id)`
-- If not owner:
-  - flash error
-  - redirect to listing page
-
----
-
-## 4) `validateListing`
-Purpose: validate incoming listing data (server-side validation).
-
-Uses:
-- `listingSchema` from `schema.js` (commonly Joi schema)
-
-Behavior:
-- If validation error:
-  - create message from details
-  - throw `ExpressError(400, errMsg)`
-- else `next()`
-
----
-
-## 5) `validateReview`
-Purpose: validate incoming review data.
-
-Uses:
-- `reviewSchema` from `schema.js`
-
-Behavior:
-- If invalid:
-  - throws `ExpressError(400, errMsg)`
-- else `next()`
-
----
-
-## 6) `isReviewAuthor`
-Purpose: only review author can change/delete their review.
-
-Behavior:
-- Loads review by `reviewId`
-- Checks:
-  - `review.author.equals(req.user._id)`
-- If not author:
-  - flash error
-  - redirect back to listing
-
----
-
-# Typical usage examples (how to plug into routes)
-
-Example patterns:
-
-- Protect route with login:
-  - `router.get("/listings/new", isLoggedIn, ...)`
-
-- Protect route with owner authorization:
-  - `router.get("/listings/:id/edit", isLoggedIn, isOwner, ...)`
-
-- Validate listing on create/update:
-  - `router.post("/listings", isLoggedIn, validateListing, ...)`
-
-- Validate review + require login:
-  - `router.post("/listings/:id/reviews", isLoggedIn, validateReview, ...)`
-
-- Authorize review deletion:
-  - `router.delete("/listings/:id/reviews/:reviewId", isLoggedIn, isReviewAuthor, ...)`
-
----
-
-# Notes / Best Practices
-
-- Always do **server-side validation** even if you have client-side validation.
-- Always check **authorization** on sensitive actions (edit/delete).
-- bcrypt cost factor should be chosen based on performance/security needs.
-- Saving redirect URL only on GET prevents weird redirect behavior after POST requests.
-
-```js
-module.exports.isLoggedIn = (req,res,next) => {
-    if(!req.isAuthenticated()){
-    req.flash("error", "You must be logged in to create listing!")
+Without salt:
+- user1: "password123" → hash: a1b2c3d4
+- user2: "password123" → hash: a1b2c3d4 (same hash!)
+
+With salt:
+- user1: "password123" + salt1 → hash: x9y8z7w6
+- user2: "password123" + salt2 → hash: p5q4r3s2 (different hashes!)
+```
+
+#### User Authentication Setup
+
+```javascript
+// models/user.js
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require("passport-local-mongoose");
+
+const userSchema = new Schema({
+  email: {
+    type: String,
+    required: true
+  }
+});
+
+// Adds username, hash, and salt fields automatically
+userSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model("User", userSchema);
+```
+
+#### Passport Configuration (`app.js`)
+
+```javascript
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user");
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+```
+
+#### Signup Route
+
+```javascript
+// controllers/users.js
+module.exports.signup = async (req, res) => {
+  try {
+    let { username, email, password } = req.body;
+    const newUser = new User({ email, username });
+    const registeredUser = await User.register(newUser, password);
+    
+    // Automatic login after signup
+    req.login(registeredUser, (err) => {
+      if (err) {
+        return next(err);
+      }
+      req.flash("success", "Welcome to WanderLust!");
+      res.redirect("/listings");
+    });
+  } catch (e) {
+    req.flash("error", e.message);
+    res.redirect("/signup");
+  }
+};
+```
+
+#### Login Route
+
+```javascript
+module.exports.login = async (req, res) => {
+  req.flash("success", "Welcome back to WanderLust!");
+  let redirectUrl = res.locals.redirectUrl || "/listings";
+  res.redirect(redirectUrl);
+};
+
+// Route definition with Passport authentication
+router.post(
+  "/login",
+  savedRedirectUrl,
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true
+  }),
+  userController.login
+);
+```
+
+#### Logout Route
+
+```javascript
+module.exports.logout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.flash("success", "You are logged out!");
+    res.redirect("/listings");
+  });
+};
+```
+
+### Middleware (`middleware.js`)
+
+#### 1) `isLoggedIn` - Protect Routes Requiring Login
+
+```javascript
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    // Save redirect URL (only for GET requests)
+    req.session.redirectUrl = req.originalUrl;
+    req.flash("error", "You must be logged in!");
     return res.redirect("/login");
   }
   next();
-}
+};
 ```
-automatic logging in after signup - Passport has a login method automatically establishes a login session. We can invoke login to automatically login a user.
-```js
-router.post(
-  "/signup",
-  wrapAsync(async (req, res) => {
-    try {
-      let { username, email, password } = req.body;
-      const newUser = new User({ email, username });
-      const registeredUser = await User.register(newUser, password);
-      console.log(registeredUser);
-      req.login(registeredUser, (err) => {
-        if (err) {
-          return next(err);
-        }
-        req.flash("success", "Welcome to WanderLust");
-        res.redirect("/listings");
-      });
-    } catch (e) {
-      req.flash("error", "User already exists");
-      res.redirect("/signup");
-    }
-  }),
-);
+
+#### 2) `savedRedirectUrl` - Restore Redirect After Login
+
+```javascript
+module.exports.savedRedirectUrl = (req, res, next) => {
+  if (req.session.redirectUrl) {
+    res.locals.redirectUrl = req.session.redirectUrl;
+  }
+  next();
+};
 ```
-## Phase 3 :
 
-# MVC Application with Image Upload and Maps Integration
+#### 3) `isOwner` - Authorization for Listing Owner
 
+```javascript
+module.exports.isOwner = async (req, res, next) => {
+  let { id } = req.params;
+  let listing = await Listing.findById(id);
+  
+  if (!listing.owner._id.equals(res.locals.currUser._id)) {
+    req.flash("error", "You don't have permission to edit this listing");
+    return res.redirect(`/listings/${id}`);
+  }
+  next();
+};
+```
 
+#### 4) `isReviewAuthor` - Authorization for Review Author
 
-### Part (a) & Part (b)- Core Features
-1. **MVC Architecture** - Clean separation of concerns
-2. **Routing** - Organized with `router.route()` for RESTful endpoints
-3. **Star Rating System** - Using [Starability](https://github.com/LunarLogic/starability) library instead of custom sliding bars
-4. **Search Functionality** - Search bar for filtering/finding content
-5. **Image Upload** - Third-party service integration (Cloudinary)
-   - MongoDB has file size limitations and doesn't store binary files directly
-   - Cloudinary handles uploads and generates URL links
-   - URLs are stored in MongoDB database
-6. **Image Editing** - Edit uploaded images
-7. **Image Preview** - Preview images before upload/after selection
-8. **Interactive Maps** - Integration with Mapbox API
-9. **Geocoding** - Convert addresses to geographic coordinates (latitude/longitude)
-10. **GeoJSON Support** - Standardized format for geographic data structures
----
-#### Overview
-This is a full-stack application built using the **Model-View-Controller (MVC)** architecture pattern. It includes features for image uploads, search functionality, and interactive maps with geocoding capabilities.
+```javascript
+module.exports.isReviewAuthor = async (req, res, next) => {
+  let { id, reviewId } = req.params;
+  let review = await Review.findById(reviewId);
+  
+  if (!review.author.equals(res.locals.currUser._id)) {
+    req.flash("error", "You are not the author of this review");
+    return res.redirect(`/listings/${id}`);
+  }
+  next();
+};
+```
 
-#### Image Upload Flow
+#### 5) `validateListing` - Server-Side Validation
 
-##### Why Use Cloudinary?
-1. **MongoDB Limitations**:
-   - Maximum document size: 16MB (BSON limit)
-   - Not optimized for binary file storage
-   - Performance issues with large files
+```javascript
+module.exports.validateListing = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+```
 
-2. **Cloudinary Benefits**:
-   - Handles file uploads and storage
-   - Automatic image optimization
-   - Generates unique URLs for each upload
-   - Built-in transformations (resize, crop, filters)
+#### 6) `validateReview` - Review Validation
 
-#### Implementation
+```javascript
+module.exports.validateReview = (req, res, next) => {
+  let { error } = reviewSchema.validate(req.body);
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+```
 
-##### Cloudinary Configuration:
+### Image Upload with Cloudinary
+
+#### Why Cloudinary?
+
+**MongoDB Limitations:**
+- Maximum document size: 16MB (BSON limit)
+- Not optimized for binary file storage
+- Performance issues with large files
+
+**Cloudinary Benefits:**
+- Handles file uploads and storage
+- Automatic image optimization
+- Generates unique URLs
+- Built-in image transformations
+
+#### Cloudinary Configuration (`cloudConfig.js`)
+
 ```javascript
 const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
-```
 
-##### Upload Process:
-1. User selects an image file
-2. Frontend sends file to backend
-3. Backend uploads to Cloudinary
-4. Cloudinary returns image URL
-5. URL is stored in MongoDB document
-
-##### Example Schema:
-```javascript
-const mongoose = require('mongoose');
-
-const imageSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  imageUrl: String,  // Cloudinary URL stored here
-  cloudinaryId: String,  // For deletion/management
-  createdAt: { type: Date, default: Date.now }
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'wanderlust_DEV',
+    allowedFormats: ["png", "jpg", "jpeg"]
+  }
 });
 
-module.exports = mongoose.model('Image', imageSchema);
+module.exports = {
+  cloudinary,
+  storage
+};
 ```
 
----
+#### Multer Setup for File Upload
 
-##### Maps and Geocoding
+```javascript
+// routes/listing.js
+const multer = require('multer');
+const { storage } = require("../cloudConfig");
+const upload = multer({ storage });
 
-##### Mapbox API Integration
+router.post(
+  "/",
+  isLoggedIn,
+  upload.single('listing[image]'),
+  validateListing,
+  listingController.createListing
+);
+```
 
-##### Getting Started with Mapbox:
-1. Sign up at [Mapbox](https://www.mapbox.com/)
-2. Get your access token from the dashboard
-3. Add token to `.env` file
+#### Image Preview Before Upload
 
-#### Basic Map Setup:
 ```html
-<!-- Add Mapbox CSS -->
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+<!-- views/listings/new.ejs -->
+<input 
+  type="file" 
+  name="listing[image]" 
+  class="form-control" 
+  id="imageInput"
+  onchange="previewImage(event)"
+  accept="image/*"
+>
 
-<!-- Add Mapbox JS -->
+<img id="imagePreview" style="display:none; max-width: 300px; margin-top: 10px;">
+
+<script>
+  function previewImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('imagePreview');
+    
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
+```
+
+### Interactive Maps with Mapbox
+
+#### Why Mapbox?
+
+- Beautiful, customizable maps
+- Built-in geocoding service
+- Interactive markers and popups
+- GeoJSON support
+- Free tier available
+
+#### Geocoding Setup
+
+```javascript
+// controllers/listings.js
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+
+module.exports.createListing = async (req, res, next) => {
+  // Geocode the location
+  let response = await geocodingClient
+    .forwardGeocode({
+      query: req.body.listing.location,
+      limit: 1
+    })
+    .send();
+
+  let url = req.file.path;
+  let filename = req.file.filename;
+  
+  const newListing = new Listing(req.body.listing);
+  newListing.owner = req.user._id;
+  newListing.image = { url, filename };
+  newListing.geometry = response.body.features[0].geometry;
+
+  await newListing.save();
+  req.flash("success", "New Listing Created!");
+  res.redirect("/listings");
+};
+```
+
+#### GeoJSON Format
+
+```json
+{
+  "type": "Point",
+  "coordinates": [-122.084, 37.422]  // [longitude, latitude]
+}
+```
+
+#### Mapbox Map Display
+
+```javascript
+// public/js/map.js
+mapboxgl.accessToken = mapToken;
+
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v12',
+  center: listing.geometry.coordinates, // [lng, lat]
+  zoom: 9
+});
+
+// Add marker
+const marker = new mapboxgl.Marker({ color: "red" })
+  .setLngLat(listing.geometry.coordinates)
+  .setPopup(
+    new mapboxgl.Popup({ offset: 25 })
+      .setHTML(`<h4>${listing.title}</h4><p>${listing.location}</p>`)
+  )
+  .addTo(map);
+```
+
+#### Map in Show Page
+
+```html
+<!-- views/listings/show.ejs -->
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
 
 <div id='map' style='width: 100%; height: 400px;'></div>
 
 <script>
-mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN';
-const map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v12',
-  center: [-74.5, 40], // [longitude, latitude]
-  zoom: 9
-});
+  const mapToken = "<%= process.env.MAP_TOKEN %>";
+  const listing = <%- JSON.stringify(listing) %>;
 </script>
+<script src="/js/map.js"></script>
 ```
 
-##### Geocoding
+### Star Rating with Starability
 
-**Geocoding** converts human-readable addresses into geographic coordinates (latitude and longitude).
+#### Why Starability?
 
-##### Example:
-```
-Address: "1600 Amphitheatre Parkway, Mountain View, CA"
-↓ Geocoding
-Coordinates: { latitude: 37.4224764, longitude: -122.0842499 }
-```
+- Pure CSS star ratings
+- No JavaScript required for display
+- Accessible (screen reader friendly)
+- Customizable styles
 
-##### Using Mapbox Geocoding API:
-```javascript
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
+#### Implementation
 
-// Forward Geocoding (Address → Coordinates)
-async function geocodeAddress(address) {
-  const response = await geocodingClient
-    .forwardGeocode({
-      query: address,
-      limit: 1
-    })
-    .send();
-  
-  const coordinates = response.body.features[0].geometry.coordinates;
-  return {
-    longitude: coordinates[0],
-    latitude: coordinates[1]
-  };
-}
-
-// Usage
-geocodeAddress('Times Square, New York')
-  .then(coords => console.log(coords));
-// Output: { longitude: -73.9855, latitude: 40.7580 }
-```
-
-##### GeoJSON Format
-
-**GeoJSON** is a standardized format for encoding geographic data structures using JSON.
-
-###### Structure:
-```json
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-122.0842499, 37.4224764]
-      },
-      "properties": {
-        "title": "Google Headquarters",
-        "description": "Mountain View, CA"
-      }
-    }
-  ]
-}
-```
-
-###### Common Geometry Types:
-- **Point**: Single location `[longitude, latitude]`
-- **LineString**: Array of coordinates forming a line
-- **Polygon**: Array of linear rings (first and last coordinates must match)
-- **MultiPoint**, **MultiLineString**, **MultiPolygon**: Collections of geometries
-
-##### MongoDB Schema with GeoJSON:
-```javascript
-const locationSchema = new mongoose.Schema({
-  title: String,
-  location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      required: true
-    },
-    coordinates: {
-      type: [Number],  // [longitude, latitude]
-      required: true
-    }
-  }
-});
-
-// Create geospatial index for location queries
-locationSchema.index({ location: '2dsphere' });
-```
-
-##### Adding Markers to Mapbox:
-```javascript
-// Add GeoJSON data to map
-map.on('load', () => {
-  map.addSource('places', {
-    type: 'geojson',
-    data: {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [-122.084, 37.422]
-          },
-          properties: {
-            title: 'Location Name',
-            description: 'Location Description'
-          }
-        }
-      ]
-    }
-  });
-
-  map.addLayer({
-    id: 'places',
-    type: 'circle',
-    source: 'places',
-    paint: {
-      'circle-radius': 6,
-      'circle-color': '#B42222'
-    }
-  });
-});
-```
----
-
-##### Starability Usage
 ```html
-<!-- Include CSS -->
+<!-- Include Starability CSS -->
 <link rel="stylesheet" href="/css/starability.min.css">
 
-<!-- Star rating HTML -->
+<!-- Rating Input -->
 <fieldset class="starability-basic">
-  <input type="radio" id="rate5" name="rating" value="5" />
+  <legend>Rating:</legend>
+  <input type="radio" id="rate5" name="review[rating]" value="5" />
   <label for="rate5">5 stars</label>
   
-  <input type="radio" id="rate4" name="rating" value="4" />
+  <input type="radio" id="rate4" name="review[rating]" value="4" />
   <label for="rate4">4 stars</label>
   
-  <!-- ... more stars -->
+  <input type="radio" id="rate3" name="review[rating]" value="3" />
+  <label for="rate3">3 stars</label>
+  
+  <input type="radio" id="rate2" name="review[rating]" value="2" />
+  <label for="rate2">2 stars</label>
+  
+  <input type="radio" id="rate1" name="review[rating]" value="1" />
+  <label for="rate1">1 star</label>
 </fieldset>
-```
----
 
-#### Resources
-
-- [Express.js Documentation](https://expressjs.com/)
-- [MongoDB Documentation](https://docs.mongodb.com/)
-- [Cloudinary Documentation](https://cloudinary.com/documentation)
-- [Mapbox Documentation](https://docs.mapbox.com/)
-- [GeoJSON Specification](https://geojson.org/)
-- [Starability GitHub](https://github.com/LunarLogic/starability)
-
----
-
-## Error Handling
-
-### Custom Error Class (`utils/ExpressError.js`)
-
-```javascript
-class ExpressError extends Error {
-  constructor(statusCode, message) {
-    super();
-    this.statusCode = statusCode;
-    this.message = message;
-  }
-}
-```
-
-### Async Wrapper (`utils/wrapAsync.js`)
-
-```javascript
-function wrapAsync(fn) {
-  return function (req, res, next) {
-    fn(req, res, next).catch(next);
-  };
-}
-```
-
-### Error Middleware
-
-```javascript
-app.use((err, req, res, next) => {
-  let { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).render("error.ejs", {
-    err: { status: statusCode, message }
-  });
-});
+<!-- Display Rating -->
+<p class="starability-result" data-rating="<%= review.rating %>">
+  Rated: <%= review.rating %> stars
+</p>
 ```
 
 ---
 
-## Flash Messages
+## ⚙️ Setup & Run Locally
 
-**Using express-session for success/error notifications:**
+### Prerequisites
 
-```javascript
-// Middleware
-app.use((req, res, next) => {
-  res.locals.success = req.session.success;
-  res.locals.error = req.session.error;
-  delete req.session.success;
-  delete req.session.error;
-  next();
-});
+- Node.js (v14 or higher)
+- MongoDB (local or Atlas)
+- Cloudinary account
+- Mapbox account
+
+### Installation Steps
+
+#### 1. Clone Repository
+
+```bash
+git clone https://github.com/yourusername/wanderlust.git
+cd wanderlust
 ```
 
-**Usage in routes:**
-
-```javascript
-req.session.success = "Operation completed successfully!";
-```
-
----
-
-
-## Project Structure
-
-```
-.
-├── app.js                  # Main application file
-├── models/
-│   ├── listing.js          # Listing schema & model
-│   └── review.js           # Review schema & model
-├── views/
-│   ├── layouts/
-│   │   └── boilerplate.ejs # Shared layout
-│   ├── listings/
-│   │   ├── index.ejs       # All listings
-│   │   ├── show.ejs        # Single listing + reviews
-│   │   ├── new.ejs         # Create listing form
-│   │   ├── edit.ejs        # Edit listing form
-│   │   ├── privacy.ejs     # Privacy policy
-│   │   └── terms.ejs       # Terms & conditions
-│   └── error.ejs           # Error page
-├── public/
-│   └── css/
-│       └── style.css       # Custom styles
-├── utils/
-│   ├── wrapAsync.js        # Async error handler
-│   └── ExpressError.js     # Custom error class
-└── schema.js               # Joi validation schemas
-```
-
----
-
-## Setup & Run Locally
-
-### 1. Install Dependencies
+#### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Install Required Packages
+#### 3. Create `.env` File
 
-```bash
-npm install express mongoose ejs ejs-mate method-override joi express-session
+```env
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+MAP_TOKEN=your_mapbox_token
+ATLASDB_URL=your_mongodb_atlas_url
+SECRET=your_session_secret
 ```
 
-### 3. Start MongoDB
-
-**Local MongoDB:**
-```bash
-mongod
-```
-
-**Or use MongoDB Atlas connection string in `app.js`**
-
-### 4. Run the Server
+#### 4. Initialize Database (Optional)
 
 ```bash
-node app.js
+node init/index.js
 ```
 
-**Or use nodemon (recommended for development):**
+#### 5. Start Application
 
 ```bash
-nodemon app.js
+# Development mode with nodemon
+npm run dev
+
+# Production mode
+npm start
 ```
 
-### 5. Open in Browser
+#### 6. Open in Browser
 
 ```
 http://localhost:8080/listings
@@ -1132,67 +892,265 @@ http://localhost:8080/listings
 
 ---
 
-## Features
+## 🌐 API Routes
 
-### Phase 1 Features
--> Full CRUD for listings  
--> EJS templating with shared layouts  
--> Bootstrap UI styling  
--> Form validation (client + server)  
--> Method override for PUT/DELETE  
--> Custom error handling  
--> Static file serving  
+### Listings Routes
 
-### Phase 2 Features
--> Review model with timestamps  
--> Interactive star rating slider  
--> Add reviews to listings  
--> Display reviews with star ratings  
--> Delete individual reviews  
--> Cascade delete reviews when listing deleted  
--> Joi validation for reviews  
--> Flash messages for user feedback  
--> Professional review card UI  
--> Responsive design  
+| Method | Route | Middleware | Description |
+|--------|-------|-----------|-------------|
+| GET | `/listings` | - | View all listings |
+| GET | `/listings/new` | `isLoggedIn` | Show create form |
+| POST | `/listings` | `isLoggedIn`, `upload`, `validateListing` | Create listing |
+| GET | `/listings/:id` | - | Show single listing |
+| GET | `/listings/:id/edit` | `isLoggedIn`, `isOwner` | Show edit form |
+| PUT | `/listings/:id` | `isLoggedIn`, `isOwner`, `upload`, `validateListing` | Update listing |
+| DELETE | `/listings/:id` | `isLoggedIn`, `isOwner` | Delete listing |
 
+### Reviews Routes
 
+| Method | Route | Middleware | Description |
+|--------|-------|-----------|-------------|
+| POST | `/listings/:id/reviews` | `isLoggedIn`, `validateReview` | Add review |
+| DELETE | `/listings/:id/reviews/:reviewId` | `isLoggedIn`, `isReviewAuthor` | Delete review |
 
----
+### User Routes
 
-## License
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/signup` | Show signup form |
+| POST | `/signup` | Register new user |
+| GET | `/login` | Show login form |
+| POST | `/login` | Authenticate user |
+| GET | `/logout` | Logout user |
 
-This project is built for learning and educational purposes.
+### Other Routes
 
----
-
-## Author
-
-Built with ❤️ while learning MERN Stack
-
----
-
-## Screenshots
-
-### All Listings Page
-![Listings](Screenshots/listings.png)
-
-### Single Listing 
-![Show Page](Screenshots/single_listing.png)
-
-### Add Review Form
-![Review Form](Screenshots/review_form.png)
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/privacy` | Privacy policy |
+| GET | `/terms` | Terms & conditions |
 
 ---
 
-## Contributing
+## 🔒 Security Features
 
-This is a learning project. Feel free to fork and experiment!
+* Password hashing with bcrypt  
+* Salted password storage  
+* HTTP-only cookies  
+* CSRF protection (via express-session)  
+* Input validation (client + server)  
+* Authorization checks (ownership)  
+* Secure session management  
+* Environment variable configuration  
 
 ---
 
-## Acknowledgments
+## 📝 Validation
+
+### Server-Side (Joi)
+
+```javascript
+// schema.js
+const Joi = require("joi");
+
+module.exports.listingSchema = Joi.object({
+  listing: Joi.object({
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    location: Joi.string().required(),
+    country: Joi.string().required(),
+    price: Joi.number().required().min(0),
+    image: Joi.string().allow("", null)
+  }).required()
+});
+
+module.exports.reviewSchema = Joi.object({
+  review: Joi.object({
+    rating: Joi.number().required().min(1).max(5),
+    comment: Joi.string().required()
+  }).required()
+});
+```
+
+### Client-Side (Bootstrap)
+
+```html
+<form class="needs-validation" novalidate>
+  <input type="text" class="form-control" required>
+  <div class="invalid-feedback">
+    Please provide a valid input.
+  </div>
+</form>
+
+<script>
+  (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
+```
+
+---
+
+## ⚠️ Error Handling
+
+### Custom Error Class
+
+```javascript
+// utils/ExpressError.js
+class ExpressError extends Error {
+  constructor(statusCode, message) {
+    super();
+    this.statusCode = statusCode;
+    this.message = message;
+  }
+}
+
+module.exports = ExpressError;
+```
+
+### Async Wrapper
+
+```javascript
+// utils/wrapAsync.js
+function wrapAsync(fn) {
+  return function (req, res, next) {
+    fn(req, res, next).catch(next);
+  };
+}
+
+module.exports = wrapAsync;
+```
+
+### Error Middleware
+
+```javascript
+// app.js
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "Something went wrong!" } = err;
+  res.status(statusCode).render("error", { message });
+});
+```
+
+---
+
+## 🎨 UI/UX Features
+
+- Responsive design (mobile-friendly)
+- Bootstrap 5 components
+- Toast notifications for feedback
+- Loading states
+- Form validation feedback
+- Image preview before upload
+- Interactive star ratings
+- Dynamic maps with markers
+- Professional card layouts
+- Smooth transitions
+
+---
+
+## 📦 Dependencies
+
+```json
+{
+  "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.15.3",
+    "cloudinary": "^1.41.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "ejs-mate": "^4.0.0",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "joi": "^17.11.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.0.3",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
+```
+
+---
+
+## 🔮 Future Enhancements
+
+- [ ] Advanced search filters (price, location, amenities)
+- [ ] User profiles with avatars
+- [ ] Booking system
+- [ ] Payment integration (Stripe)
+- [ ] Email notifications
+- [ ] Favorite listings
+- [ ] Social media authentication (Google, Facebook)
+- [ ] Real-time chat between users
+- [ ] Admin dashboard
+- [ ] Analytics and reporting
+
+---
+
+## 🤝 Contributing
+
+This is a learning project. Contributions are welcome!
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is built for educational purposes and is open-source but not under the MIT License.
+
+---
+
+## 🙏 Acknowledgments
 
 - **Apna College** - MERN Stack Course
 - **Bootstrap** - UI Framework
 - **MongoDB** - Database
 - **Express.js** - Backend Framework
+- **Cloudinary** - Image Hosting
+- **Mapbox** - Maps & Geocoding
+- **Starability** - Star Rating Library
+
+---
+
+## 👨‍💻 Author
+
+**Prakash Tiwari**  
+Built with ❤️ while learning Full Stack Development
+
+- GitHub: [@Tiwari1782](https://github.com/Tiwari1782)
+- Project Repository: [WanderLust](https://github.com/Tiwari1782/WanderLust)
+
+---
+
+## 📞 Support
+
+For questions or support, please open an issue in the repository.
+
+---
+
+<div align="center">
+
+**⭐ Star this repository if you found it helpful!**
+
+</div>
